@@ -565,14 +565,63 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
 
 </div>
 <script>
-// ====== SPEECH ======
+// ====== SPEECH (lively) ======
+let _voicesReady=false,_voiceCache={en:null,ar:null};
+function _pickVoice(lang){
+  if(!window.speechSynthesis)return null;
+  if(_voiceCache[lang])return _voiceCache[lang];
+  const all=window.speechSynthesis.getVoices();
+  if(!all||!all.length)return null;
+  const target=lang==='ar'?'ar':'en';
+  const same=all.filter(v=>(v.lang||'').toLowerCase().startsWith(target));
+  if(!same.length)return null;
+  // Score: prefer Natural/Neural/Online; prefer female; prefer specific locales
+  const score=v=>{
+    const n=(v.name||'').toLowerCase(),L=(v.lang||'').toLowerCase();
+    let s=0;
+    if(/natural|neural|enhanced|online|premium|wavenet/.test(n))s+=80;
+    if(/google/.test(n))s+=40;
+    if(/microsoft/.test(n))s+=30;
+    if(/aria|jenny|emma|libby|sonia|ava|female|samantha|salma|hala|amina|zariyah/.test(n))s+=20;
+    if(target==='en'&&/en-us|en-gb/.test(L))s+=10;
+    if(target==='ar'&&/ar-sa|ar-eg/.test(L))s+=10;
+    if(v.localService===false)s+=5;
+    return s;
+  };
+  same.sort((a,b)=>score(b)-score(a));
+  _voiceCache[lang]=same[0];
+  return same[0];
+}
+if(window.speechSynthesis){
+  window.speechSynthesis.onvoiceschanged=()=>{_voicesReady=true;_voiceCache={en:null,ar:null};};
+  // kick voice list load on some browsers
+  setTimeout(()=>window.speechSynthesis.getVoices(),50);
+}
 function speak(text, lang){
-  if(!window.speechSynthesis) return;
+  if(!window.speechSynthesis||!text) return;
   window.speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang=lang==='ar'?'ar-SA':'en-US';
-  u.rate=0.85;u.pitch=1;
-  window.speechSynthesis.speak(u);
+  const isAr=lang==='ar';
+  // Split into chunks on punctuation for natural pauses
+  const chunks=String(text).split(/([،,.!؟?\n])/).reduce((a,c)=>{
+    if(!c)return a;
+    if(/[،,.!؟?\n]/.test(c)&&a.length){a[a.length-1]+=c;}
+    else a.push(c);
+    return a;
+  },[]).map(s=>s.trim()).filter(Boolean);
+  const v=_pickVoice(isAr?'ar':'en');
+  chunks.forEach((chunk,i)=>{
+    const u=new SpeechSynthesisUtterance(chunk);
+    u.lang=isAr?'ar-SA':'en-US';
+    if(v)u.voice=v;
+    // Lively variation per chunk
+    const base=isAr?0.78:0.92;
+    const jitter=(Math.random()*0.12)-0.06;
+    u.rate=Math.max(0.6,Math.min(1.15,base+jitter));
+    u.pitch=Math.max(0.85,Math.min(1.25,1.05+(Math.random()*0.18-0.09)));
+    u.volume=1;
+    if(i>0)setTimeout(()=>window.speechSynthesis.speak(u),i*60);
+    else window.speechSynthesis.speak(u);
+  });
 }
 
 // ====== DATA ======
@@ -1286,11 +1335,31 @@ const TCFG={S:{c:'#ffd700',b:'rgba(255,215,0,.1)',n:'S — Мастер'},A:{c:'
 // ===== STATE =====
 let user={name:'Гость',type:'guest'};
 let xp=45,streak=3,lessons=3,tlIdx=0;
-let enLessons=2,arLessons=1;
 let quiz=[],qi=0,hearts=3,sel=null,done=false,curLang='en',curTopic='';
 let errors={};
 const TOTAL_EN=EN_UNITS.reduce((s,u)=>s+u.ls.length,0);
 const TOTAL_AR=AR_UNITS.reduce((s,u)=>s+u.ls.length,0);
+
+// ===== LESSON PROGRESSION =====
+let doneLessons={en:new Set(['greetings','numbers']),ar:new Set()};
+(function loadProgress(){
+  try{
+    const r=localStorage.getItem('ls_progress');
+    if(r){const o=JSON.parse(r);if(o.en)doneLessons.en=new Set(o.en);if(o.ar)doneLessons.ar=new Set(o.ar);}
+  }catch(e){}
+})();
+function saveProgress(){
+  try{localStorage.setItem('ls_progress',JSON.stringify({en:[...doneLessons.en],ar:[...doneLessons.ar]}));}catch(e){}
+}
+function lessonStatus(lang,id){
+  if(doneLessons[lang].has(id))return'done';
+  // current = first non-done lesson in the language's unit order
+  const units=lang==='en'?EN_UNITS:AR_UNITS;
+  for(const u of units){for(const l of u.ls){if(!doneLessons[lang].has(l.id))return l.id===id?'current':'locked';}}
+  return'locked';
+}
+function get_enLessons(){return doneLessons.en.size;}
+function get_arLessons(){return doneLessons.ar.size;}
 // fake local DB
 let DB={};try{DB=JSON.parse(localStorage.getItem('ls_db')||'{}')}catch(e){}
 function saveDB(){try{localStorage.setItem('ls_db',JSON.stringify(DB))}catch(e){}}
@@ -1401,6 +1470,7 @@ function updateHero(){
   document.getElementById('p-str').textContent=streak;
   const mr=TLD[0].w.findIndex(u=>u.me)+1;
   document.getElementById('p-rank').textContent=mr;
+  const enLessons=get_enLessons(),arLessons=get_arLessons();
   const enPct=Math.min(100,Math.round(enLessons/TOTAL_EN*100));
   const arPct=Math.min(100,Math.round(arLessons/TOTAL_AR*100));
   const enpf=document.getElementById('en-pf');if(enpf)enpf.style.width=enPct+'%';
@@ -1430,14 +1500,16 @@ function renderLessons(lang){
     const w=document.createElement('div');w.className='unit-wrap';
     w.innerHTML=`<div class="unit-lbl">${u.lbl}</div>`;
     u.ls.forEach(l=>{
+      const st=lessonStatus(lang,l.id);
       const d=document.createElement('div');
-      d.className='li'+(l.s==='locked'?' lk':'');
-      const dc=l.s==='done'?'dn':l.s==='current'?'cu':'';
-      const ic=l.s==='done'?'✓':l.s==='locked'?'🔒':l.ic;
+      d.className='li'+(st==='locked'?' lk':'');
+      const dc=st==='done'?'dn':st==='current'?'cu':'';
+      const ic=st==='done'?'✓':st==='locked'?'🔒':l.ic;
       const er=errors[l.id];
       const etag=er&&er.t>0&&Math.round(er.w/er.t*100)>40?` <span class="err-tag">⚠${Math.round(er.w/er.t*100)}%</span>`:'';
-      d.innerHTML=`<div class="ldot ${dc}">${ic}</div><div class="linf"><h4>${l.n}${etag}</h4><p>${l.s==='locked'?'Заблокировано':l.s==='done'?'Пройдено ✓':'Начать →'}</p></div><span class="lxp">+${l.xp}</span>`;
-      if(l.s!=='locked') d.onclick=()=>startLesson(lang,l.id);
+      const sub=st==='locked'?'Заблокировано':st==='done'?'Пройдено ✓ — повторить':'Начать →';
+      d.innerHTML=`<div class="ldot ${dc}">${ic}</div><div class="linf"><h4>${l.n}${etag}</h4><p>${sub}</p></div><span class="lxp">+${l.xp}</span>`;
+      if(st!=='locked') d.onclick=()=>startLesson(lang,l.id);
       w.appendChild(d);
     });
     el.appendChild(w);
@@ -1547,7 +1619,8 @@ function showComplete(){
   document.getElementById('qpf').style.width='100%';
   const xpGain=Math.max(5,10-(3-hearts)*2);
   xp+=xpGain;lessons++;
-  if(curLang==='en')enLessons++;else arLessons++;
+  doneLessons[curLang].add(curTopic);
+  saveProgress();
   updateHero();
   const corr=quiz.length-(3-hearts);
   const perfect=hearts===3;
@@ -1633,6 +1706,7 @@ function renderProfile(){
   </div>`;
 
   // progress
+  const enLessons=get_enLessons(),arLessons=get_arLessons();
   const enPct=Math.min(100,Math.round(enLessons/TOTAL_EN*100));
   const arPct=Math.min(100,Math.round(arLessons/TOTAL_AR*100));
   pb.innerHTML+=`<div class="recsec"><div class="rec-lbl">Прогресс</div>
