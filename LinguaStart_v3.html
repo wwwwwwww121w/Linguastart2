@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#030a03">
+<title>LinguaStart</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif}
+:root{
+  --g:#00ff41;--gd:#00c832;--gm:#009920;--gx:#00ff4133;--gxx:#00ff4111;
+  --bg0:#030a03;--bg1:#060e06;--bg2:#0a160a;--bg3:#0f1f0f;--bg4:#152815;
+  --b1:#0d1f0d;--b2:#163016;--b3:#1e3e1e;
+  --t0:#e8ffe8;--t1:#7aaa7a;--t2:#3d6b3d;--t3:#1f3d1f;
+  --err:#ff4040;--errb:#1a0505;--ok:#00ff41;
+  --r:14px;--r2:10px;--r3:8px;
+  --gold:#ffd700;--silver:#aaa;--bronze:#cd7f32;
+}
+.app{width:100%;height:100%;max-width:420px;margin:0 auto;display:flex;flex-direction:column;background:var(--bg0);overflow:hidden;position:relative}
+.screen{display:none;flex-direction:column;flex:1;overflow:hidden;animation:fi .18s ease}
+.screen.active{display:flex}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.scroll::-webkit-scrollbar{width:2px}
+.scroll::-webkit-scrollbar-thumb{background:var(--b3)}
+
+/* GLOW EFFECTS */
+.glow{box-shadow:0 0 20px var(--gx),0 0 40px #00ff4108}
+.glow-sm{box-shadow:0 0 8px var(--gx)}
+.g-border{border-color:var(--gm)!important}
+.g-text{color:var(--g)!important}
+
+/* NAV */
+.nav{display:flex;border-top:1px solid var(--b2);background:var(--bg1);flex-shrink:0}
+.nb{flex:1;padding:10px 4px 8px;text-align:center;cursor:pointer;font-size:10px;color:var(--t2);border:none;background:none;letter-spacing:.3px;transition:color .15s}
+.nb.on{color:var(--g);text-shadow:0 0 8px var(--g)}
+.ni{font-size:19px;display:block;margin-bottom:2px;line-height:1}
+
+/* HEADER */
+.hdr{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--b1);background:var(--bg1);flex-shrink:0}
+.back{width:34px;height:34px;border-radius:50%;background:var(--bg2);border:1px solid var(--b2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--t1)}
+.hdr h2{font-size:16px;font-weight:400;color:var(--t0);letter-spacing:-.2px}
+
+/* ===== LOGIN / REGISTER ===== */
+#s-login{justify-content:flex-start;overflow-y:auto}
+.auth-wrap{padding:32px 24px 40px;display:flex;flex-direction:column;min-height:100%;justify-content:center}
+.auth-logo{font-size:42px;text-align:center;margin-bottom:6px;filter:drop-shadow(0 0 16px var(--g))}
+.auth-title{font-size:26px;font-weight:300;letter-spacing:-1.2px;color:var(--t0);text-align:center;margin-bottom:4px}
+.auth-title span{color:var(--g);text-shadow:0 0 12px var(--g)}
+.auth-sub{font-size:12px;color:var(--t2);text-align:center;margin-bottom:28px}
+.auth-tabs{display:flex;background:var(--bg2);border-radius:var(--r2);padding:3px;margin-bottom:20px;border:1px solid var(--b2)}
+.atab{flex:1;padding:9px;text-align:center;font-size:12px;color:var(--t2);border-radius:8px;cursor:pointer;transition:all .15s}
+.atab.on{background:var(--bg3);color:var(--g);border:1px solid var(--b3);text-shadow:0 0 6px var(--g)}
+.field{margin-bottom:12px}
+.field label{font-size:11px;color:var(--t2);display:block;margin-bottom:6px;letter-spacing:.5px}
+.field input{width:100%;padding:13px 14px;background:var(--bg2);border:1px solid var(--b2);border-radius:var(--r2);color:var(--t0);font-size:14px;outline:none;transition:border-color .15s}
+.field input:focus{border-color:var(--gm);box-shadow:0 0 0 2px var(--gxx)}
+.field input::placeholder{color:var(--t3)}
+.auth-btn{width:100%;padding:14px;border-radius:var(--r);border:1px solid var(--gm);background:var(--gxx);color:var(--g);font-size:14px;cursor:pointer;font-weight:500;letter-spacing:.3px;transition:all .15s;text-shadow:0 0 6px var(--g);margin-top:4px}
+.auth-btn:active{background:var(--gx)}
+.or-div{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--t3);font-size:11px}
+.or-div::before,.or-div::after{content:'';flex:1;height:1px;background:var(--b2)}
+.g-btn{width:100%;padding:13px 20px;border-radius:var(--r);border:1px solid var(--b3);background:var(--bg2);color:var(--t0);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
+.g-logo{width:18px;height:18px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#333;flex-shrink:0}
+.auth-err{font-size:11px;color:var(--err);text-align:center;margin-top:8px;min-height:16px}
+.skip-btn{font-size:12px;color:var(--t2);border:none;background:none;cursor:pointer;padding:12px;width:100%;text-align:center;margin-top:8px}
+
+/* ===== HOME ===== */
+.hero{padding:20px 18px 18px;border-bottom:1px solid var(--b1);background:var(--bg1)}
+.hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.hero-name{font-size:18px;font-weight:300;letter-spacing:-.3px;color:var(--t0)}
+.hero-name span{color:var(--g);text-shadow:0 0 8px var(--g)}
+.h-ava{width:38px;height:38px;border-radius:50%;background:var(--bg3);border:1px solid var(--gm);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;box-shadow:0 0 10px var(--gxx)}
+.pills{display:flex;gap:7px;flex-wrap:wrap}
+.pill{display:flex;align-items:center;gap:5px;background:var(--bg2);border:1px solid var(--b2);border-radius:20px;padding:5px 11px;font-size:11px;color:var(--t1)}
+.pill b{color:var(--g);text-shadow:0 0 6px var(--g)}
+.sec-lbl{font-size:10px;color:var(--t2);letter-spacing:1.2px;text-transform:uppercase;font-weight:500;padding:14px 18px 7px}
+.lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px 4px}
+.lc{background:var(--bg1);border:1px solid var(--b2);border-radius:var(--r);padding:15px 13px;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.lc:active,.lc:hover{border-color:var(--gm);box-shadow:0 0 12px var(--gxx)}
+.lc-flag{font-size:26px;margin-bottom:9px}
+.lc h3{font-size:13px;font-weight:500;color:var(--t0)}
+.lc p{font-size:11px;color:var(--t2);margin-top:1px}
+.lc-bar{height:2px;background:var(--b2);border-radius:1px;margin-top:10px;overflow:hidden}
+.lc-fill{height:100%;border-radius:1px;background:var(--g);box-shadow:0 0 6px var(--g)}
+.lc-lv{font-size:10px;color:var(--t2);margin-top:5px}
+.cont-item{display:flex;align-items:center;gap:14px;padding:13px 18px;border-bottom:1px solid var(--b1);cursor:pointer;transition:background .1s}
+.cont-item:active{background:var(--bg2)}
+.ci-icon{width:42px;height:42px;background:var(--bg3);border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:1px solid var(--b2)}
+.ci-info h4{font-size:13px;font-weight:400;color:var(--t0)}
+.ci-info p{font-size:11px;color:var(--t2);margin-top:2px}
+.ci-xp{margin-left:auto;font-size:11px;color:var(--g);white-space:nowrap;text-shadow:0 0 6px var(--g)}
+
+/* ===== LESSONS ===== */
+.unit-wrap{padding:0 18px;margin-bottom:18px}
+.unit-lbl{font-size:10px;color:var(--g);letter-spacing:1px;text-transform:uppercase;padding:14px 0 8px;font-weight:500;text-shadow:0 0 6px var(--g)}
+.li{display:flex;align-items:center;gap:12px;padding:12px 13px;background:var(--bg1);border:1px solid var(--b1);border-radius:var(--r2);margin-bottom:5px;cursor:pointer;transition:all .1s}
+.li:active,.li:hover{background:var(--bg2);border-color:var(--b3)}
+.li.lk{opacity:.35;cursor:default}
+.ldot{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--bg3);border:1px solid var(--b2)}
+.ldot.dn{color:var(--g);border-color:var(--gm);text-shadow:0 0 4px var(--g)}
+.ldot.cu{background:var(--g);color:#000;border-color:var(--g);box-shadow:0 0 12px var(--g)}
+.linf h4{font-size:13px;font-weight:400;color:var(--t0)}
+.linf p{font-size:10px;color:var(--t2);margin-top:2px}
+.lxp{margin-left:auto;font-size:11px;color:var(--t2)}
+.err-tag{font-size:9px;color:var(--err);margin-left:5px}
+
+/* ===== QUIZ ===== */
+.qtop{display:flex;align-items:center;gap:10px;padding:12px 18px;flex-shrink:0;background:var(--bg1);border-bottom:1px solid var(--b1)}
+.qpw{flex:1;height:3px;background:var(--bg3);border-radius:2px;overflow:hidden}
+.qpf{height:100%;border-radius:2px;background:var(--g);box-shadow:0 0 6px var(--g);transition:width .4s}
+.qh{font-size:13px;color:var(--err);font-weight:500;min-width:36px;text-align:right}
+.qbody{flex:1;display:flex;flex-direction:column;padding:18px;overflow-y:auto}
+.qlbl{font-size:10px;color:var(--t2);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;font-weight:500}
+.wcard{background:var(--bg1);border:1px solid var(--b2);border-radius:var(--r);padding:30px 20px;text-align:center;margin-bottom:18px;position:relative}
+.wmain{font-size:40px;font-weight:300;color:var(--t0);letter-spacing:-1px;line-height:1.15}
+.wmain.ar{font-size:46px;letter-spacing:0;direction:rtl;color:var(--g);text-shadow:0 0 12px var(--gx)}
+.wmain.en-big{color:var(--g);text-shadow:0 0 16px var(--gx)}
+.whint{font-size:12px;color:var(--t2);margin-top:6px}
+.speak-btn{position:absolute;top:10px;right:12px;width:34px;height:34px;border-radius:50%;background:var(--bg3);border:1px solid var(--b3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .15s}
+.speak-btn:active,.speak-btn.speaking{background:var(--gx);border-color:var(--gm);box-shadow:0 0 10px var(--gx)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:16px}
+.opt{padding:14px 8px;border-radius:var(--r2);border:1px solid var(--b2);background:var(--bg1);cursor:pointer;font-size:13px;color:var(--t0);text-align:center;transition:all .12s;line-height:1.3}
+.opt:active{background:var(--bg2)}
+.opt.sel{border-color:var(--gm);background:var(--gxx);color:var(--g)}
+.opt.ok{border-color:var(--g);background:var(--gxx);color:var(--g);box-shadow:0 0 8px var(--gx)}
+.opt.no{border-color:var(--err);background:var(--errb);color:var(--err)}
+.chk{width:100%;padding:14px;border-radius:var(--r);border:1px solid var(--b2);background:var(--bg2);color:var(--t2);font-size:14px;cursor:pointer;margin-top:auto;transition:all .15s}
+.chk:disabled{opacity:.3;cursor:default}
+.chk.rdy{border-color:var(--gm);background:var(--gxx);color:var(--g);text-shadow:0 0 6px var(--g);box-shadow:0 0 10px var(--gxx)}
+.cbody{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;gap:12px}
+.cico{font-size:52px;filter:drop-shadow(0 0 20px var(--g))}
+.ctitle{font-size:22px;font-weight:300;letter-spacing:-.5px;color:var(--g);text-shadow:0 0 12px var(--g)}
+.csub{font-size:12px;color:var(--t2)}
+.cstats{display:flex;gap:9px;margin-top:4px}
+.cst{background:var(--bg2);border:1px solid var(--b2);border-radius:var(--r2);padding:13px 18px;text-align:center}
+.csn{font-size:22px;font-weight:300;color:var(--g);text-shadow:0 0 8px var(--g)}
+.csl{font-size:10px;color:var(--t2);margin-top:2px}
+.hbtn{margin:0 18px 8px;padding:14px;border-radius:var(--r);border:1px solid var(--b3);background:var(--bg2);color:var(--t0);font-size:13px;cursor:pointer;width:calc(100% - 36px);transition:all .15s}
+.hbtn.green{border-color:var(--gm);background:var(--gxx);color:var(--g);text-shadow:0 0 6px var(--g)}
+
+/* ===== TIERLIST ===== */
+.tl-tabs{display:flex;gap:1px;background:var(--bg2);border-radius:var(--r2);padding:3px;border:1px solid var(--b2)}
+.tltab{flex:1;padding:8px;text-align:center;font-size:12px;color:var(--t2);border-radius:8px;cursor:pointer;transition:all .15s}
+.tltab.on{background:var(--bg3);color:var(--g);text-shadow:0 0 6px var(--g);border:1px solid var(--b3)}
+.tier-section{padding:0 18px;margin-bottom:2px}
+.tier-hdr{display:flex;align-items:center;gap:10px;padding:11px 0 7px}
+.tier-badge{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.tier-name{font-size:11px;font-weight:500;letter-spacing:.5px}
+.tier-count{margin-left:auto;font-size:10px;color:var(--t2)}
+.user-row{display:flex;align-items:center;gap:11px;padding:10px 13px;background:var(--bg1);border:1px solid var(--b1);border-radius:var(--r2);margin-bottom:4px;transition:border-color .1s}
+.user-row.me{border-color:var(--gm);background:var(--gxx);box-shadow:0 0 8px var(--gxx)}
+.ur-rank{width:20px;font-size:11px;color:var(--t2);text-align:center;flex-shrink:0;font-weight:500}
+.ur-ava{width:34px;height:34px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;border:1px solid var(--b2)}
+.ur-info h4{font-size:13px;font-weight:400;color:var(--t0)}
+.ur-info p{font-size:10px;color:var(--t2);margin-top:1px}
+.ur-xp{margin-left:auto;font-size:11px;font-weight:500;color:var(--t0)}
+.ur-medal{font-size:17px;margin-left:5px}
+.my-pos{margin:14px 18px;padding:12px 14px;background:var(--bg2);border:1px solid var(--gm);border-radius:var(--r);box-shadow:0 0 10px var(--gxx)}
+.mp-lbl{font-size:9px;color:var(--t2);letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px}
+.mp-row{display:flex;align-items:center;justify-content:space-between}
+.mp-num{font-size:24px;font-weight:300;color:var(--g);text-shadow:0 0 8px var(--g)}
+.mp-info{text-align:right;font-size:11px;color:var(--t2)}
+
+/* ===== PROFILE ===== */
+.phead{padding:20px 18px 16px;border-bottom:1px solid var(--b1);text-align:center}
+.pava{width:72px;height:72px;border-radius:50%;background:var(--bg3);border:1px solid var(--gm);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px;box-shadow:0 0 20px var(--gxx)}
+.pname{font-size:18px;font-weight:300;letter-spacing:-.3px;color:var(--t0)}
+.psub{font-size:11px;color:var(--t2);margin-top:3px}
+.sgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;padding:13px 18px}
+.ps{background:var(--bg1);border:1px solid var(--b2);border-radius:var(--r2);padding:12px 8px;text-align:center}
+.psn{font-size:20px;font-weight:300;color:var(--g);text-shadow:0 0 8px var(--g)}
+.psl{font-size:10px;color:var(--t2);margin-top:2px}
+.recsec{padding:0 18px 12px}
+.rec-lbl{font-size:10px;color:var(--g);letter-spacing:1px;text-transform:uppercase;font-weight:500;padding:12px 0 8px;text-shadow:0 0 6px var(--g)}
+.rec-card{background:var(--bg1);border:1px solid var(--b2);border-radius:var(--r);padding:13px;margin-bottom:7px}
+.rec-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.rec-ico{width:34px;height:34px;background:var(--bg3);border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.rec-title{font-size:12px;font-weight:500;color:var(--t0)}
+.rec-sub{font-size:11px;color:var(--t2);margin-top:2px}
+.err-lbl{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px}
+.err-bar{height:3px;background:var(--bg3);border-radius:2px;overflow:hidden;margin-bottom:7px}
+.err-fill{height:100%;border-radius:2px;background:var(--t2)}
+.err-fill.hot{background:var(--err);box-shadow:0 0 4px #ff4040aa}
+.rep-btn{font-size:12px;padding:8px 12px;border-radius:var(--r2);border:1px solid var(--b3);background:var(--bg3);color:var(--t0);cursor:pointer;width:100%;text-align:left;transition:all .1s}
+.rep-btn:active{background:var(--bg4)}
+.yt-card{background:var(--bg1);border:1px solid var(--b2);border-radius:var(--r);overflow:hidden;margin-bottom:7px;cursor:pointer;transition:border-color .1s}
+.yt-card:hover{border-color:var(--gm);box-shadow:0 0 8px var(--gxx)}
+.yt-thumb{width:100%;height:105px;background:var(--bg3);display:flex;align-items:center;justify-content:center;position:relative}
+.yt-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:55px;opacity:.05;color:var(--g)}
+.yt-play{width:42px;height:42px;background:rgba(0,255,65,.12);border:1.5px solid var(--gm);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--g);position:relative;z-index:1;box-shadow:0 0 14px var(--gxx)}
+.yt-badge{position:absolute;top:8px;right:8px;background:#c00;color:#fff;font-size:9px;padding:3px 7px;border-radius:4px;font-weight:600;z-index:1}
+.yt-hot{display:inline-block;background:#1a0505;color:#ff6060;font-size:9px;padding:2px 7px;border-radius:4px;margin-bottom:7px;border:1px solid #441111}
+.yt-info{padding:9px 12px 11px}
+.yt-title{font-size:12px;font-weight:500;color:var(--t0);line-height:1.4;margin-bottom:3px}
+.yt-meta{font-size:10px;color:var(--t2)}
+.ach-item{display:flex;align-items:center;gap:11px;padding:10px 13px;background:var(--bg1);border:1px solid var(--b1);border-radius:var(--r2);margin-bottom:5px}
+.ach-ico{font-size:21px;width:36px;text-align:center}
+.ach-inf h4{font-size:12px;font-weight:400;color:var(--t0)}
+.ach-inf p{font-size:10px;color:var(--t2);margin-top:1px}
+.lpi{background:var(--bg1);border:1px solid var(--b1);border-radius:var(--r2);padding:12px 13px;margin-bottom:5px}
+.lpr{display:flex;justify-content:space-between;font-size:11px;color:var(--t1);margin-bottom:5px}
+.lpb{height:2px;background:var(--bg3);border-radius:1px;overflow:hidden}
+.lpf{height:100%;border-radius:1px;background:var(--g);box-shadow:0 0 4px var(--g)}
+
+/* ALPHA */
+.agrid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:12px}
+.acell{background:var(--bg1);border:1px solid var(--b1);border-radius:var(--r2);padding:9px 4px;text-align:center;cursor:pointer;transition:all .12s}
+.acell.sel{border-color:var(--g);background:var(--gxx);box-shadow:0 0 8px var(--gxx)}
+.altr{font-size:21px;color:var(--t0);line-height:1.2}
+.acell.sel .altr{color:var(--g);text-shadow:0 0 6px var(--g)}
+.anm{font-size:9px;color:var(--t2);margin-top:3px}
+.adet{padding:13px 18px;border-top:1px solid var(--b1);background:var(--bg1);flex-shrink:0}
+.adet h3{font-size:22px;font-weight:300;color:var(--g);text-shadow:0 0 10px var(--g);margin-bottom:4px}
+.frow{display:flex;gap:6px;margin-top:9px}
+.fcell{flex:1;background:var(--bg2);border:1px solid var(--b2);border-radius:var(--r2);padding:8px 4px;text-align:center}
+.fltr{font-size:19px;color:var(--t0);direction:rtl}
+.fnm{font-size:9px;color:var(--t2);margin-top:3px}
+
+/* SPEAK WAVE */
+@keyframes pulse{0%,100%{opacity:.4;transform:scale(.9)}50%{opacity:1;transform:scale(1.1)}}
+.speaking-wave{display:none;gap:3px;align-items:center;justify-content:center;margin-top:8px}
+.speaking-wave.show{display:flex}
+.wave-bar{width:3px;border-radius:2px;background:var(--g);box-shadow:0 0 4px var(--g);animation:pulse .7s ease infinite}
+.wave-bar:nth-child(2){animation-delay:.15s;height:12px}
+.wave-bar:nth-child(3){animation-delay:.3s;height:18px}
+.wave-bar:nth-child(4){animation-delay:.15s;height:12px}
+.wave-bar:nth-child(1),.wave-bar:nth-child(5){height:8px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- LOGIN/REGISTER -->
+<div class="screen active" id="s-login">
+  <div class="auth-wrap">
+    <div class="auth-logo">🌐</div>
+    <div class="auth-title">Lingua<span>Start</span></div>
+    <div class="auth-sub">Английский · Арабский · С нуля на русском</div>
+    <div class="auth-tabs">
+      <div class="atab on" onclick="switchTab('login',this)">Войти</div>
+      <div class="atab" onclick="switchTab('reg',this)">Регистрация</div>
+    </div>
+    <!-- LOGIN FORM -->
+    <div id="form-login">
+      <div class="field"><label>ЛОГИН</label><input type="text" id="l-login" placeholder="Введите логин" autocomplete="username"></div>
+      <div class="field"><label>ПАРОЛЬ</label><input type="password" id="l-pass" placeholder="Введите пароль" autocomplete="current-password"></div>
+      <div class="auth-err" id="l-err"></div>
+      <button class="auth-btn" onclick="doLogin()">Войти →</button>
+      <div class="or-div">или</div>
+      <button class="g-btn" onclick="loginGoogle()"><div class="g-logo">G</div>Войти через Google</button>
+      <button class="skip-btn" onclick="loginSkip()">Продолжить без регистрации</button>
+    </div>
+    <!-- REGISTER FORM -->
+    <div id="form-reg" style="display:none">
+      <div class="field"><label>ИМЯ</label><input type="text" id="r-name" placeholder="Ваше имя"></div>
+      <div class="field"><label>ЛОГИН</label><input type="text" id="r-login" placeholder="Придумайте логин" autocomplete="username"></div>
+      <div class="field"><label>ПАРОЛЬ</label><input type="password" id="r-pass" placeholder="Мин. 6 символов" autocomplete="new-password"></div>
+      <div class="field"><label>ПОВТОРИТЕ ПАРОЛЬ</label><input type="password" id="r-pass2" placeholder="Повторите пароль" autocomplete="new-password"></div>
+      <div class="auth-err" id="r-err"></div>
+      <button class="auth-btn" onclick="doReg()">Создать аккаунт →</button>
+      <div class="or-div">или</div>
+      <button class="g-btn" onclick="loginGoogle()"><div class="g-logo">G</div>Войти через Google</button>
+    </div>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="screen" id="s-home">
+  <div class="scroll">
+    <div class="hero">
+      <div class="hero-top">
+        <div class="hero-name">Привет, <span id="h-name">—</span></div>
+        <div class="h-ava" onclick="navTo('profile')" id="h-ava">👤</div>
+      </div>
+      <div class="pills">
+        <div class="pill">🔥 <b id="p-str">3</b> дн.</div>
+        <div class="pill">⚡ <b id="p-xp">45</b> XP</div>
+        <div class="pill">🏆 #<b id="p-rank">12</b></div>
+      </div>
+    </div>
+    <div class="sec-lbl">Языки</div>
+    <div class="lang-grid">
+      <div class="lc" onclick="navTo('lessons-en')">
+        <div class="lc-flag">🇬🇧</div><h3>Английский</h3><p>A1 → B2</p>
+        <div class="lc-bar"><div class="lc-fill" id="en-pf" style="width:10%"></div></div>
+        <div class="lc-lv" id="en-lv">2/25 уроков</div>
+      </div>
+      <div class="lc" onclick="navTo('lessons-ar')">
+        <div class="lc-flag">🇸🇦</div><h3>Арабский</h3><p>Алфавит → A2</p>
+        <div class="lc-bar"><div class="lc-fill" id="ar-pf" style="width:4%"></div></div>
+        <div class="lc-lv" id="ar-lv">1/16 уроков</div>
+      </div>
+    </div>
+    <div class="sec-lbl">Продолжить</div>
+    <div class="cont-item" onclick="startLesson('en','numbers')">
+      <div class="ci-icon">🔢</div>
+      <div class="ci-info"><h4>Числа 1–100</h4><p>Английский · Урок 3</p></div>
+      <span class="ci-xp">+10 XP →</span>
+    </div>
+    <div class="cont-item" onclick="startLesson('ar','alphabet1')">
+      <div class="ci-icon" style="font-size:22px;color:var(--g)">ا</div>
+      <div class="ci-info"><h4>Алфавит ا–خ</h4><p>Арабский · Урок 1</p></div>
+      <span class="ci-xp">+10 XP →</span>
+    </div>
+    <div class="cont-item" onclick="startLesson('en','greetings')">
+      <div class="ci-icon">👋</div>
+      <div class="ci-info"><h4>Приветствия</h4><p>Английский · Урок 1</p></div>
+      <span class="ci-xp">+10 XP →</span>
+    </div>
+    <div class="cont-item" onclick="startLesson('en','colors')">
+      <div class="ci-icon">🎨</div>
+      <div class="ci-info"><h4>Цвета</h4><p>Английский · Урок 4</p></div>
+      <span class="ci-xp">+10 XP →</span>
+    </div>
+    <div style="height:16px"></div>
+  </div>
+  <nav class="nav">
+    <button class="nb on" data-s="home"><span class="ni">⌂</span>Учёба</button>
+    <button class="nb" onclick="navTo('lessons-en')"><span class="ni">🇬🇧</span>English</button>
+    <button class="nb" onclick="navTo('lessons-ar')"><span class="ni">🇸🇦</span>Arabic</button>
+    <button class="nb" onclick="navTo('tierlist')"><span class="ni">🏆</span>Рейтинг</button>
+    <button class="nb" onclick="navTo('profile')"><span class="ni">◎</span>Профиль</button>
+  </nav>
+</div>
+
+<!-- LESSONS EN -->
+<div class="screen" id="s-lessons-en">
+  <div class="hdr"><div class="back" onclick="navTo('home')">←</div><h2>🇬🇧 Английский</h2></div>
+  <div class="scroll" id="ul-en"></div>
+  <nav class="nav">
+    <button class="nb" onclick="navTo('home')"><span class="ni">⌂</span>Учёба</button>
+    <button class="nb on"><span class="ni">🇬🇧</span>English</button>
+    <button class="nb" onclick="navTo('lessons-ar')"><span class="ni">🇸🇦</span>Arabic</button>
+    <button class="nb" onclick="navTo('tierlist')"><span class="ni">🏆</span>Рейтинг</button>
+    <button class="nb" onclick="navTo('profile')"><span class="ni">◎</span>Профиль</button>
+  </nav>
+</div>
+
+<!-- LESSONS AR -->
+<div class="screen" id="s-lessons-ar">
+  <div class="hdr"><div class="back" onclick="navTo('home')">←</div><h2>🇸🇦 Арабский</h2></div>
+  <div class="scroll" id="ul-ar"></div>
+  <nav class="nav">
+    <button class="nb" onclick="navTo('home')"><span class="ni">⌂</span>Учёба</button>
+    <button class="nb" onclick="navTo('lessons-en')"><span class="ni">🇬🇧</span>English</button>
+    <button class="nb on"><span class="ni">🇸🇦</span>Arabic</button>
+    <button class="nb" onclick="navTo('tierlist')"><span class="ni">🏆</span>Рейтинг</button>
+    <button class="nb" onclick="navTo('profile')"><span class="ni">◎</span>Профиль</button>
+  </nav>
+</div>
+
+<!-- QUIZ -->
+<div class="screen" id="s-lesson">
+  <div class="qtop">
+    <div class="back" onclick="navTo('home')">✕</div>
+    <div class="qpw"><div class="qpf" id="qpf" style="width:0%"></div></div>
+    <div class="qh" id="qh">♥ 3</div>
+  </div>
+  <div class="qbody" id="qbody"></div>
+</div>
+
+<!-- TIERLIST -->
+<div class="screen" id="s-tierlist">
+  <div class="hdr" style="border-bottom:none"><h2 style="margin-left:4px">🏆 Тирлист</h2></div>
+  <div style="padding:0 18px 12px;flex-shrink:0"><div class="tl-tabs">
+    <div class="tltab on" onclick="switchTL(0,this)">Неделя</div>
+    <div class="tltab" onclick="switchTL(1,this)">Месяц</div>
+    <div class="tltab" onclick="switchTL(2,this)">Всё время</div>
+  </div></div>
+  <div class="scroll" id="tl-body"></div>
+  <nav class="nav">
+    <button class="nb" onclick="navTo('home')"><span class="ni">⌂</span>Учёба</button>
+    <button class="nb" onclick="navTo('lessons-en')"><span class="ni">🇬🇧</span>English</button>
+    <button class="nb" onclick="navTo('lessons-ar')"><span class="ni">🇸🇦</span>Arabic</button>
+    <button class="nb on"><span class="ni">🏆</span>Рейтинг</button>
+    <button class="nb" onclick="navTo('profile')"><span class="ni">◎</span>Профиль</button>
+  </nav>
+</div>
+
+<!-- PROFILE -->
+<div class="screen" id="s-profile">
+  <div class="hdr"><div class="back" onclick="navTo('home')">←</div><h2>Профиль</h2></div>
+  <div class="scroll" id="pb"></div>
+  <nav class="nav">
+    <button class="nb" onclick="navTo('home')"><span class="ni">⌂</span>Учёба</button>
+    <button class="nb" onclick="navTo('lessons-en')"><span class="ni">🇬🇧</span>English</button>
+    <button class="nb" onclick="navTo('lessons-ar')"><span class="ni">🇸🇦</span>Arabic</button>
+    <button class="nb" onclick="navTo('tierlist')"><span class="ni">🏆</span>Рейтинг</button>
+    <button class="nb on"><span class="ni">◎</span>Профиль</button>
+  </nav>
+</div>
+
+</div>
+<script>
+// ====== SPEECH ======
+function speak(text, lang){
+  if(!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=lang==='ar'?'ar-SA':'en-US';
+  u.rate=0.85;u.pitch=1;
+  window.speechSynthesis.speak(u);
+}
+
+// ====== DATA ======
+const QUIZ={
+  en:{
+    greetings:[
+      {w:'Hello',o:['Привет','Пока','Спасибо','Да'],a:0},
+      {w:'Good morning',o:['Добрый вечер','Доброе утро','Спокойной ночи','До свидания'],a:1},
+      {w:'Thank you',o:['Пожалуйста','Извините','Спасибо','Нет'],a:2},
+      {w:'Goodbye',o:['Привет','До свидания','Спасибо','Да'],a:1},
+      {w:'Please',o:['Спасибо','Нет','Да','Пожалуйста'],a:3},
+      {w:'Sorry',o:['Простите','Спасибо','Привет','Пока'],a:0},
+      {w:"You're welcome",o:['Спасибо','Не за что','Привет','Удачи'],a:1},
+      {w:'Good night',o:['Доброе утро','Спокойной ночи','Добрый день','Пока'],a:1},
+    ],
+    numbers:[
+      {w:'One',o:['Два','Один','Три','Четыре'],a:1},
+      {w:'Two',o:['Один','Три','Два','Пять'],a:2},
+      {w:'Five',o:['Четыре','Шесть','Семь','Пять'],a:3},
+      {w:'Ten',o:['Восемь','Десять','Девять','Семь'],a:1},
+      {w:'Twelve',o:['Двенадцать','Одиннадцать','Тринадцать','Десять'],a:0},
+      {w:'Twenty',o:['Десять','Пятнадцать','Двадцать','Восемнадцать'],a:2},
+      {w:'Hundred',o:['Тысяча','Сто','Миллион','Десять'],a:1},
+      {w:'Zero',o:['Один','Два','Ноль','Три'],a:2},
+    ],
+    colors:[
+      {w:'Red',o:['Синий','Красный','Зелёный','Жёлтый'],a:1},
+      {w:'Blue',o:['Синий','Красный','Белый','Чёрный'],a:0},
+      {w:'Green',o:['Жёлтый','Оранжевый','Зелёный','Фиолетовый'],a:2},
+      {w:'Black',o:['Белый','Серый','Коричневый','Чёрный'],a:3},
+      {w:'Yellow',o:['Оранжевый','Жёлтый','Золотой','Зелёный'],a:1},
+      {w:'White',o:['Чёрный','Серый','Белый','Розовый'],a:2},
+      {w:'Purple',o:['Фиолетовый','Красный','Синий','Розовый'],a:0},
+      {w:'Orange',o:['Жёлтый','Розовый','Оранжевый','Красный'],a:2},
+    ],
+    family:[
+      {w:'Mother',o:['Отец','Брат','Мать','Сестра'],a:2},
+      {w:'Father',o:['Дядя','Отец','Дедушка','Сын'],a:1},
+      {w:'Sister',o:['Брат','Сестра','Дочь','Мать'],a:1},
+      {w:'Brother',o:['Брат','Дядя','Сын','Отец'],a:0},
+      {w:'Grandfather',o:['Дядя','Папа','Брат','Дедушка'],a:3},
+      {w:'Grandmother',o:['Бабушка','Тётя','Мать','Дочь'],a:0},
+      {w:'Son',o:['Дочь','Племянник','Сын','Внук'],a:2},
+      {w:'Daughter',o:['Сестра','Дочь','Племянница','Мать'],a:1},
+    ],
+    food:[
+      {w:'Apple',o:['Банан','Яблоко','Апельсин','Груша'],a:1},
+      {w:'Bread',o:['Хлеб','Молоко','Масло','Сыр'],a:0},
+      {w:'Water',o:['Сок','Чай','Вода','Кофе'],a:2},
+      {w:'Rice',o:['Картофель','Паста','Хлеб','Рис'],a:3},
+      {w:'Coffee',o:['Чай','Вода','Сок','Кофе'],a:3},
+      {w:'Sugar',o:['Соль','Сахар','Мёд','Перец'],a:1},
+      {w:'Egg',o:['Яйцо','Мясо','Рыба','Курица'],a:0},
+      {w:'Milk',o:['Вода','Молоко','Кефир','Сок'],a:1},
+    ],
+    body:[
+      {w:'Head',o:['Рука','Голова','Нога','Спина'],a:1},
+      {w:'Eye',o:['Нос','Ухо','Рот','Глаз'],a:3},
+      {w:'Nose',o:['Нос','Ухо','Рот','Щека'],a:0},
+      {w:'Hand',o:['Нога','Палец','Рука','Плечо'],a:2},
+      {w:'Heart',o:['Мозг','Лёгкие','Сердце','Желудок'],a:2},
+      {w:'Back',o:['Живот','Грудь','Спина','Шея'],a:2},
+      {w:'Mouth',o:['Зубы','Рот','Язык','Губы'],a:1},
+      {w:'Ear',o:['Нос','Щека','Лоб','Ухо'],a:3},
+    ],
+    animals:[
+      {w:'Dog',o:['Кошка','Собака','Лошадь','Корова'],a:1},
+      {w:'Cat',o:['Кошка','Собака','Птица','Рыба'],a:0},
+      {w:'Lion',o:['Тигр','Медведь','Лев','Волк'],a:2},
+      {w:'Elephant',o:['Носорог','Слон','Жираф','Бегемот'],a:1},
+      {w:'Fish',o:['Рак','Рыба','Краб','Осьминог'],a:1},
+      {w:'Horse',o:['Корова','Осёл','Лошадь','Верблюд'],a:2},
+      {w:'Bird',o:['Рыба','Мышь','Змея','Птица'],a:3},
+      {w:'Wolf',o:['Лиса','Волк','Медведь','Рысь'],a:1},
+    ],
+    house:[
+      {w:'Door',o:['Окно','Дверь','Стена','Пол'],a:1},
+      {w:'Window',o:['Дверь','Потолок','Окно','Крыша'],a:2},
+      {w:'Table',o:['Стул','Стол','Шкаф','Диван'],a:1},
+      {w:'Chair',o:['Кровать','Стул','Диван','Стол'],a:1},
+      {w:'Bed',o:['Кровать','Диван','Кресло','Матрас'],a:0},
+      {w:'Kitchen',o:['Ванная','Гостиная','Спальня','Кухня'],a:3},
+      {w:'Roof',o:['Стена','Пол','Потолок','Крыша'],a:3},
+      {w:'Floor',o:['Стена','Пол','Потолок','Ступенька'],a:1},
+    ],
+    travel:[
+      {w:'Airport',o:['Аэропорт','Вокзал','Порт','Остановка'],a:0},
+      {w:'Hotel',o:['Ресторан','Музей','Гостиница','Магазин'],a:2},
+      {w:'Passport',o:['Виза','Паспорт','Билет','Документ'],a:1},
+      {w:'Ticket',o:['Паспорт','Карта','Билет','Ключ'],a:2},
+      {w:'Train',o:['Самолёт','Автобус','Поезд','Корабль'],a:2},
+      {w:'Suitcase',o:['Рюкзак','Чемодан','Сумка','Портфель'],a:1},
+      {w:'Map',o:['Компас','Путеводитель','Атлас','Карта'],a:3},
+      {w:'Taxi',o:['Автобус','Метро','Такси','Трамвай'],a:2},
+    ],
+    work:[
+      {w:'Doctor',o:['Учитель','Врач','Инженер','Юрист'],a:1},
+      {w:'Teacher',o:['Учитель','Директор','Преподаватель','Воспитатель'],a:0},
+      {w:'Engineer',o:['Архитектор','Дизайнер','Инженер','Механик'],a:2},
+      {w:'Manager',o:['Менеджер','Директор','Руководитель','Начальник'],a:0},
+      {w:'Salary',o:['Доход','Налог','Зарплата','Бонус'],a:2},
+      {w:'Office',o:['Завод','Офис','Склад','Цех'],a:1},
+      {w:'Meeting',o:['Совещание','Перерыв','Отпуск','Командировка'],a:0},
+      {w:'Contract',o:['Договор','Счёт','Акт','Заявление'],a:0},
+    ],
+    weather:[
+      {w:'Rain',o:['Снег','Дождь','Град','Туман'],a:1},
+      {w:'Snow',o:['Лёд','Снег','Мороз','Иней'],a:1},
+      {w:'Wind',o:['Ветер','Буря','Ураган','Смерч'],a:0},
+      {w:'Hot',o:['Холодный','Тёплый','Горячий','Прохладный'],a:2},
+      {w:'Cold',o:['Холодный','Тёплый','Жаркий','Морозный'],a:0},
+      {w:'Cloud',o:['Туча','Облако','Туман','Дымка'],a:1},
+      {w:'Storm',o:['Ветер','Дождь','Буря','Молния'],a:2},
+      {w:'Sunny',o:['Пасмурный','Облачный','Ясный','Дождливый'],a:2},
+    ],
+    shopping:[
+      {w:'Price',o:['Скидка','Цена','Стоимость','Налог'],a:1},
+      {w:'Money',o:['Деньги','Монета','Купюра','Счёт'],a:0},
+      {w:'Buy',o:['Продать','Обменять','Купить','Вернуть'],a:2},
+      {w:'Cheap',o:['Дорогой','Бесплатный','Дешёвый','Скидочный'],a:2},
+      {w:'Expensive',o:['Дешёвый','Дорогой','Бесплатный','Выгодный'],a:1},
+      {w:'Receipt',o:['Чек','Счёт','Накладная','Квитанция'],a:0},
+      {w:'Discount',o:['Скидка','Акция','Распродажа','Купон'],a:0},
+      {w:'Cash',o:['Карта','Перевод','Наличные','Кредит'],a:2},
+    ],
+    verbs1:[
+      {w:'To go',o:['Идти','Бежать','Прыгать','Стоять'],a:0},
+      {w:'To eat',o:['Пить','Есть','Готовить','Жевать'],a:1},
+      {w:'To read',o:['Читать','Писать','Учить','Знать'],a:0},
+      {w:'To speak',o:['Шептать','Кричать','Говорить','Молчать'],a:2},
+      {w:'To listen',o:['Смотреть','Слышать','Слушать','Чувствовать'],a:2},
+      {w:'To write',o:['Печатать','Писать','Рисовать','Чертить'],a:1},
+      {w:'To think',o:['Знать','Считать','Думать','Решать'],a:2},
+      {w:'To work',o:['Учиться','Отдыхать','Работать','Играть'],a:2},
+    ],
+    health:[
+      {w:'Pain',o:['Боль','Температура','Кашель','Насморк'],a:0},
+      {w:'Doctor',o:['Медсестра','Фармацевт','Врач','Санитар'],a:2},
+      {w:'Medicine',o:['Таблетка','Лекарство','Сироп','Мазь'],a:1},
+      {w:'Sick',o:['Здоровый','Сильный','Больной','Слабый'],a:2},
+      {w:'Hospital',o:['Аптека','Клиника','Больница','Поликлиника'],a:2},
+      {w:'Sleep',o:['Есть','Пить','Спать','Идти'],a:2},
+      {w:'Healthy',o:['Больной','Здоровый','Сильный','Активный'],a:1},
+      {w:'Ambulance',o:['Полиция','Пожарные','Скорая помощь','Охрана'],a:2},
+    ],
+    time:[
+      {w:'Morning',o:['Вечер','Ночь','Утро','День'],a:2},
+      {w:'Evening',o:['Утро','Вечер','День','Ночь'],a:1},
+      {w:'Monday',o:['Вторник','Понедельник','Среда','Четверг'],a:1},
+      {w:'Friday',o:['Среда','Четверг','Суббота','Пятница'],a:3},
+      {w:'January',o:['Февраль','Март','Январь','Апрель'],a:2},
+      {w:'Summer',o:['Зима','Весна','Осень','Лето'],a:3},
+      {w:'Hour',o:['Минута','Секунда','Час','Сутки'],a:2},
+      {w:'Week',o:['Год','Месяц','Неделя','День'],a:2},
+    ],
+    tech:[
+      {w:'Phone',o:['Планшет','Телефон','Компьютер','Камера'],a:1},
+      {w:'Internet',o:['Сеть','Интернет','Wi-Fi','Сервер'],a:1},
+      {w:'Password',o:['Логин','Пользователь','Пароль','Ключ'],a:2},
+      {w:'Download',o:['Скачать','Отправить','Удалить','Сохранить'],a:0},
+      {w:'Screen',o:['Клавиатура','Мышь','Экран','Процессор'],a:2},
+      {w:'Battery',o:['Зарядник','Кабель','Аккумулятор','Блок'],a:2},
+      {w:'Message',o:['Звонок','Сообщение','Письмо','Файл'],a:1},
+      {w:'Camera',o:['Камера','Объектив','Фото','Видео'],a:0},
+    ],
+    phrases1:[
+      {w:"I don't understand",o:['Я не знаю','Я не понимаю','Я не слышу','Я не вижу'],a:1},
+      {w:'Can you help me?',o:['Ты понимаешь?','Где туалет?','Можешь помочь?','Сколько стоит?'],a:2},
+      {w:'How much?',o:['Где?','Когда?','Сколько стоит?','Почему?'],a:2},
+      {w:'I want...',o:['Мне нужно','Я хочу','Мне нравится','Я думаю'],a:1},
+      {w:'I like it',o:['Мне не нравится','Мне всё равно','Мне нравится','Я люблю это'],a:2},
+      {w:'Where is...?',o:['Когда...?','Что это?','Где находится...?','Как называется?'],a:2},
+      {w:'Call the police!',o:['Позовите врача!','Вызовите такси!','Вызовите полицию!','Помогите!'],a:2},
+      {w:'I am lost',o:['Я устал','Я потерялся','Я заболел','Я спешу'],a:1},
+    ],
+    adjectives:[
+      {w:'Big',o:['Маленький','Высокий','Большой','Широкий'],a:2},
+      {w:'Small',o:['Большой','Маленький','Короткий','Узкий'],a:1},
+      {w:'Fast',o:['Медленный','Быстрый','Лёгкий','Тяжёлый'],a:1},
+      {w:'Beautiful',o:['Уродливый','Красивый','Приятный','Чистый'],a:1},
+      {w:'Strong',o:['Слабый','Сильный','Крепкий','Мощный'],a:1},
+      {w:'New',o:['Старый','Используемый','Новый','Свежий'],a:2},
+      {w:'Happy',o:['Грустный','Злой','Счастливый','Усталый'],a:2},
+      {w:'Dark',o:['Светлый','Яркий','Тёмный','Серый'],a:2},
+    ],
+    city:[
+      {w:'Street',o:['Улица','Площадь','Переулок','Проспект'],a:0},
+      {w:'Bank',o:['Магазин','Банк','Офис','Школа'],a:1},
+      {w:'Hospital',o:['Аптека','Клиника','Больница','Поликлиника'],a:2},
+      {w:'School',o:['Университет','Школа','Колледж','Детсад'],a:1},
+      {w:'Park',o:['Сад','Лес','Парк','Площадь'],a:2},
+      {w:'Library',o:['Читальня','Архив','Библиотека','Книжный'],a:2},
+      {w:'Museum',o:['Театр','Галерея','Музей','Выставка'],a:2},
+      {w:'Restaurant',o:['Кафе','Столовая','Ресторан','Буфет'],a:2},
+    ],
+    introduce:[
+      {w:'My name is...',o:['Мне нравится','Я хочу','Меня зовут','Я думаю'],a:2},
+      {w:'How are you?',o:['Как тебя зовут?','Как дела?','Сколько лет?','Откуда ты?'],a:1},
+      {w:'I am fine',o:['Я болен','Я устал','Я рад','Я в порядке'],a:3},
+      {w:'Nice to meet you',o:['До свидания','Рад познакомиться','Спасибо','Пожалуйста'],a:1},
+      {w:'Where are you from?',o:['Сколько лет?','Где ты живёшь?','Откуда ты?','Что ты делаешь?'],a:2},
+      {w:'I am a student',o:['Я учитель','Я инженер','Я врач','Я студент'],a:3},
+      {w:'How old are you?',o:['Сколько тебе лет?','Как ты себя чувствуешь?','Где ты работаешь?','Ты женат?'],a:0},
+      {w:'I live in Russia',o:['Я из Германии','Я живу в России','Я из США','Я из Китая'],a:1},
+    ],
+  },
+  ar:{
+    alphabet1:[
+      {w:'ا',h:'Какая это буква?',o:['Алиф','Ба','Та','Са'],a:0,ar:1},
+      {w:'ب',h:'Какая это буква?',o:['Алиф','Ба','Джим','Даль'],a:1,ar:1},
+      {w:'ت',h:'Какая это буква?',o:['Ба','Та','Са','Джим'],a:1,ar:1},
+      {w:'ث',h:'Какая это буква?',o:['Та','Са','Джим','Ха'],a:1,ar:1},
+      {w:'ج',h:'Какая это буква?',o:['Ха','Ха (خ)','Джим','Даль'],a:2,ar:1},
+      {w:'ح',h:'Какая это буква?',o:['Джим','Ха','Хе','Ха (خ)'],a:1,ar:1},
+      {w:'خ',h:'Какая это буква?',o:['Ха','Ха (ح)','Даль','Ха (خ)'],a:3,ar:1},
+    ],
+    alphabet2:[
+      {w:'د',h:'Какая это буква?',o:['Даль','Заль','Ра','Зайн'],a:0,ar:1},
+      {w:'ذ',h:'Какая это буква?',o:['Даль','Заль','Ра','Зайн'],a:1,ar:1},
+      {w:'ر',h:'Какая это буква?',o:['Зайн','Ра','Заль','Даль'],a:1,ar:1},
+      {w:'ز',h:'Какая это буква?',o:['Ра','Заль','Зайн','Даль'],a:2,ar:1},
+      {w:'س',h:'Какая это буква?',o:['Шин','Сад','Дад','Син'],a:3,ar:1},
+      {w:'ش',h:'Какая это буква?',o:['Шин','Син','Сад','Дад'],a:0,ar:1},
+      {w:'ص',h:'Какая это буква?',o:['Сад','Дад','Та','Зай'],a:0,ar:1},
+    ],
+    alphabet3:[
+      {w:'ض',h:'Какая это буква?',o:['Сад','Дад','Та','Зад'],a:1,ar:1},
+      {w:'ط',h:'Какая это буква?',o:['Зай','Та (ط)','Айн','Гайн'],a:1,ar:1},
+      {w:'ظ',h:'Какая это буква?',o:['Та','Зай (ظ)','Айн','Фа'],a:1,ar:1},
+      {w:'ع',h:'Какая это буква?',o:['Гайн','Айн','Фа','Каф'],a:1,ar:1},
+      {w:'غ',h:'Какая это буква?',o:['Айн','Гайн','Фа','Каф'],a:1,ar:1},
+      {w:'ف',h:'Какая это буква?',o:['Каф','Фа','Каф (ق)','Лям'],a:1,ar:1},
+      {w:'ق',h:'Какая это буква?',o:['Фа','Каф (ق)','Каф','Лям'],a:1,ar:1},
+    ],
+    alphabet4:[
+      {w:'ك',h:'Какая это буква?',o:['Лям','Каф','Мим','Нун'],a:1,ar:1},
+      {w:'ل',h:'Какая это буква?',o:['Мим','Лям','Нун','Ха'],a:1,ar:1},
+      {w:'م',h:'Какая это буква?',o:['Нун','Мим','Ха','Вав'],a:1,ar:1},
+      {w:'ن',h:'Какая это буква?',o:['Мим','Нун','Ха','Йа'],a:1,ar:1},
+      {w:'ه',h:'Какая это буква?',o:['Вав','Ха','Йа','Нун'],a:1,ar:1},
+      {w:'و',h:'Какая это буква?',o:['Йа','Вав','Алиф','Ха'],a:1,ar:1},
+      {w:'ي',h:'Какая это буква?',o:['Вав','Ха','Йа','Алиф'],a:2,ar:1},
+    ],
+    greetings_ar:[
+      {w:'السلام عليكم',h:'Перевод?',o:['Пока','Мир вам','Доброе утро','Спокойной ночи'],a:1,ar:1},
+      {w:'مرحبا',h:'Перевод?',o:['Пока','Спасибо','Привет','До свидания'],a:2,ar:1},
+      {w:'شكراً',h:'Перевод?',o:['Пожалуйста','Извините','Привет','Спасибо'],a:3,ar:1},
+      {w:'نعم',h:'Перевод?',o:['Нет','Может быть','Да','Никогда'],a:2,ar:1},
+      {w:'لا',h:'Перевод?',o:['Да','Нет','Хорошо','Плохо'],a:1,ar:1},
+      {w:'من فضلك',h:'Перевод?',o:['Спасибо','Извините','Пожалуйста','Помогите'],a:2,ar:1},
+      {w:'إلى اللقاء',h:'Перевод?',o:['Привет','Добро пожаловать','До свидания','Спасибо'],a:2,ar:1},
+    ],
+    words1:[
+      {w:'كتاب',h:'Что значит?',o:['Стул','Стол','Книга','Ручка'],a:2,ar:1},
+      {w:'بيت',h:'Что значит?',o:['Машина','Дом','Улица','Город'],a:1,ar:1},
+      {w:'باب',h:'Что значит?',o:['Окно','Стена','Дверь','Пол'],a:2,ar:1},
+      {w:'ماء',h:'Что значит?',o:['Еда','Вода','Хлеб','Молоко'],a:1,ar:1},
+      {w:'خبز',h:'Что значит?',o:['Хлеб','Рис','Мясо','Рыба'],a:0,ar:1},
+      {w:'مدرسة',h:'Что значит?',o:['Дом','Школа','Мечеть','Рынок'],a:1,ar:1},
+      {w:'سيارة',h:'Что значит?',o:['Автобус','Машина','Поезд','Самолёт'],a:1,ar:1},
+    ],
+    numbers_ar:[
+      {w:'واحد',h:'Что значит?',o:['Два','Три','Один','Ноль'],a:2,ar:1},
+      {w:'اثنان',h:'Что значит?',o:['Один','Два','Три','Четыре'],a:1,ar:1},
+      {w:'ثلاثة',h:'Что значит?',o:['Два','Четыре','Пять','Три'],a:3,ar:1},
+      {w:'خمسة',h:'Что значит?',o:['Четыре','Шесть','Пять','Семь'],a:2,ar:1},
+      {w:'عشرة',h:'Что значит?',o:['Семь','Восемь','Девять','Десять'],a:3,ar:1},
+      {w:'مئة',h:'Что значит?',o:['Тысяча','Сто','Десять','Миллион'],a:1,ar:1},
+    ],
+    colors_ar:[
+      {w:'أحمر',h:'Что значит?',o:['Синий','Красный','Зелёный','Белый'],a:1,ar:1},
+      {w:'أزرق',h:'Что значит?',o:['Синий','Красный','Жёлтый','Белый'],a:0,ar:1},
+      {w:'أخضر',h:'Что значит?',o:['Жёлтый','Оранжевый','Зелёный','Чёрный'],a:2,ar:1},
+      {w:'أبيض',h:'Что значит?',o:['Чёрный','Серый','Белый','Бежевый'],a:2,ar:1},
+      {w:'أسود',h:'Что значит?',o:['Белый','Серый','Коричневый','Чёрный'],a:3,ar:1},
+      {w:'أصفر',h:'Что значит?',o:['Оранжевый','Жёлтый','Золотой','Бежевый'],a:1,ar:1},
+    ],
+    family_ar:[
+      {w:'أب',h:'Что значит?',o:['Мать','Отец','Брат','Сестра'],a:1,ar:1},
+      {w:'أم',h:'Что значит?',o:['Отец','Брат','Мать','Сестра'],a:2,ar:1},
+      {w:'أخ',h:'Что значит?',o:['Сестра','Брат','Сын','Дочь'],a:1,ar:1},
+      {w:'أخت',h:'Что значит?',o:['Брат','Сестра','Мать','Тётя'],a:1,ar:1},
+      {w:'ابن',h:'Что значит?',o:['Дочь','Племянник','Сын','Внук'],a:2,ar:1},
+      {w:'جد',h:'Что значит?',o:['Отец','Дядя','Брат','Дедушка'],a:3,ar:1},
+    ],
+    phrases_ar:[
+      {w:'ما اسمك؟',h:'Что значит?',o:['Как дела?','Как тебя зовут?','Откуда ты?','Сколько лет?'],a:1,ar:1},
+      {w:'أنا بخير',h:'Что значит?',o:['Я болен','Я устал','Я голоден','Я в порядке'],a:3,ar:1},
+      {w:'أين...؟',h:'Что значит?',o:['Когда...?','Что это?','Где...?','Почему...?'],a:2,ar:1},
+      {w:'كم الثمن؟',h:'Что значит?',o:['Где это?','Когда?','Сколько стоит?','Что это?'],a:2,ar:1},
+      {w:'أريد...',h:'Что значит?',o:['Я думаю','Я знаю','Я хочу','Я вижу'],a:2,ar:1},
+      {w:'لا أفهم',h:'Что значит?',o:['Я не знаю','Я не понимаю','Я не слышу','Я не вижу'],a:1,ar:1},
+    ],
+    words2:[
+      {w:'طعام',h:'Что значит?',o:['Вода','Напиток','Еда','Фрукт'],a:2,ar:1},
+      {w:'كبير',h:'Что значит?',o:['Маленький','Средний','Большой','Огромный'],a:2,ar:1},
+      {w:'صغير',h:'Что значит?',o:['Большой','Маленький','Тонкий','Лёгкий'],a:1,ar:1},
+      {w:'جميل',h:'Что значит?',o:['Плохой','Некрасивый','Красивый','Умный'],a:2,ar:1},
+      {w:'مسجد',h:'Что значит?',o:['Церковь','Храм','Мечеть','Монастырь'],a:2,ar:1},
+      {w:'يوم',h:'Что значит?',o:['Час','День','Неделя','Месяц'],a:1,ar:1},
+      {w:'ليل',h:'Что значит?',o:['День','Утро','Вечер','Ночь'],a:3,ar:1},
+    ],
+  }
+};
+
+const EN_UNITS=[
+  {lbl:'A1 — Основы',ls:[
+    {id:'greetings',n:'Приветствия',ic:'👋',s:'done',xp:10},
+    {id:'numbers',n:'Числа 1–100',ic:'🔢',s:'done',xp:10},
+    {id:'colors',n:'Цвета',ic:'🎨',s:'current',xp:10},
+    {id:'family',n:'Семья',ic:'👨‍👩‍👧',s:'locked',xp:10},
+    {id:'food',n:'Еда и напитки',ic:'🍎',s:'locked',xp:10},
+    {id:'body',n:'Части тела',ic:'🫀',s:'locked',xp:10},
+    {id:'introduce',n:'Знакомство',ic:'🤝',s:'locked',xp:10},
+  ]},
+  {lbl:'A1–A2 — Разговор',ls:[
+    {id:'time',n:'Время и дни',ic:'⏰',s:'locked',xp:15},
+    {id:'weather',n:'Погода',ic:'⛅',s:'locked',xp:15},
+    {id:'city',n:'Город',ic:'🏙️',s:'locked',xp:15},
+    {id:'shopping',n:'Шопинг',ic:'🛍️',s:'locked',xp:15},
+    {id:'phrases1',n:'Полезные фразы',ic:'💬',s:'locked',xp:15},
+    {id:'adjectives',n:'Прилагательные',ic:'📝',s:'locked',xp:15},
+  ]},
+  {lbl:'A2 — Тематика',ls:[
+    {id:'animals',n:'Животные',ic:'🐘',s:'locked',xp:20},
+    {id:'house',n:'Дом и мебель',ic:'🏠',s:'locked',xp:20},
+    {id:'travel',n:'Путешествия',ic:'✈️',s:'locked',xp:20},
+    {id:'work',n:'Работа',ic:'💼',s:'locked',xp:20},
+    {id:'health',n:'Здоровье',ic:'💊',s:'locked',xp:20},
+    {id:'tech',n:'Технологии',ic:'📱',s:'locked',xp:20},
+    {id:'verbs1',n:'Глаголы',ic:'🏃',s:'locked',xp:20},
+  ]},
+];
+const AR_UNITS=[
+  {lbl:'Алфавит',ls:[
+    {id:'alphabet1',n:'Буквы ا–خ',ic:'ا',s:'current',xp:10},
+    {id:'alphabet2',n:'Буквы د–ص',ic:'د',s:'locked',xp:10},
+    {id:'alphabet3',n:'Буквы ض–ق',ic:'ض',s:'locked',xp:10},
+    {id:'alphabet4',n:'Буквы ك–ي',ic:'ك',s:'locked',xp:10},
+  ]},
+  {lbl:'Базовая лексика',ls:[
+    {id:'greetings_ar',n:'Приветствия',ic:'🤲',s:'locked',xp:15},
+    {id:'numbers_ar',n:'Числа 1–100',ic:'١٢٣',s:'locked',xp:15},
+    {id:'words1',n:'Бытовые слова',ic:'📦',s:'locked',xp:15},
+    {id:'colors_ar',n:'Цвета',ic:'🎨',s:'locked',xp:15},
+    {id:'family_ar',n:'Семья',ic:'👨‍👩‍👧',s:'locked',xp:15},
+    {id:'words2',n:'Расширенный словарь',ic:'📚',s:'locked',xp:15},
+  ]},
+  {lbl:'Разговорный',ls:[
+    {id:'phrases_ar',n:'Разговорные фразы',ic:'💬',s:'locked',xp:20},
+  ]},
+];
+
+const AR_LTRS=[
+  {l:'ا',n:'Алиф',f:['ا','ا','ا']},{l:'ب',n:'Ба',f:['بـ','ـبـ','ـب']},
+  {l:'ت',n:'Та',f:['تـ','ـتـ','ـت']},{l:'ث',n:'Са',f:['ثـ','ـثـ','ـث']},
+  {l:'ج',n:'Джим',f:['جـ','ـجـ','ـج']},{l:'ح',n:'Ха',f:['حـ','ـحـ','ـح']},
+  {l:'خ',n:'Ха хрипл',f:['خـ','ـخـ','ـخ']},{l:'د',n:'Даль',f:['د','ـد','ـد']},
+  {l:'ر',n:'Ра',f:['ر','ـر','ـر']},{l:'ز',n:'Зайн',f:['ز','ـز','ـز']},
+  {l:'س',n:'Син',f:['سـ','ـسـ','ـس']},{l:'ش',n:'Шин',f:['شـ','ـشـ','ـش']},
+  {l:'ص',n:'Сад',f:['صـ','ـصـ','ـص']},{l:'ض',n:'Дад',f:['ضـ','ـضـ','ـض']},
+  {l:'ط',n:'Та тв',f:['طـ','ـطـ','ـط']},{l:'ظ',n:'Зай тв',f:['ظـ','ـظـ','ـظ']},
+  {l:'ع',n:'Айн',f:['عـ','ـعـ','ـع']},{l:'غ',n:'Гайн',f:['غـ','ـغـ','ـغ']},
+  {l:'ف',n:'Фа',f:['فـ','ـفـ','ـف']},{l:'ق',n:'Каф гл',f:['قـ','ـقـ','ـق']},
+  {l:'ك',n:'Каф',f:['كـ','ـكـ','ـك']},{l:'ل',n:'Лям',f:['لـ','ـلـ','ـل']},
+  {l:'م',n:'Мим',f:['مـ','ـمـ','ـم']},{l:'ن',n:'Нун',f:['نـ','ـنـ','ـن']},
+  {l:'ه',n:'Ха',f:['هـ','ـهـ','ـه']},{l:'و',n:'Вав',f:['و','ـو','ـو']},
+  {l:'ي',n:'Йа',f:['يـ','ـيـ','ـي']},
+];
+
+const LNAMES={
+  greetings:'Приветствия',numbers:'Числа',colors:'Цвета',family:'Семья',
+  food:'Еда',body:'Части тела',introduce:'Знакомство',time:'Время',
+  weather:'Погода',city:'Город',shopping:'Шопинг',phrases1:'Фразы',
+  adjectives:'Прилагательные',animals:'Животные',house:'Дом',
+  travel:'Путешествия',work:'Работа',health:'Здоровье',tech:'Технологии',verbs1:'Глаголы',
+  alphabet1:'Алфавит A',alphabet2:'Алфавит Б',alphabet3:'Алфавит В',alphabet4:'Алфавит Г',
+  greetings_ar:'Приветствия АР',numbers_ar:'Числа АР',words1:'Слова 1',
+  colors_ar:'Цвета АР',family_ar:'Семья АР',words2:'Слова 2',phrases_ar:'Фразы АР',
+};
+const YT={
+  greetings:[{t:'Приветствия на английском — полный разбор',ch:'EnglishStep',d:'8:24',q:'english+greetings+beginners+russian'},{t:'Hello, Hi, Hey — как говорить правильно',ch:'SpeakEnglish',d:'6:15',q:'hello+english+ways'}],
+  numbers:[{t:'Числа на английском 1–100 с произношением',ch:'LearnEnglishRu',d:'10:42',q:'english+numbers+1+100+pronunciation'},{t:'Английские числа — ошибки русских',ch:'EnglishMistakes',d:'7:30',q:'english+numbers+mistakes+russian'}],
+  colors:[{t:'Цвета на английском — все оттенки',ch:'ColorsLearn',d:'9:18',q:'colors+english+pronunciation+all'}],
+  family:[{t:'Семья на английском — все слова',ch:'FamilyEnglish',d:'11:20',q:'family+english+vocabulary+russian'}],
+  food:[{t:'Еда на английском — базовый словарь',ch:'EnglishFood',d:'8:30',q:'food+drinks+english+vocabulary'}],
+  body:[{t:'Тело человека на английском',ch:'BodyEnglish',d:'9:10',q:'body+parts+english+russian+beginners'}],
+  weather:[{t:'Погода на английском — все слова и фразы',ch:'WeatherEng',d:'7:45',q:'weather+english+vocabulary+russian'}],
+  travel:[{t:'Путешествие на английском — выживание в аэропорту',ch:'TravelEng',d:'12:00',q:'travel+english+airport+phrases'}],
+  alphabet1:[{t:'Арабский алфавит — первые 7 букв с нуля',ch:'АрабскийПросто',d:'12:15',q:'arabic+alphabet+first+letters+beginners'},{t:'Как читать арабские буквы — ا ب ت',ch:'ArabicStart',d:'9:40',q:'arabic+reading+beginners+letters'}],
+  greetings_ar:[{t:'Арабские приветствия — السلام عليكم и другие',ch:'АрабскийПросто',d:'7:55',q:'arabic+greetings+السلام+russian'}],
+};
+function getYT(t){return YT[t]||[{t:`Разбор: ${LNAMES[t]||t} — урок для начинающих`,ch:'LinguaStart',d:'8:00',q:`english+${t}+lesson+beginners`}];}
+
+const TLD=[
+  {w:[
+    {n:'Алексей К.',av:'👨',xp:3840,s:21,l:47,tier:'S'},{n:'Мария В.',av:'👩',xp:3210,s:18,l:39,tier:'S'},
+    {n:'Д.Петров',av:'🧑',xp:2950,s:15,l:35,tier:'S'},{n:'Ольга Н.',av:'👩',xp:2640,s:12,l:31,tier:'A'},
+    {n:'Иван М.',av:'👨',xp:2380,s:10,l:28,tier:'A'},{n:'Света Л.',av:'👩',xp:2100,s:9,l:25,tier:'A'},
+    {n:'Роман Г.',av:'👨',xp:1820,s:7,l:21,tier:'B'},{n:'Наташа С.',av:'👩',xp:1540,s:5,l:18,tier:'B'},
+    {n:'Андрей Ф.',av:'🧔',xp:1290,s:4,l:15,tier:'B'},{n:'Юлия П.',av:'👩',xp:980,s:3,l:11,tier:'C'},
+    {n:'Костя Д.',av:'👦',xp:720,s:2,l:8,tier:'C'},{n:'Вы',av:'⭐',xp:45,s:3,l:3,tier:'D',me:1},
+  ]},
+  {w:[
+    {n:'Мария В.',av:'👩',xp:9800,s:45,l:92,tier:'S'},{n:'Алексей К.',av:'👨',xp:9100,s:41,l:85,tier:'S'},
+    {n:'Света Л.',av:'👩',xp:7200,s:32,l:71,tier:'S'},{n:'Ольга Н.',av:'👩',xp:6300,s:28,l:62,tier:'A'},
+    {n:'Иван М.',av:'👨',xp:5800,s:25,l:55,tier:'A'},{n:'Д.Петров',av:'🧑',xp:5200,s:22,l:49,tier:'A'},
+    {n:'Роман Г.',av:'👨',xp:4100,s:18,l:40,tier:'B'},{n:'Наташа С.',av:'👩',xp:3400,s:14,l:33,tier:'B'},
+    {n:'Юлия П.',av:'👩',xp:2600,s:10,l:25,tier:'C'},{n:'Вы',av:'⭐',xp:45,s:3,l:3,tier:'D',me:1},
+  ]},
+  {w:[
+    {n:'Алексей К.',av:'👨',xp:18400,s:90,l:180,tier:'S'},{n:'Мария В.',av:'👩',xp:16200,s:80,l:158,tier:'S'},
+    {n:'Иван М.',av:'👨',xp:12900,s:62,l:124,tier:'S'},{n:'Ольга Н.',av:'👩',xp:10800,s:52,l:104,tier:'A'},
+    {n:'Д.Петров',av:'🧑',xp:9400,s:45,l:91,tier:'A'},{n:'Света Л.',av:'👩',xp:8100,s:38,l:78,tier:'A'},
+    {n:'Роман Г.',av:'👨',xp:6600,s:30,l:63,tier:'B'},{n:'Наташа С.',av:'👩',xp:5200,s:24,l:50,tier:'B'},
+    {n:'Андрей Ф.',av:'🧔',xp:3800,s:18,l:37,tier:'C'},{n:'Юлия П.',av:'👩',xp:2900,s:14,l:28,tier:'C'},
+    {n:'Костя Д.',av:'👦',xp:1900,s:9,l:18,tier:'D'},{n:'Вы',av:'⭐',xp:45,s:3,l:3,tier:'D',me:1},
+  ]},
+];
+const TCFG={S:{c:'#ffd700',b:'rgba(255,215,0,.1)',n:'S — Мастер'},A:{c:'#aaa',b:'rgba(170,170,170,.08)',n:'A — Эксперт'},B:{c:'var(--g)',b:'var(--gxx)',n:'B — Продвинутый'},C:{c:'var(--t1)',b:'rgba(122,170,122,.06)',n:'C — Средний'},D:{c:'var(--t2)',b:'rgba(61,107,61,.05)',n:'D — Начинающий'}};
+
+// ===== STATE =====
+let user={name:'Гость',type:'guest'};
+let xp=45,streak=3,lessons=3,tlIdx=0;
+let quiz=[],qi=0,hearts=3,sel=null,done=false,curLang='en',curTopic='';
+let errors={};
+// fake local DB
+let DB={};try{DB=JSON.parse(localStorage.getItem('ls_db')||'{}')}catch(e){}
+function saveDB(){try{localStorage.setItem('ls_db',JSON.stringify(DB))}catch(e){}}
+
+// ===== AUTH TABS =====
+let authMode='login';
+function switchTab(mode,el){
+  authMode=mode;
+  document.querySelectorAll('.atab').forEach(t=>t.classList.remove('on'));el.classList.add('on');
+  document.getElementById('form-login').style.display=mode==='login'?'':'none';
+  document.getElementById('form-reg').style.display=mode==='reg'?'':'none';
+}
+function doLogin(){
+  const lg=document.getElementById('l-login').value.trim();
+  const pw=document.getElementById('l-pass').value;
+  const err=document.getElementById('l-err');
+  if(!lg||!pw){err.textContent='Заполните все поля';return;}
+  if(!DB[lg]){err.textContent='Пользователь не найден';return;}
+  if(DB[lg].pw!==btoa(pw)){err.textContent='Неверный пароль';return;}
+  err.textContent='';
+  user={name:DB[lg].name,type:'login',login:lg};
+  afterAuth();
+}
+function doReg(){
+  const nm=document.getElementById('r-name').value.trim();
+  const lg=document.getElementById('r-login').value.trim();
+  const pw=document.getElementById('r-pass').value;
+  const pw2=document.getElementById('r-pass2').value;
+  const err=document.getElementById('r-err');
+  if(!nm||!lg||!pw||!pw2){err.textContent='Заполните все поля';return;}
+  if(pw.length<6){err.textContent='Пароль мин. 6 символов';return;}
+  if(pw!==pw2){err.textContent='Пароли не совпадают';return;}
+  if(DB[lg]){err.textContent='Логин уже занят';return;}
+  DB[lg]={name:nm,pw:btoa(pw)};saveDB();
+  err.style.color='var(--g)';err.textContent='Аккаунт создан! Входим...';
+  setTimeout(()=>{user={name:nm,type:'login',login:lg};afterAuth();},800);
+}
+function loginGoogle(){
+  const names=['Александр','Мария','Дмитрий','Ольга','Иван'];
+  user={name:names[Math.floor(Math.random()*names.length)],type:'google'};
+  afterAuth();
+}
+function loginSkip(){user={name:'Гость',type:'guest'};afterAuth();}
+function afterAuth(){
+  document.getElementById('h-name').textContent=user.name.split(' ')[0];
+  updateHero();navTo('home');
+}
+function updateHero(){
+  document.getElementById('p-xp').textContent=xp;
+  document.getElementById('p-str').textContent=streak;
+  const mr=TLD[0].w.findIndex(u=>u.me)+1;
+  document.getElementById('p-rank').textContent=mr;
+}
+
+// ===== NAV =====
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
+}
+function navTo(id){
+  if(id==='tierlist') renderTL(tlIdx);
+  else if(id==='profile') renderProfile();
+  else if(id==='lessons-en') renderLessons('en');
+  else if(id==='lessons-ar') renderLessons('ar');
+  show(id);
+}
+
+// ===== LESSONS =====
+function renderLessons(lang){
+  const units=lang==='en'?EN_UNITS:AR_UNITS;
+  const el=document.getElementById('ul-'+lang);el.innerHTML='';
+  units.forEach(u=>{
+    const w=document.createElement('div');w.className='unit-wrap';
+    w.innerHTML=`<div class="unit-lbl">${u.lbl}</div>`;
+    u.ls.forEach(l=>{
+      const d=document.createElement('div');
+      d.className='li'+(l.s==='locked'?' lk':'');
+      const dc=l.s==='done'?'dn':l.s==='current'?'cu':'';
+      const ic=l.s==='done'?'✓':l.s==='locked'?'🔒':l.ic;
+      const er=errors[l.id];
+      const etag=er&&er.total>0&&Math.round(er.wrong/er.total*100)>40?` <span class="err-tag">⚠${Math.round(er.wrong/er.total*100)}%</span>`:'';
+      d.innerHTML=`<div class="ldot ${dc}">${ic}</div><div class="linf"><h4>${l.n}${etag}</h4><p>${l.s==='locked'?'Заблокировано':l.s==='done'?'Пройдено ✓':'Начать →'}</p></div><span class="lxp">+${l.xp}</span>`;
+      if(l.s!=='locked') d.onclick=()=>startLesson(lang,l.id);
+      w.appendChild(d);
+    });
+    el.appendChild(w);
+  });
+}
+
+// ===== QUIZ =====
+function startLesson(lang,id){
+  curLang=lang;curTopic=id;
+  const qs=QUIZ[lang][id];
+  if(!qs){alert('Скоро!');return;}
+  quiz=[...qs];qi=0;hearts=3;sel=null;done=false;
+  if(!errors[id]) errors[id]={w:0,t:0};
+  show('lesson');renderQ();
+}
+function renderQ(){
+  if(qi>=quiz.length){showComplete();return;}
+  document.getElementById('qpf').style.width=Math.round(qi/quiz.length*100)+'%';
+  document.getElementById('qh').textContent='♥ '+hearts;
+  const q=quiz[qi];
+  const isAr=q.ar||false;
+  const enBig=!isAr&&curLang==='en';
+  document.getElementById('qbody').innerHTML=`
+    <div class="qlbl">${q.h||'Выберите перевод'}</div>
+    <div class="wcard">
+      <button class="speak-btn" onclick="doSpeak('${q.w.replace(/'/g,"\\'")}','${isAr?'ar':'en'}')" title="Прослушать">🔊</button>
+      <div class="wmain${isAr?' ar':enBig?' en-big':''}">${q.w}</div>
+      <div class="speaking-wave" id="sw">
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div>
+      </div>
+    </div>
+    <div class="opts" id="ow"></div>
+    <button class="chk" id="ck" disabled onclick="doCheck()">Проверить</button>
+  `;
+  const ow=document.getElementById('ow');
+  q.o.forEach((o,i)=>{
+    const b=document.createElement('button');b.className='opt';b.textContent=o;
+    b.onclick=()=>pick(i);ow.appendChild(b);
+  });
+  sel=null;done=false;
+  // auto-speak
+  setTimeout(()=>doSpeak(q.w,isAr?'ar':'en'),300);
+}
+function doSpeak(word,lang){
+  const sw=document.getElementById('sw');
+  const btn=document.querySelector('.speak-btn');
+  if(sw){sw.classList.add('show');setTimeout(()=>sw.classList.remove('show'),2000);}
+  if(btn){btn.classList.add('speaking');setTimeout(()=>btn.classList.remove('speaking'),2000);}
+  speak(word,lang);
+}
+function pick(i){
+  if(done)return;sel=i;
+  document.querySelectorAll('.opt').forEach((b,j)=>{b.className='opt'+(j===i?' sel':'');});
+  const ck=document.getElementById('ck');ck.disabled=false;ck.className='chk rdy';
+}
+function doCheck(){
+  if(done||sel===null)return;done=true;
+  const q=quiz[qi];
+  errors[curTopic].t++;
+  const btns=document.querySelectorAll('.opt');
+  btns[q.a].className='opt ok';
+  const ok=sel===q.a;
+  if(!ok){btns[sel].className='opt no';hearts=Math.max(0,hearts-1);errors[curTopic].w++;}
+  const ck=document.getElementById('ck');
+  ck.textContent=qi<quiz.length-1?'Далее →':'Завершить ✓';
+  ck.className='chk rdy';ck.onclick=()=>{qi++;renderQ();};
+}
+function showComplete(){
+  document.getElementById('qpf').style.width='100%';
+  xp+=10;lessons++;updateHero();
+  const corr=quiz.length-(3-hearts);
+  document.getElementById('qbody').innerHTML=`
+    <div class="cbody">
+      <div class="cico">🏆</div>
+      <div class="ctitle">Урок завершён!</div>
+      <div class="csub">+10 XP · ${user.name}</div>
+      <div class="cstats">
+        <div class="cst"><div class="csn">${corr}/${quiz.length}</div><div class="csl">Правильно</div></div>
+        <div class="cst"><div class="csn">${hearts}</div><div class="csl">Жизни</div></div>
+        <div class="cst"><div class="csn">${xp}</div><div class="csl">XP</div></div>
+      </div>
+    </div>
+    <button class="hbtn green" style="margin-bottom:8px" onclick="navTo('profile')">📊 Мои рекомендации</button>
+    <button class="hbtn" onclick="navTo('home')">На главную</button>
+  `;
+}
+
+// ===== TIERLIST =====
+function switchTL(i,el){
+  tlIdx=i;document.querySelectorAll('.tltab').forEach(t=>t.classList.remove('on'));el.classList.add('on');renderTL(i);
+}
+function renderTL(i){
+  const us=TLD[i].w;
+  const body=document.getElementById('tl-body');body.innerHTML='';
+  const me=us.find(u=>u.me);const mr=us.indexOf(me)+1;
+  const next=us[mr-2];
+  body.innerHTML+=`<div class="my-pos">
+    <div class="mp-lbl">Ваша позиция</div>
+    <div class="mp-row">
+      <div><div class="mp-num">#${mr}</div><div style="font-size:10px;color:var(--t2)">Тир ${me.tier}</div></div>
+      <div class="mp-info"><div>${me.xp} XP</div><div>До ${me.tier==='D'?'C':me.tier==='C'?'B':me.tier==='B'?'A':'S'}: ${next?(next.xp-me.xp)+' XP':'максимум'}</div></div>
+    </div>
+  </div>`;
+  ['S','A','B','C','D'].forEach(tier=>{
+    const tu=us.filter(u=>u.tier===tier);if(!tu.length)return;
+    const cfg=TCFG[tier];
+    let h=`<div class="tier-section"><div class="tier-hdr">
+      <div class="tier-badge" style="background:${cfg.b};color:${cfg.c};border:1px solid ${cfg.c}44">${tier}</div>
+      <div class="tier-name" style="color:${cfg.c}">${cfg.n}</div>
+      <div class="tier-count">${tu.length}</div>
+    </div>`;
+    tu.forEach(u=>{
+      const rk=us.indexOf(u)+1;
+      const med=rk===1?'🥇':rk===2?'🥈':rk===3?'🥉':'';
+      const xs=u.xp>=1000?(u.xp/1000).toFixed(1)+'K':u.xp;
+      h+=`<div class="user-row${u.me?' me':''}">
+        <div class="ur-rank">${rk}</div>
+        <div class="ur-ava">${u.av}</div>
+        <div class="ur-info"><h4>${u.n}${u.me?' (вы)':''}</h4><p>🔥${u.s}д · 📚${u.l}ур</p></div>
+        <div class="ur-xp">${xs}</div>
+        ${med?`<div class="ur-medal">${med}</div>`:''}
+      </div>`;
+    });
+    h+='</div>';body.innerHTML+=h;
+  });
+  body.innerHTML+='<div style="height:14px"></div>';
+}
+
+// ===== PROFILE =====
+function getWorst(){
+  return Object.entries(errors).filter(([k,v])=>v.t>0)
+    .map(([k,v])=>({id:k,pct:Math.round(v.w/v.t*100),w:v.w,t:v.t}))
+    .sort((a,b)=>b.pct-a.pct);
+}
+function renderProfile(){
+  const worst=getWorst();
+  const pb=document.getElementById('pb');pb.innerHTML='';
+  const typeBadge=user.type==='google'?'<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:var(--bg3);border:1px solid var(--b2);color:var(--t2);margin-left:6px">G</span>':user.type==='login'?'<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:var(--gxx);border:1px solid var(--gm);color:var(--g);margin-left:6px">●</span>':'';
+  pb.innerHTML+=`<div class="phead">
+    <div class="pava">👤</div>
+    <div class="pname">${user.name}${typeBadge}</div>
+    <div class="psub">${user.type==='login'?'@'+user.login:user.type==='google'?'Google-аккаунт':'Гость — войдите для синхронизации'}</div>
+  </div>
+  <div class="sgrid">
+    <div class="ps"><div class="psn">${xp}</div><div class="psl">XP</div></div>
+    <div class="ps"><div class="psn">${streak}</div><div class="psl">🔥 Серия</div></div>
+    <div class="ps"><div class="psn">${lessons}</div><div class="psl">Уроков</div></div>
+  </div>`;
+
+  // progress
+  pb.innerHTML+=`<div class="recsec"><div class="rec-lbl">Прогресс</div>
+    <div class="lpi"><div class="lpr"><span>🇬🇧 Английский</span><span>${Math.min(100,Math.round(lessons/25*100))}%</span></div><div class="lpb"><div class="lpf" style="width:${Math.min(100,Math.round(lessons/25*100))}%"></div></div></div>
+    <div class="lpi"><div class="lpr"><span>🇸🇦 Арабский</span><span>4%</span></div><div class="lpb"><div class="lpf" style="width:4%"></div></div></div>
+  </div>`;
+
+  // error analysis
+  if(worst.length>0){
+    let h=`<div class="recsec"><div class="rec-lbl">Анализ ошибок</div><div class="rec-card">
+      <div style="font-size:11px;color:var(--t2);margin-bottom:10px">По ${Object.values(errors).reduce((a,b)=>a+b.t,0)} ответам:</div>`;
+    worst.slice(0,5).forEach(w=>{
+      const nm=LNAMES[w.id]||w.id;const hot=w.pct>50;
+      h+=`<div class="err-lbl"><span style="color:var(--t1)">${hot?'🔴 ':''} ${nm}</span><span style="color:var(--t2)">${w.pct}%</span></div>
+      <div class="err-bar"><div class="err-fill${hot?' hot':''}" style="width:${w.pct}%"></div></div>`;
+    });
+    h+='</div></div>';pb.innerHTML+=h;
+  }
+
+  // recs
+  let rh=`<div class="recsec"><div class="rec-lbl">Рекомендации</div>`;
+  if(worst.length===0){
+    rh+=`<div class="rec-card"><div class="rec-head"><div class="rec-ico">🎯</div><div><div class="rec-title">Начните первый урок!</div><div class="rec-sub">Пройдите урок — получите персональный анализ</div></div></div></div>`;
+    rh+=`<div class="rec-card"><div class="rec-head"><div class="rec-ico">📚</div><div><div class="rec-title">Оптимальный путь A1</div><div class="rec-sub">Приветствия → Числа → Цвета → Семья</div></div></div></div>`;
+  } else {
+    worst.slice(0,3).forEach(w=>{
+      const nm=LNAMES[w.id]||w.id;
+      const lang=w.id.includes('_ar')||w.id.startsWith('alphabet')||w.id.startsWith('words')?'ar':'en';
+      rh+=`<div class="rec-card">
+        <div class="rec-head"><div class="rec-ico">⚠️</div><div><div class="rec-title">Проблема: ${nm}</div><div class="rec-sub">${w.pct}% ошибок — ${w.w} из ${w.t}</div></div></div>
+        <button class="rep-btn" onclick="startLesson('${lang}','${w.id}')">↻ Повторить урок →</button>
+      </div>`;
+    });
+    if(worst.every(w=>w.pct<30)){
+      rh+=`<div class="rec-card"><div class="rec-head"><div class="rec-ico">🚀</div><div><div class="rec-title">Отличные результаты!</div><div class="rec-sub">Переходите к следующему блоку</div></div></div></div>`;
+    }
+  }
+  rh+='</div>';pb.innerHTML+=rh;
+
+  // youtube
+  const ytTopic=worst.length>0?worst[0].id:'greetings';
+  const vids=getYT(ytTopic);
+  const tnm=LNAMES[ytTopic]||ytTopic;
+  let yh=`<div class="recsec"><div class="rec-lbl">▶ YouTube — разбор тем</div>`;
+  yh+=`<div class="yt-hot">🔴 По теме: ${tnm}${worst.length>0&&worst[0].pct>40?` (${worst[0].pct}% ошибок)`:''}</div>`;
+  vids.forEach(v=>{
+    const url=`https://www.youtube.com/results?search_query=${encodeURIComponent(v.q)}`;
+    yh+=`<div class="yt-card" onclick="window.open('${url}','_blank')">
+      <div class="yt-thumb"><div class="yt-bg">▶</div><div class="yt-play">▶</div><div class="yt-badge">YT</div></div>
+      <div class="yt-info"><div class="yt-title">${v.t}</div><div class="yt-meta">${v.ch} · ${v.d}</div></div>
+    </div>`;
+  });
+  const gu=`https://www.youtube.com/results?search_query=${encodeURIComponent(tnm+' английский урок')}`;
+  yh+=`<button style="width:100%;padding:11px;border-radius:var(--r2);border:1px solid var(--b3);background:var(--bg2);color:var(--t1);font-size:12px;cursor:pointer" onclick="window.open('${gu}','_blank')">Ещё видео на YouTube →</button>`;
+  yh+='</div>';pb.innerHTML+=yh;
+
+  // achievements
+  pb.innerHTML+=`<div class="recsec"><div class="rec-lbl">Достижения</div>
+    <div class="ach-item"><div class="ach-ico">🏁</div><div class="ach-inf"><h4>Первый урок</h4><p>Начало пути</p></div></div>
+    <div class="ach-item"><div class="ach-ico">🔥</div><div class="ach-inf"><h4>Серия 3 дня</h4><p>Регулярность</p></div></div>
+    <div class="ach-item" style="opacity:.3"><div class="ach-ico">💯</div><div class="ach-inf"><h4>Перфекционист</h4><p>Урок без ошибок</p></div></div>
+    <div class="ach-item" style="opacity:.3"><div class="ach-ico">🌍</div><div class="ach-inf"><h4>Полиглот</h4><p>A2 в обоих языках</p></div></div>
+    <div class="ach-item" style="opacity:.3"><div class="ach-ico">🏆</div><div class="ach-inf"><h4>Тир S</h4><p>Попасть в топ-3</p></div></div>
+  </div><div style="height:16px"></div>`;
+}
+</script>
+</body>
+</html>
