@@ -1,0 +1,11 @@
+{
+  "appId": "com.linguastart.app",
+  "appName": "LinguaStart",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false
+  }
+}
