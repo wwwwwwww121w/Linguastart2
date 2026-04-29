@@ -4,7 +4,8 @@
   "description": "LinguaStart — Учим английский и арабский",
   "private": true,
   "scripts": {
-    "build:apk": "npx cap sync android && cd android && ./gradlew assembleDebug"
+    "prebuild:apk": "cp LinguaStart_v3.html www/index.html",
+    "build:apk": "npx cap sync android && node -e \"const fs=require('fs');const p='android/app/src/main/assets/public/index.html';const id=process.env.GOOGLE_OAUTH_CLIENT_ID||'';if(!id){console.error('Set GOOGLE_OAUTH_CLIENT_ID env var to enable Google Sign-In');}else{fs.writeFileSync(p,fs.readFileSync(p,'utf8').replace('__GOOGLE_CLIENT_ID__',id));console.log('Injected Google Client ID');}\" && cd android && ./gradlew assembleDebug"
   },
   "dependencies": {
     "@capacitor/android": "^6.1.2",

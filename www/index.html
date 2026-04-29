@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#030a03">
 <title>LinguaStart</title>
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif}
@@ -1326,10 +1328,68 @@ function doReg(){
   err.style.color='var(--g)';err.textContent='Аккаунт создан! Входим...';
   setTimeout(()=>{user={name:nm,type:'login',login:lg};afterAuth();},800);
 }
-function loginGoogle(){
-  const names=['Александр','Мария','Дмитрий','Ольга','Иван'];
-  user={name:names[Math.floor(Math.random()*names.length)],type:'google'};
+// ===== GOOGLE SIGN-IN (REAL via Google Identity Services) =====
+const GOOGLE_CLIENT_ID='__GOOGLE_CLIENT_ID__';
+let _gisReady=false;
+function _decodeJwt(token){
+  try{
+    const p=token.split('.')[1];
+    const json=atob(p.replace(/-/g,'+').replace(/_/g,'/'));
+    return JSON.parse(decodeURIComponent(escape(json)));
+  }catch(e){return null;}
+}
+function _onGoogleCredential(resp){
+  const data=_decodeJwt(resp.credential);
+  if(!data){toast('Не удалось обработать вход Google');return;}
+  user={
+    name:data.name||(data.given_name||'')+' '+(data.family_name||'').trim()||data.email||'Google User',
+    type:'google',
+    email:data.email,
+    picture:data.picture,
+    sub:data.sub
+  };
+  // Save to local DB so user can log in again as 'login' next time
+  if(data.email){DB[data.email]={name:user.name,pw:btoa(data.sub||'g_'+data.email),google:true};saveDB();user.login=data.email;}
   afterAuth();
+}
+function _ensureGis(cb){
+  if(_gisReady)return cb();
+  if(!GOOGLE_CLIENT_ID||GOOGLE_CLIENT_ID.indexOf('__')===0){
+    toast('Google вход не настроен (нет Client ID)');
+    return;
+  }
+  if(typeof google==='undefined'||!google.accounts||!google.accounts.id){
+    setTimeout(()=>_ensureGis(cb),200);return;
+  }
+  google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:_onGoogleCredential,ux_mode:'popup',auto_select:false});
+  _gisReady=true;cb();
+}
+function loginGoogle(){
+  if(!GOOGLE_CLIENT_ID||GOOGLE_CLIENT_ID.indexOf('__')===0){
+    toast('Google вход не настроен');return;
+  }
+  _ensureGis(()=>{
+    // Try One Tap prompt; if it doesn't show, render a button overlay
+    google.accounts.id.prompt((notif)=>{
+      if(notif.isNotDisplayed()||notif.isSkippedMoment()){
+        _showGoogleButtonModal();
+      }
+    });
+  });
+}
+function _showGoogleButtonModal(){
+  let m=document.getElementById('g-modal');
+  if(m){m.style.display='flex';return;}
+  m=document.createElement('div');m.id='g-modal';
+  m.style.cssText='position:fixed;inset:0;background:rgba(3,10,3,.85);display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(8px);animation:fi .25s ease';
+  m.innerHTML=`<div style="background:var(--bg1);border:1px solid var(--b3);border-radius:16px;padding:24px;max-width:340px;width:90%;text-align:center;box-shadow:0 0 30px var(--gxx)">
+    <div style="font-size:18px;color:var(--g);margin-bottom:6px;text-shadow:0 0 8px var(--g)">Вход через Google</div>
+    <div style="font-size:12px;color:var(--t2);margin-bottom:18px">Подтвердите через ваш Google аккаунт</div>
+    <div id="g-btn-host" style="display:flex;justify-content:center;margin-bottom:16px"></div>
+    <button onclick="document.getElementById('g-modal').style.display='none'" style="background:transparent;color:var(--t2);border:1px solid var(--b2);padding:8px 16px;border-radius:10px;cursor:pointer;font-size:12px">Отмена</button>
+  </div>`;
+  document.body.appendChild(m);
+  google.accounts.id.renderButton(document.getElementById('g-btn-host'),{theme:'filled_black',size:'large',text:'continue_with',shape:'pill',width:260});
 }
 function loginSkip(){user={name:'Гость',type:'guest'};afterAuth();}
 function afterAuth(){
@@ -1430,8 +1490,6 @@ function renderQ(){
     b.onclick=()=>pick(i);ow.appendChild(b);
   });
   sel=null;done=false;
-  // auto-speak
-  setTimeout(()=>doSpeak(q.w,isAr?'ar':'en'),300);
 }
 function doSpeak(word,lang){
   const sw=document.getElementById('sw');
