@@ -177,6 +177,16 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
 .recsec{padding:0 18px 12px}
 .rec-lbl{font-size:10px;color:var(--g);letter-spacing:1px;text-transform:uppercase;font-weight:500;padding:12px 0 8px;text-shadow:0 0 6px var(--g)}
 .rec-card{background:var(--bg1);border:1px solid var(--b2);border-radius:var(--r);padding:13px;margin-bottom:7px}
+.vpick .vrow{margin-bottom:10px}
+.vpick .vrow:last-of-type{margin-bottom:0}
+.vrow-h{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--t1);margin-bottom:6px;font-weight:500}
+.vplay{background:var(--gxx);border:1px solid var(--gm);color:var(--g);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.vplay:hover{background:var(--gx);transform:scale(1.08);box-shadow:0 0 10px var(--gx)}
+.vopts{display:flex;flex-wrap:wrap;gap:6px}
+.vopt{flex:1;min-width:80px;padding:8px 10px;border-radius:10px;background:var(--bg2);border:1px solid var(--b2);color:var(--t1);font-size:11px;cursor:pointer;transition:all .18s ease;text-align:center}
+.vopt:hover{border-color:var(--gm);color:var(--t0);transform:translateY(-1px)}
+.vopt.on{background:var(--gxx);border-color:var(--g);color:var(--g);text-shadow:0 0 6px var(--g);box-shadow:0 0 8px var(--gxx)}
+.vopt:active{transform:scale(.98)}
 .rec-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .rec-ico{width:34px;height:34px;background:var(--bg3);border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
 .rec-title{font-size:12px;font-weight:500;color:var(--t0)}
@@ -565,63 +575,104 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
 
 </div>
 <script>
-// ====== SPEECH (lively) ======
-let _voicesReady=false,_voiceCache={en:null,ar:null};
-function _pickVoice(lang){
+// ====== SPEECH (offline bundled audio + Web Speech fallback) ======
+let _audioManifest=null,_audioReady=false,_curAudio=null;
+const VOICE_PREFS_KEY='ls_voice_prefs';
+let voicePrefs={en:'en_us',ar:'ar_std'};
+try{const r=localStorage.getItem(VOICE_PREFS_KEY);if(r){Object.assign(voicePrefs,JSON.parse(r));}}catch(e){}
+function setVoicePref(lang,id){voicePrefs[lang]=id;try{localStorage.setItem(VOICE_PREFS_KEY,JSON.stringify(voicePrefs));}catch(e){}}
+async function _loadManifest(){
+  if(_audioManifest!==null)return _audioManifest;
+  try{
+    const r=await fetch('audio/manifest.json',{cache:'force-cache'});
+    if(!r.ok)throw new Error('manifest http '+r.status);
+    _audioManifest=await r.json();_audioReady=true;
+  }catch(e){_audioManifest=false;}
+  return _audioManifest;
+}
+_loadManifest();
+function _pickWebSpeechVoice(lang){
   if(!window.speechSynthesis)return null;
-  if(_voiceCache[lang])return _voiceCache[lang];
   const all=window.speechSynthesis.getVoices();
   if(!all||!all.length)return null;
   const target=lang==='ar'?'ar':'en';
   const same=all.filter(v=>(v.lang||'').toLowerCase().startsWith(target));
   if(!same.length)return null;
-  // Score: prefer Natural/Neural/Online; prefer female; prefer specific locales
   const score=v=>{
-    const n=(v.name||'').toLowerCase(),L=(v.lang||'').toLowerCase();
-    let s=0;
+    const n=(v.name||'').toLowerCase();let s=0;
     if(/natural|neural|enhanced|online|premium|wavenet/.test(n))s+=80;
     if(/google/.test(n))s+=40;
     if(/microsoft/.test(n))s+=30;
-    if(/aria|jenny|emma|libby|sonia|ava|female|samantha|salma|hala|amina|zariyah/.test(n))s+=20;
-    if(target==='en'&&/en-us|en-gb/.test(L))s+=10;
-    if(target==='ar'&&/ar-sa|ar-eg/.test(L))s+=10;
     if(v.localService===false)s+=5;
     return s;
   };
   same.sort((a,b)=>score(b)-score(a));
-  _voiceCache[lang]=same[0];
   return same[0];
 }
-if(window.speechSynthesis){
-  window.speechSynthesis.onvoiceschanged=()=>{_voicesReady=true;_voiceCache={en:null,ar:null};};
-  // kick voice list load on some browsers
-  setTimeout(()=>window.speechSynthesis.getVoices(),50);
+function _webSpeechSpeak(text,lang){
+  if(!window.speechSynthesis)return false;
+  try{
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang=lang==='ar'?'ar-SA':'en-US';
+    const v=_pickWebSpeechVoice(lang);if(v)u.voice=v;
+    u.rate=lang==='ar'?0.82:0.95;u.pitch=1.05;u.volume=1;
+    window.speechSynthesis.speak(u);
+    return true;
+  }catch(e){return false;}
 }
-function speak(text, lang){
-  if(!window.speechSynthesis||!text) return;
-  window.speechSynthesis.cancel();
-  const isAr=lang==='ar';
-  // Split into chunks on punctuation for natural pauses
-  const chunks=String(text).split(/([،,.!؟?\n])/).reduce((a,c)=>{
-    if(!c)return a;
-    if(/[،,.!؟?\n]/.test(c)&&a.length){a[a.length-1]+=c;}
-    else a.push(c);
-    return a;
-  },[]).map(s=>s.trim()).filter(Boolean);
-  const v=_pickVoice(isAr?'ar':'en');
-  chunks.forEach((chunk,i)=>{
-    const u=new SpeechSynthesisUtterance(chunk);
-    u.lang=isAr?'ar-SA':'en-US';
-    if(v)u.voice=v;
-    // Lively variation per chunk
-    const base=isAr?0.78:0.92;
-    const jitter=(Math.random()*0.12)-0.06;
-    u.rate=Math.max(0.6,Math.min(1.15,base+jitter));
-    u.pitch=Math.max(0.85,Math.min(1.25,1.05+(Math.random()*0.18-0.09)));
-    u.volume=1;
-    if(i>0)setTimeout(()=>window.speechSynthesis.speak(u),i*60);
-    else window.speechSynthesis.speak(u);
-  });
+function _stopAudio(){
+  if(_curAudio){try{_curAudio.pause();_curAudio.src='';}catch(e){}_curAudio=null;}
+  if(window.speechSynthesis){try{window.speechSynthesis.cancel();}catch(e){}}
+}
+function renderVoicePicker(){
+  const m=_audioManifest;
+  if(!m||!m.voices){
+    return `<div class="recsec"><div class="rec-lbl">Голос озвучки</div><div class="rec-card"><div style="font-size:11px;color:var(--t2)">Загрузка...</div></div></div>`;
+  }
+  function row(lang,emoji,title){
+    const ids=(m.lang_voices&&m.lang_voices[lang])||[];
+    const cur=voicePrefs[lang];
+    const opts=ids.map(id=>{
+      const lbl=(m.voices[id]||id).replace(/—.*$/,'').trim();
+      const sel=id===cur?' on':'';
+      return `<button class="vopt${sel}" onclick="pickVoice('${lang}','${id}')">${lbl}</button>`;
+    }).join('');
+    const sample=lang==='en'?'Hello':'مرحبا';
+    return `<div class="vrow"><div class="vrow-h"><span>${emoji} ${title}</span><button class="vplay" onclick="speak('${sample}','${lang}')" title="Прослушать">🔊</button></div><div class="vopts">${opts}</div></div>`;
+  }
+  return `<div class="recsec"><div class="rec-lbl">Голос озвучки</div><div class="rec-card vpick">${row('en','🇬🇧','Английский')}${row('ar','🇸🇦','Арабский')}<div style="font-size:10px;color:var(--t2);margin-top:8px">Аудио зашито в приложение — работает без интернета</div></div></div>`;
+}
+function pickVoice(lang,id){
+  setVoicePref(lang,id);
+  // re-render the picker section
+  if(document.getElementById('s-profile').classList.contains('active'))renderProfile();
+  // play sample
+  const sample=lang==='en'?'Hello':'مرحبا';
+  setTimeout(()=>speak(sample,lang),120);
+}
+async function speak(text,lang){
+  if(!text)return;
+  _stopAudio();
+  const m=await _loadManifest();
+  const norm=String(text).trim();
+  if(m&&m.words&&m.words[lang]){
+    const voiceId=voicePrefs[lang]||(m.lang_voices&&m.lang_voices[lang]&&m.lang_voices[lang][0]);
+    const entry=m.words[lang][norm];
+    if(entry&&voiceId&&entry[voiceId]){
+      const url=`audio/${voiceId}/${entry[voiceId]}.mp3`;
+      try{
+        const a=new Audio(url);_curAudio=a;
+        a.preload='auto';a.volume=1;
+        a.play().catch(()=>{
+          // Autoplay blocked or file missing — fallback
+          _webSpeechSpeak(text,lang);
+        });
+        return;
+      }catch(e){}
+    }
+  }
+  _webSpeechSpeak(text,lang);
 }
 
 // ====== DATA ======
@@ -1713,6 +1764,9 @@ function renderProfile(){
     <div class="lpi"><div class="lpr"><span>🇬🇧 Английский</span><span>${enPct}% · ${enLessons}/${TOTAL_EN}</span></div><div class="lpb"><div class="lpf" style="width:${enPct}%"></div></div></div>
     <div class="lpi"><div class="lpr"><span>🇸🇦 Арабский</span><span>${arPct}% · ${arLessons}/${TOTAL_AR}</span></div><div class="lpb"><div class="lpf" style="width:${arPct}%"></div></div></div>
   </div>`;
+
+  // voice picker
+  pb.innerHTML+=renderVoicePicker();
 
   // error analysis
   if(worst.length>0){
