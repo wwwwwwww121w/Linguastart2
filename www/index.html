@@ -141,6 +141,8 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
 .csl{font-size:10px;color:var(--t2);margin-top:2px}
 .hbtn{margin:0 18px 8px;padding:14px;border-radius:var(--r);border:1px solid var(--b3);background:var(--bg2);color:var(--t0);font-size:13px;cursor:pointer;width:calc(100% - 36px);transition:all .15s}
 .hbtn.green{border-color:var(--gm);background:var(--gxx);color:var(--g);text-shadow:0 0 6px var(--g)}
+.hbtn.ghost{background:transparent;color:var(--t2);border-color:var(--b2);font-size:12px}
+.hbtn.ghost:hover{color:var(--t1);border-color:var(--b3)}
 
 /* ===== TIERLIST ===== */
 .tl-tabs{display:flex;gap:1px;background:var(--bg2);border-radius:var(--r2);padding:3px;border:1px solid var(--b2)}
@@ -1666,6 +1668,18 @@ function spawnConfetti(host){
   }
   setTimeout(()=>wrap.remove(),2200);
 }
+function nextLessonAfter(lang,id){
+  const units=lang==='en'?EN_UNITS:AR_UNITS;
+  const flat=units.flatMap(u=>u.ls);
+  const i=flat.findIndex(l=>l.id===id);
+  if(i<0||i>=flat.length-1)return null;
+  // First non-done lesson after current
+  for(let j=i+1;j<flat.length;j++){
+    if(!doneLessons[lang].has(flat[j].id))return flat[j];
+  }
+  // All next ones already done — just go to the next existing one
+  return flat[i+1];
+}
 function showComplete(){
   document.getElementById('qpf').style.width='100%';
   const xpGain=Math.max(5,10-(3-hearts)*2);
@@ -1676,6 +1690,11 @@ function showComplete(){
   const corr=quiz.length-(3-hearts);
   const perfect=hearts===3;
   const qbody=document.getElementById('qbody');
+  const nxt=nextLessonAfter(curLang,curTopic);
+  const langTag=curLang==='en'?'🇬🇧':'🇸🇦';
+  const nextBtn=nxt
+    ?`<button class="hbtn green" style="margin-bottom:8px" onclick="startLesson('${curLang}','${nxt.id}')">${nxt.ic} Следующий: ${nxt.n} →</button>`
+    :`<div style="text-align:center;font-size:11px;color:var(--g);margin-bottom:10px;text-shadow:0 0 6px var(--g)">${langTag} Все уроки этого языка пройдены! 🏆</div>`;
   qbody.innerHTML=`
     <div class="cbody">
       <div class="cico">${perfect?'🏆':'🎉'}</div>
@@ -1687,8 +1706,9 @@ function showComplete(){
         <div class="cst"><div class="csn">${xp}</div><div class="csl">XP</div></div>
       </div>
     </div>
-    <button class="hbtn green" style="margin-bottom:8px" onclick="navTo('profile')">📊 Мои рекомендации</button>
-    <button class="hbtn" onclick="navTo('home')">На главную</button>
+    ${nextBtn}
+    <button class="hbtn" style="margin-bottom:8px" onclick="navTo('home')">🏠 На главную</button>
+    <button class="hbtn ghost" onclick="navTo('profile')">📊 Мои рекомендации</button>
   `;
   spawnConfetti(qbody);
   if(navigator.vibrate)navigator.vibrate([30,40,30]);
