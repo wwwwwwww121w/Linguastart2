@@ -1,10 +1,12 @@
 name = "linguastart-auth"
 main = "worker.js"
 compatibility_date = "2024-09-01"
+account_id = "167149c7cd2a62c9491d81683e59e445"
+workers_dev = true
 
 [[kv_namespaces]]
 binding = "SESSIONS"
-# id = "..."  # filled in by `wrangler kv namespace create SESSIONS`
+id = "73b10beafe9d4033b31034dec47bcb14"
 
 # Set secrets via:
 #   wrangler secret put RESEND_API_KEY
