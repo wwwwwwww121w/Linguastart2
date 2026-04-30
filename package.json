@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "prebuild:apk": "cp LinguaStart_v3.html www/index.html",
-    "build:apk": "npx cap sync android && node -e \"const fs=require('fs');const p='android/app/src/main/assets/public/index.html';const id=process.env.GOOGLE_OAUTH_CLIENT_ID||'';if(!id){console.error('Set GOOGLE_OAUTH_CLIENT_ID env var to enable Google Sign-In');}else{fs.writeFileSync(p,fs.readFileSync(p,'utf8').replace('__GOOGLE_CLIENT_ID__',id));console.log('Injected Google Client ID');}\" && cd android && ./gradlew assembleDebug"
+    "build:apk": "npx cap sync android && node -e \"const fs=require('fs');const p='android/app/src/main/assets/public/index.html';let s=fs.readFileSync(p,'utf8');const gid=process.env.GOOGLE_OAUTH_CLIENT_ID||'';if(gid){s=s.replace('__GOOGLE_CLIENT_ID__',gid);console.log('Injected Google Client ID');}else{console.error('Set GOOGLE_OAUTH_CLIENT_ID env var to enable Google Sign-In');}const fk=process.env.FIREWORKS_API_KEY||'';if(fk){s=s.replace('__FIREWORKS_API_KEY__',fk);console.log('Injected Fireworks API Key');}else{console.error('Set FIREWORKS_API_KEY env var to enable AI tutor');}fs.writeFileSync(p,s);\" && cd android && ./gradlew assembleDebug"
   },
   "dependencies": {
     "@capacitor/android": "^6.1.2",
