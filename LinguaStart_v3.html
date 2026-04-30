@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#030a03">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://www.gstatic.com https://www.youtube-nocookie.com https://www.youtube.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https: http://i.ytimg.com; media-src 'self' blob: data:; connect-src 'self' https://api.fireworks.ai https://*.fireworks.ai https://*.workers.dev https://accounts.google.com https://oauth2.googleapis.com https://i.ytimg.com; frame-src https://www.youtube-nocookie.com https://www.youtube.com https://accounts.google.com; object-src 'none'; base-uri 'self'; form-action 'none'">
 <title>LinguaStart</title>
 <!-- Google Identity Services -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -973,11 +974,30 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
 
 </div>
 <script>
+// ====== SAFE PARSE / SAFE ASSIGN (prototype pollution guard) ======
+// JSON.parse + Object.assign of the result lets attacker-controlled localStorage
+// pollute Object.prototype via "__proto__" / "constructor" / "prototype" keys.
+// safeParse returns null for non-plain-object results; safeAssign filters
+// dangerous keys before copying. All loaders below go through these.
+function safeParse(s){
+  try{const v=JSON.parse(s); if(v&&typeof v==='object'&&!Array.isArray(v))return v; return null;}
+  catch(e){return null;}
+}
+function safeAssign(target, source){
+  if(!source||typeof source!=='object')return target;
+  for(const k of Object.keys(source)){
+    if(k==='__proto__'||k==='constructor'||k==='prototype')continue;
+    target[k]=source[k];
+  }
+  return target;
+}
+function safeParseArray(s){try{const v=JSON.parse(s);return Array.isArray(v)?v:null;}catch(e){return null;}}
+
 // ====== SPEECH (offline bundled audio + Web Speech fallback) ======
 let _audioManifest=null,_audioReady=false,_curAudio=null;
 const VOICE_PREFS_KEY='ls_voice_prefs';
 let voicePrefs={en:'en_us',ar:'ar_std'};
-try{const r=localStorage.getItem(VOICE_PREFS_KEY);if(r){Object.assign(voicePrefs,JSON.parse(r));}}catch(e){}
+{const o=safeParse(localStorage.getItem(VOICE_PREFS_KEY));if(o)safeAssign(voicePrefs,o);}
 function setVoicePref(lang,id){voicePrefs[lang]=id;try{localStorage.setItem(VOICE_PREFS_KEY,JSON.stringify(voicePrefs));}catch(e){}}
 async function _loadManifest(){
   if(_audioManifest!==null)return _audioManifest;
@@ -2275,7 +2295,7 @@ function _newAnonUser(){
   const nm=ANON_NAMES[Math.floor(Math.random()*ANON_NAMES.length)]+' #'+num;
   return {id,name:nm,type:'anon'};
 }
-function loadUser(){try{const r=localStorage.getItem(USER_KEY);if(r)return JSON.parse(r);}catch(e){}return null;}
+function loadUser(){return safeParse(localStorage.getItem(USER_KEY));}
 function saveUser(){try{localStorage.setItem(USER_KEY,JSON.stringify(user));}catch(e){}}
 let user=loadUser()||_newAnonUser();
 let xp=45,streak=3,lessons=3,tlIdx=0;
@@ -2287,7 +2307,7 @@ const TOTAL_AR=AR_UNITS.reduce((s,u)=>s+u.ls.length,0);
 // ===== LEAGUE STATE =====
 const LG_KEY='ls_league_v1';
 function _weekStart(){const d=new Date();const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);d.setHours(0,0,0,0);return d.toISOString().slice(0,10);}
-function _loadLeague(){try{const r=localStorage.getItem(LG_KEY);if(r)return JSON.parse(r);}catch(e){}
+function _loadLeague(){const r=safeParse(localStorage.getItem(LG_KEY));if(r)return r;
   return {tier:0,weekXp:0,weekStart:_weekStart(),cohortSeed:Math.floor(Math.random()*10000),last:null};
 }
 let league=_loadLeague();
@@ -2323,7 +2343,7 @@ function _rollMissions(){
   if(a)picks.push(a);if(b)picks.push(b);if(c)picks.push(c);
   return picks.map(m=>({id:m.id,progress:0}));
 }
-function _loadMissions(){try{const r=localStorage.getItem(MS_KEY);if(r)return JSON.parse(r);}catch(e){}
+function _loadMissions(){const r=safeParse(localStorage.getItem(MS_KEY));if(r)return r;
   return {date:_today(),tasks:_rollMissions(),claimed:false};
 }
 let missions=_loadMissions();
@@ -2354,16 +2374,16 @@ function claimMissions(){
 
 // ===== VOICE CHAT / PRON STATE =====
 const VOICE_KEY='ls_voice_v1';
-let voiceState=(()=>{try{const r=localStorage.getItem(VOICE_KEY);if(r)return JSON.parse(r);}catch(e){}return {history:[],pronScore:{}};})();
+let voiceState=(()=>{const r=safeParse(localStorage.getItem(VOICE_KEY));return r||{history:[],pronScore:{}};})();
 function saveVoice(){try{localStorage.setItem(VOICE_KEY,JSON.stringify(voiceState));}catch(e){}}
 
 // ===== LESSON PROGRESSION =====
 let doneLessons={en:new Set(['greetings','numbers']),ar:new Set()};
 (function loadProgress(){
-  try{
-    const r=localStorage.getItem('ls_progress');
-    if(r){const o=JSON.parse(r);if(o.en)doneLessons.en=new Set(o.en);if(o.ar)doneLessons.ar=new Set(o.ar);}
-  }catch(e){}
+  const o=safeParse(localStorage.getItem('ls_progress'));
+  if(!o)return;
+  if(Array.isArray(o.en))doneLessons.en=new Set(o.en.filter(s=>typeof s==='string'));
+  if(Array.isArray(o.ar))doneLessons.ar=new Set(o.ar.filter(s=>typeof s==='string'));
 })();
 function saveProgress(){
   try{localStorage.setItem('ls_progress',JSON.stringify({en:[...doneLessons.en],ar:[...doneLessons.ar]}));}catch(e){}
@@ -2381,7 +2401,7 @@ function get_arLessons(){return doneLessons.ar.size;}
 // ===== ONBOARDING / USER PREFERENCES =====
 const PREFS_KEY='ls_prefs_v1';
 let prefs={done:false,goal:null,minutes:null,reminderHour:19,reminderOn:false,primary:null,level:null,quizScore:0};
-(function loadPrefs(){try{const r=localStorage.getItem(PREFS_KEY);if(r)Object.assign(prefs,JSON.parse(r));}catch(e){}})();
+(function loadPrefs(){const o=safeParse(localStorage.getItem(PREFS_KEY));if(o)safeAssign(prefs,o);})();
 function savePrefs(){try{localStorage.setItem(PREFS_KEY,JSON.stringify(prefs));}catch(e){}}
 
 const ONB_GOALS=[
@@ -2529,7 +2549,7 @@ function onbNext(){
 // ===== SRS (Spaced Repetition) =====
 const SRS_KEY='ls_srs_v1';
 let srs=[];
-(function loadSrs(){try{const r=localStorage.getItem(SRS_KEY);if(r)srs=JSON.parse(r);}catch(e){srs=[];}})();
+(function loadSrs(){const v=safeParseArray(localStorage.getItem(SRS_KEY));srs=v||[];})();
 function saveSrs(){try{localStorage.setItem(SRS_KEY,JSON.stringify(srs));}catch(e){}}
 function srsAdd(lang,topic,wordIdx,word){
   // SM-2 lite — start with low interval and ef=2.5
@@ -2584,19 +2604,22 @@ function startReview(){
   show('lesson');renderQ();
 }
 
-// ===== AI TUTOR (Fireworks) =====
+// ===== AI TUTOR (Fireworks via Worker proxy) =====
+// We deliberately do NOT ship the Fireworks API key in the APK any more —
+// requests go through the Cloudflare Worker (AUTH_BACKEND_URL + /ai/*) which
+// holds the key server-side. FIREWORKS_API_KEY remains as a fallback for
+// desktop/dev builds that explicitly inject a key (never in shipping APKs).
 const FIREWORKS_API_KEY='__FIREWORKS_API_KEY__';
-const AI_PROXY_URL=''; // set to enable serverless proxy instead of direct key
 const AI_MODEL='accounts/fireworks/models/llama-v3p3-70b-instruct';
 const AI_FREE_DAILY=10;
 const AI_KEY='ls_ai_v3';
 let aiState={msgs:[],date:'',used:0};
-(function loadAi(){try{const r=localStorage.getItem(AI_KEY);if(r)Object.assign(aiState,JSON.parse(r));}catch(e){}
+(function loadAi(){const o=safeParse(localStorage.getItem(AI_KEY));if(o)safeAssign(aiState,o);
   const today=new Date().toISOString().slice(0,10);
   if(aiState.date!==today){aiState.date=today;aiState.used=0;}
 })();
 function saveAi(){try{localStorage.setItem(AI_KEY,JSON.stringify(aiState));}catch(e){}}
-function aiHasKey(){return AI_PROXY_URL || (FIREWORKS_API_KEY && FIREWORKS_API_KEY.indexOf('__')!==0);}
+function aiHasKey(){return aiProxyAvailable() || (FIREWORKS_API_KEY && FIREWORKS_API_KEY.indexOf('__')!==0);}
 function renderAiCard(){
   const host=document.getElementById('ai-host');if(!host)return;
   if(!aiHasKey()){host.innerHTML='';return;}
@@ -2645,7 +2668,11 @@ function aiSuggestions(){
   }
   return ['Hello! How are you?','Tell me a joke','Help me order food','Quiz me on colors'];
 }
-function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+// YouTube video IDs are exactly 11 chars from [A-Za-z0-9_-]. Reject anything else
+// before embedding into iframe src to prevent URL/XSS injection if the SHORTS data
+// is ever tampered with (e.g. via localStorage or a future remote-config feature).
+function isYTId(id){return typeof id==='string' && /^[A-Za-z0-9_-]{11}$/.test(id);}
 function renderAi(){
   if(!aiHasKey()){
     document.getElementById('ai-chat').innerHTML=`<div class="ai-paywall"><h3>🤖 AI Тьютор отключен</h3><p>API ключ Fireworks не задан в этой сборке.</p></div>`;
@@ -2708,9 +2735,10 @@ async function aiCall(msgs){
     messages:[{role:'system',content:aiSysPrompt()},
       ...msgs.filter(m=>m.r==='u'||m.r==='a').map(m=>({role:m.r==='u'?'user':'assistant',content:m.c}))]
   };
-  const url=AI_PROXY_URL||'https://api.fireworks.ai/inference/v1/chat/completions';
+  const proxy=aiBackendBase();
+  const url=proxy?proxy+'/ai/chat':'https://api.fireworks.ai/inference/v1/chat/completions';
   const headers={'Content-Type':'application/json','Accept':'application/json'};
-  if(!AI_PROXY_URL)headers['Authorization']='Bearer '+FIREWORKS_API_KEY;
+  if(!proxy)headers['Authorization']='Bearer '+FIREWORKS_API_KEY;
   const r=await fetch(url,{method:'POST',headers,body:JSON.stringify(body)});
   if(!r.ok){
     let txt='';try{txt=await r.text();}catch(e){}
@@ -2755,7 +2783,7 @@ async function toggleReminder(on){
   else{try{await window.Capacitor.Plugins.LocalNotifications.cancel({notifications:[{id:777}]});}catch(e){}}
 }
 // fake local DB
-let DB={};try{DB=JSON.parse(localStorage.getItem('ls_db')||'{}')}catch(e){}
+let DB=safeParse(localStorage.getItem('ls_db'))||{};
 function saveDB(){try{localStorage.setItem('ls_db',JSON.stringify(DB))}catch(e){}}
 
 // ===== AUTH TABS =====
@@ -2823,6 +2851,9 @@ const TELEGRAM_BOT_USERNAME='__TELEGRAM_BOT_USERNAME__';
 const TELEGRAM_BOT_ID='__TELEGRAM_BOT_ID__';
 const AUTH_BACKEND_URL='__AUTH_BACKEND_URL__';
 function _isPlaceholder(s){return !s||s.indexOf('__')===0;}
+// AI proxy lives on the auth backend (Cloudflare Worker)
+function aiBackendBase(){return _isPlaceholder(AUTH_BACKEND_URL)?'':AUTH_BACKEND_URL.replace(/\/$/,'');}
+function aiProxyAvailable(){return !!aiBackendBase();}
 function _isNative(){return !!(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform());}
 async function _initNativeGoogle(){
   if(!_isNative())return false;
@@ -3196,7 +3227,7 @@ function renderLeague(){
     return `<div class="tl-row" style="${zcss};${me}">
       <div class="tl-pos">${i+1}</div>
       <div class="tl-av">${c.av}</div>
-      <div class="tl-info"><h4>${c.me?'⭐ Вы':c.n}</h4><p>${zone==='promo'?'↑ в '+(LEAGUES[league.tier+1]?.n||'финал'):zone==='demo'?'↓ в '+(LEAGUES[league.tier-1]?.n||'Бронзу'):''}</p></div>
+      <div class="tl-info"><h4>${c.me?'⭐ Вы':escapeHtml(c.n||'')}</h4><p>${zone==='promo'?'↑ в '+escapeHtml(LEAGUES[league.tier+1]?.n||'финал'):zone==='demo'?'↓ в '+escapeHtml(LEAGUES[league.tier-1]?.n||'Бронзу'):''}</p></div>
       <div class="tl-xp">${c.xp} XP</div>
     </div>`;
   }).join('');
@@ -3221,8 +3252,8 @@ function renderShorts(){
     <div class="sh-page" data-idx="${i}">
       <div class="sh-load" id="sh-load-${i}">⏳ Загрузка…</div>
       <iframe class="sh-iframe" id="sh-if-${i}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
-      <div class="sh-subs"><div class="sh-en">${v.en}</div><br><div class="sh-ru">${v.ru}</div></div>
-      <div class="sh-meta"><h4>${v.t}</h4><p>${v.ch} · ${v.lang==='ar'?'🇸🇦':'🇬🇧'} ${v.topic}</p></div>
+      <div class="sh-subs"><div class="sh-en">${escapeHtml(v.en||'')}</div><br><div class="sh-ru">${escapeHtml(v.ru||'')}</div></div>
+      <div class="sh-meta"><h4>${escapeHtml(v.t||'')}</h4><p>${escapeHtml(v.ch||'')} · ${v.lang==='ar'?'🇸🇦':'🇬🇧'} ${escapeHtml(v.topic||'')}</p></div>
       <div class="sh-side">
         <button class="sh-btn" onclick="shSaveSrs(${i})" title="В SRS">⭐<small>В SRS</small></button>
         <button class="sh-btn" onclick="shOpenExternal(${i})" title="Открыть">↗<small>YT</small></button>
@@ -3262,7 +3293,8 @@ function _shLoadIframe(i){
   const v=SHORTS[i];if(!v)return;
   const ifr=document.getElementById('sh-if-'+i);const ld=document.getElementById('sh-load-'+i);
   if(!ifr)return;
-  ifr.src=`https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&playsinline=1&rel=0&modestbranding=1&mute=0&loop=1&playlist=${encodeURIComponent(v.id)}`;
+  if(!isYTId(v.id)){if(ld)ld.style.display='none';return;}
+  ifr.src=`https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&playsinline=1&rel=0&modestbranding=1&mute=0&loop=1&playlist=${v.id}`;
   ifr.onload=()=>{if(ld)ld.style.display='none';};
   setTimeout(()=>{if(ld)ld.style.display='none';},6000);
 }
@@ -3306,29 +3338,31 @@ function openStory(id){
   const lang=s.lang;
   const lines=s.body.map((ln,i)=>{
     let en=escapeHtml(ln.en);
-    // Mark glossary words
+    // Mark glossary words — values go into data-* attributes (escaped) and are
+    // surfaced via event delegation in glossTap to avoid string-concatenation XSS.
     if(ln.glo){Object.keys(ln.glo).forEach(w=>{
       const re=new RegExp('\\b('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')\\b','i');
-      en=en.replace(re,`<span class="w-hot" onclick="glossTap(event,'${w.replace(/'/g,"\\'")}','${(ln.glo[w]||'').replace(/'/g,"\\'")}')">$1</span>`);
+      en=en.replace(re,`<span class="w-hot" data-w="${escapeHtml(w)}" data-ru="${escapeHtml(ln.glo[w]||'')}" onclick="glossTap(event,this)">$1</span>`);
     });}
     return `<div class="st-line" style="animation-delay:${i*0.05}s">
-      <div class="st-en">${en} <span class="st-audio" onclick="doSpeak(${JSON.stringify(ln.en).replace(/"/g,'&quot;')},'${lang}')">🔊</span></div>
+      <div class="st-en">${en} <span class="st-audio" data-text="${escapeHtml(ln.en)}" data-lang="${escapeHtml(lang)}" onclick="doSpeak(this.dataset.text,this.dataset.lang)">🔊</span></div>
       <div class="st-ru">${escapeHtml(ln.ru)}</div>
     </div>`;
   }).join('');
   document.getElementById('st-body').innerHTML=`
     <div class="st-hero">
-      <div class="st-hi">${s.ic}</div>
-      <h1>${s.t}</h1>
-      <p>${s.sum} · ${s.lvl}</p>
+      <div class="st-hi">${escapeHtml(s.ic||'')}</div>
+      <h1>${escapeHtml(s.t||'')}</h1>
+      <p>${escapeHtml(s.sum||'')} · ${escapeHtml(s.lvl||'')}</p>
     </div>
     ${lines}
   `;
   show('story');
 }
-function glossTap(ev,w,ru){
+function glossTap(ev,el){
   ev.stopPropagation();
-  toast(w+' → '+ru);
+  if(typeof el==='string'){toast(el+' → '+arguments[2]);return;}
+  toast((el.dataset.w||'')+' → '+(el.dataset.ru||''));
 }
 function finishStory(){
   if(!_curStory){navTo('stories');return;}
@@ -3394,18 +3428,18 @@ function _vcAppend(role,text){
   document.getElementById('vc-q').textContent=voiceState.history.filter(m=>m.r==='u').length;
 }
 async function fireworksTranscribe(blob){
-  if(AI_PROXY_URL){
-    const fd=new FormData();fd.append('file',blob,'audio.webm');fd.append('model','whisper-v3');
-    const r=await fetch(AI_PROXY_URL+'/transcribe',{method:'POST',body:fd});
-    if(!r.ok)throw new Error('proxy '+r.status);
-    const j=await r.json();return (j.text||'').trim();
-  }
-  if(!FIREWORKS_API_KEY||FIREWORKS_API_KEY.indexOf('__')===0)throw new Error('no key');
+  const proxy=aiBackendBase();
   const fd=new FormData();
   fd.append('file',blob,'audio.webm');
   fd.append('model','whisper-v3-turbo');
   fd.append('response_format','json');
   fd.append('language',prefs.primary==='ar'?'ar':'en');
+  if(proxy){
+    const r=await fetch(proxy+'/ai/transcribe',{method:'POST',body:fd});
+    if(!r.ok){const t=await r.text().catch(()=>'');throw new Error('proxy '+r.status+' '+t.slice(0,80));}
+    const j=await r.json();return (j.text||'').trim();
+  }
+  if(!FIREWORKS_API_KEY||FIREWORKS_API_KEY.indexOf('__')===0)throw new Error('no key');
   const r=await fetch('https://audio-turbo.us-virginia-1.direct.fireworks.ai/v1/audio/transcriptions',{method:'POST',headers:{'Authorization':'Bearer '+FIREWORKS_API_KEY},body:fd});
   if(!r.ok){const t=await r.text().catch(()=>'');throw new Error('whisper '+r.status+' '+t.slice(0,80));}
   const j=await r.json();return (j.text||'').trim();
@@ -3414,8 +3448,9 @@ async function _vcChat(userText){
   const sys=aiSysPrompt()+'\n\nIMPORTANT: This is a VOICE conversation. Keep replies to 1–2 short sentences max and always end with a question to keep the conversation flowing.';
   const history=voiceState.history.slice(-6).map(m=>({role:m.r==='u'?'user':'assistant',content:m.c}));
   const body={model:AI_MODEL,temperature:0.7,max_tokens:220,messages:[{role:'system',content:sys},...history,{role:'user',content:userText}]};
-  const headers={'Content-Type':'application/json'};if(!AI_PROXY_URL)headers['Authorization']='Bearer '+FIREWORKS_API_KEY;
-  const url=AI_PROXY_URL?AI_PROXY_URL+'/chat':'https://api.fireworks.ai/inference/v1/chat/completions';
+  const proxy=aiBackendBase();
+  const headers={'Content-Type':'application/json'};if(!proxy)headers['Authorization']='Bearer '+FIREWORKS_API_KEY;
+  const url=proxy?proxy+'/ai/chat':'https://api.fireworks.ai/inference/v1/chat/completions';
   const r=await fetch(url,{method:'POST',headers,body:JSON.stringify(body)});
   if(!r.ok)throw new Error('chat '+r.status);
   const j=await r.json();return j.choices[0].message.content;
@@ -3560,9 +3595,15 @@ function _vpLoad(){
   document.getElementById('vp-c').textContent=cur.ch||'';
   document.getElementById('vp-fb').style.display='none';
   document.getElementById('vp-load').style.display='flex';
+  if(!isYTId(cur.id)){
+    document.getElementById('vp-frame').innerHTML='';
+    document.getElementById('vp-fb').style.display='flex';
+    document.getElementById('vp-load').style.display='none';
+    return;
+  }
   // Build iframe with enablejsapi so we can detect playback events
-  const src=`https://www.youtube-nocookie.com/embed/${encodeURIComponent(cur.id)}?autoplay=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(location.origin||'https://localhost')}`;
-  document.getElementById('vp-frame').innerHTML=`<iframe id="vp-iframe" src="${src}" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+  const src=`https://www.youtube-nocookie.com/embed/${cur.id}?autoplay=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(location.origin||'https://localhost')}`;
+  document.getElementById('vp-frame').innerHTML=`<iframe id="vp-iframe" src="${escapeHtml(src)}" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
   // Render carousel of alternates
   const lst=document.getElementById('vp-list');lst.innerHTML='';
   if(_vpList.length>1){
@@ -3760,7 +3801,7 @@ function showComplete(){
     <div class="cbody">
       <div class="cico">${perfect?'🏆':'🎉'}</div>
       <div class="ctitle">${perfect?'Без ошибок!':'Урок завершён!'}</div>
-      <div class="csub">+${xpGain} XP · ${user.name}</div>
+      <div class="csub">+${xpGain} XP · ${escapeHtml(user.name||'')}</div>
       <div class="cstats">
         <div class="cst"><div class="csn">${corr}/${quiz.length}</div><div class="csl">Правильно</div></div>
         <div class="cst"><div class="csn">${hearts}</div><div class="csl">Жизни</div></div>
@@ -3781,7 +3822,7 @@ function showComplete(){
 // Test stores: {topic, items:[], idx, score, t0, mode:'lesson'|'control'}
 let _test=null,_testTimer=null;
 const TEST_KEY='ls_tests_v1';
-function loadTestRecords(){try{const r=localStorage.getItem(TEST_KEY);if(r)return JSON.parse(r);}catch(e){}return {};}
+function loadTestRecords(){return safeParse(localStorage.getItem(TEST_KEY))||{};}
 function saveTestRecord(key,score){
   const all=loadTestRecords();all[key]={score,when:Date.now()};
   try{localStorage.setItem(TEST_KEY,JSON.stringify(all));}catch(e){}
@@ -3936,7 +3977,7 @@ function renderTL(i){
     const cfg=TCFG[tier];
     let h=`<div class="tier-section"><div class="tier-hdr">
       <div class="tier-badge" style="background:${cfg.b};color:${cfg.c};border:1px solid ${cfg.c}44">${tier}</div>
-      <div class="tier-name" style="color:${cfg.c}">${cfg.n}</div>
+      <div class="tier-name" style="color:${cfg.c}">${escapeHtml(cfg.n||'')}</div>
       <div class="tier-count">${tu.length}</div>
     </div>`;
     tu.forEach(u=>{
@@ -3945,9 +3986,9 @@ function renderTL(i){
       const xs=u.xp>=1000?(u.xp/1000).toFixed(1)+'K':u.xp;
       h+=`<div class="user-row${u.me?' me':''}">
         <div class="ur-rank">${rk}</div>
-        <div class="ur-ava">${u.av}</div>
-        <div class="ur-info"><h4>${u.n}${u.me?' (вы)':''}</h4><p>🔥${u.s}д · 📚${u.l}ур</p></div>
-        <div class="ur-xp">${xs}</div>
+        <div class="ur-ava">${escapeHtml(String(u.av||''))}</div>
+        <div class="ur-info"><h4>${escapeHtml(u.n||'')}${u.me?' (вы)':''}</h4><p>🔥${u.s|0}д · 📚${u.l|0}ур</p></div>
+        <div class="ur-xp">${escapeHtml(String(xs))}</div>
         ${med?`<div class="ur-medal">${med}</div>`:''}
       </div>`;
     });
@@ -3969,13 +4010,14 @@ function renderProfile(){
   const [bIco,bClr]=badges[user.type]||['?','var(--t2)'];
   const typeBadge=`<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(0,0,0,.3);border:1px solid ${bClr};color:${bClr};margin-left:6px">${bIco}</span>`;
   const subText={
-    login:'@'+user.login,google:'Google · '+(user.email||''),telegram:'Telegram · @'+(user.username||''),
-    email:'Email · '+(user.email||''),anon:'Анонимный аккаунт — привяжите для синхронизации',guest:'Гость'
+    login:'@'+escapeHtml(user.login||''),google:'Google · '+escapeHtml(user.email||''),telegram:'Telegram · @'+escapeHtml(user.username||''),
+    email:'Email · '+escapeHtml(user.email||''),anon:'Анонимный аккаунт — привяжите для синхронизации',guest:'Гость'
   }[user.type]||'';
   const isAnon=user.type==='anon'||user.type==='guest';
+  const safePic=(typeof user.picture==='string' && /^https:\/\//.test(user.picture))?user.picture:'';
   pb.innerHTML+=`<div class="phead">
-    <div class="pava">${user.picture?`<img src="${user.picture}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:'👤'}</div>
-    <div class="pname">${user.name}${typeBadge}</div>
+    <div class="pava">${safePic?`<img src="${escapeHtml(safePic)}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.remove()">`:'👤'}</div>
+    <div class="pname">${escapeHtml(user.name||'')}${typeBadge}</div>
     <div class="psub">${subText}</div>
     <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
       ${isAnon
