@@ -534,25 +534,32 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
 <body>
 <div class="app">
 
-<!-- LOGIN/REGISTER -->
-<div class="screen active" id="s-login">
+<!-- LOGIN / LINK ACCOUNT -->
+<div class="screen" id="s-login">
   <div class="auth-wrap">
     <div class="auth-logo">🌐</div>
     <div class="auth-title">Lingua<span>Start</span></div>
-    <div class="auth-sub">Английский · Арабский · С нуля на русском</div>
+    <div class="auth-sub" id="auth-sub">Английский · Арабский · С нуля на русском</div>
     <div class="auth-tabs">
-      <div class="atab on" onclick="switchTab('login',this)">Войти</div>
-      <div class="atab" onclick="switchTab('reg',this)">Регистрация</div>
+      <div class="atab on" id="atab-quick" onclick="switchTab('quick',this)">Быстро</div>
+      <div class="atab" id="atab-login" onclick="switchTab('login',this)">Войти</div>
+      <div class="atab" id="atab-reg" onclick="switchTab('reg',this)">Создать</div>
+    </div>
+    <!-- QUICK LOGIN: Google / Telegram / Email-OTP / Anonymous -->
+    <div id="form-quick">
+      <button class="g-btn" onclick="loginGoogle()"><div class="g-logo">G</div>Продолжить с Google</button>
+      <button class="g-btn" id="btn-tg" onclick="loginTelegram()" style="background:#229ED9;color:#fff;border-color:#229ED9;display:none"><div class="g-logo" style="color:#229ED9">✈</div>Войти через Telegram</button>
+      <button class="g-btn" id="btn-otp" onclick="startEmailOtp()" style="display:none"><div class="g-logo">✉</div>Войти по коду из почты</button>
+      <div class="or-div">или</div>
+      <button class="skip-btn" id="btn-skip" onclick="loginSkip()">Продолжить без регистрации</button>
+      <div id="quick-err" class="auth-err" style="margin-top:8px"></div>
     </div>
     <!-- LOGIN FORM -->
-    <div id="form-login">
-      <div class="field"><label>ЛОГИН</label><input type="text" id="l-login" placeholder="Введите логин" autocomplete="username"></div>
+    <div id="form-login" style="display:none">
+      <div class="field"><label>ЛОГИН ИЛИ EMAIL</label><input type="text" id="l-login" placeholder="Введите логин" autocomplete="username"></div>
       <div class="field"><label>ПАРОЛЬ</label><input type="password" id="l-pass" placeholder="Введите пароль" autocomplete="current-password"></div>
       <div class="auth-err" id="l-err"></div>
       <button class="auth-btn" onclick="doLogin()">Войти →</button>
-      <div class="or-div">или</div>
-      <button class="g-btn" onclick="loginGoogle()"><div class="g-logo">G</div>Войти через Google</button>
-      <button class="skip-btn" onclick="loginSkip()">Продолжить без регистрации</button>
     </div>
     <!-- REGISTER FORM -->
     <div id="form-reg" style="display:none">
@@ -562,8 +569,6 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
       <div class="field"><label>ПОВТОРИТЕ ПАРОЛЬ</label><input type="password" id="r-pass2" placeholder="Повторите пароль" autocomplete="new-password"></div>
       <div class="auth-err" id="r-err"></div>
       <button class="auth-btn" onclick="doReg()">Создать аккаунт →</button>
-      <div class="or-div">или</div>
-      <button class="g-btn" onclick="loginGoogle()"><div class="g-logo">G</div>Войти через Google</button>
     </div>
   </div>
 </div>
@@ -1549,7 +1554,18 @@ const TLD=[
 const TCFG={S:{c:'#ffd700',b:'rgba(255,215,0,.1)',n:'S — Мастер'},A:{c:'#aaa',b:'rgba(170,170,170,.08)',n:'A — Эксперт'},B:{c:'var(--g)',b:'var(--gxx)',n:'B — Продвинутый'},C:{c:'var(--t1)',b:'rgba(122,170,122,.06)',n:'C — Средний'},D:{c:'var(--t2)',b:'rgba(61,107,61,.05)',n:'D — Начинающий'}};
 
 // ===== STATE =====
-let user={name:'Гость',type:'guest'};
+// User state — anonymous account is created automatically on first launch.
+const USER_KEY='ls_user_v1';
+const ANON_NAMES=['Странник','Лингвист','Студент','Ученик','Полиглот'];
+function _newAnonUser(){
+  const id='anon_'+Math.random().toString(36).slice(2,10);
+  const num=Math.floor(Math.random()*9000+1000);
+  const nm=ANON_NAMES[Math.floor(Math.random()*ANON_NAMES.length)]+' #'+num;
+  return {id,name:nm,type:'anon'};
+}
+function loadUser(){try{const r=localStorage.getItem(USER_KEY);if(r)return JSON.parse(r);}catch(e){}return null;}
+function saveUser(){try{localStorage.setItem(USER_KEY,JSON.stringify(user));}catch(e){}}
+let user=loadUser()||_newAnonUser();
 let xp=45,streak=3,lessons=3,tlIdx=0;
 let quiz=[],qi=0,hearts=3,sel=null,done=false,curLang='en',curTopic='';
 let errors={};
@@ -1957,12 +1973,39 @@ let DB={};try{DB=JSON.parse(localStorage.getItem('ls_db')||'{}')}catch(e){}
 function saveDB(){try{localStorage.setItem('ls_db',JSON.stringify(DB))}catch(e){}}
 
 // ===== AUTH TABS =====
-let authMode='login';
+let authMode='quick';
+let authLinking=false; // true when opened from profile to link existing anon
 function switchTab(mode,el){
   authMode=mode;
-  document.querySelectorAll('.atab').forEach(t=>t.classList.remove('on'));el.classList.add('on');
+  document.querySelectorAll('.atab').forEach(t=>t.classList.remove('on'));
+  if(el)el.classList.add('on'); else document.getElementById('atab-'+mode)?.classList.add('on');
+  document.getElementById('form-quick').style.display=mode==='quick'?'':'none';
   document.getElementById('form-login').style.display=mode==='login'?'':'none';
   document.getElementById('form-reg').style.display=mode==='reg'?'':'none';
+}
+function openLinkAccount(){
+  authLinking=true;
+  document.getElementById('auth-sub').textContent='Привяжи аккаунт — прогресс сохранится';
+  document.getElementById('btn-skip').textContent='Назад';
+  document.getElementById('btn-skip').onclick=()=>{authLinking=false;document.getElementById('btn-skip').onclick=loginSkip;document.getElementById('btn-skip').textContent='Продолжить без регистрации';navTo('profile');};
+  switchTab('quick',document.getElementById('atab-quick'));
+  show('login');
+}
+function _completeLogin(newUser){
+  if(authLinking){
+    // Preserve current id and progress; only swap identity fields
+    const id=user.id||newUser.id;
+    user={...user,...newUser,id,type:newUser.type};
+    authLinking=false;
+    document.getElementById('btn-skip').textContent='Продолжить без регистрации';
+    document.getElementById('btn-skip').onclick=loginSkip;
+    saveUser();
+    toast('Аккаунт привязан — прогресс сохранён');
+    navTo('profile');
+  } else {
+    user=newUser;
+    afterAuth();
+  }
 }
 function doLogin(){
   const lg=document.getElementById('l-login').value.trim();
@@ -1972,8 +2015,7 @@ function doLogin(){
   if(!DB[lg]){err.textContent='Пользователь не найден';return;}
   if(DB[lg].pw!==btoa(pw)){err.textContent='Неверный пароль';return;}
   err.textContent='';
-  user={name:DB[lg].name,type:'login',login:lg};
-  afterAuth();
+  _completeLogin({id:'login_'+lg,name:DB[lg].name,type:'login',login:lg});
 }
 function doReg(){
   const nm=document.getElementById('r-name').value.trim();
@@ -1987,10 +2029,25 @@ function doReg(){
   if(DB[lg]){err.textContent='Логин уже занят';return;}
   DB[lg]={name:nm,pw:btoa(pw)};saveDB();
   err.style.color='var(--g)';err.textContent='Аккаунт создан! Входим...';
-  setTimeout(()=>{user={name:nm,type:'login',login:lg};afterAuth();},800);
+  setTimeout(()=>_completeLogin({id:'login_'+lg,name:nm,type:'login',login:lg}),700);
 }
-// ===== GOOGLE SIGN-IN (REAL via Google Identity Services) =====
+// ===== GOOGLE SIGN-IN (native Capacitor plugin first, GIS fallback) =====
 const GOOGLE_CLIENT_ID='__GOOGLE_CLIENT_ID__';
+const TELEGRAM_BOT_USERNAME='__TELEGRAM_BOT_USERNAME__';
+const TELEGRAM_BOT_ID='__TELEGRAM_BOT_ID__';
+const AUTH_BACKEND_URL='__AUTH_BACKEND_URL__';
+function _isPlaceholder(s){return !s||s.indexOf('__')===0;}
+function _isNative(){return !!(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform());}
+async function _initNativeGoogle(){
+  if(!_isNative())return false;
+  try{
+    const ga=window.Capacitor.Plugins.GoogleAuth;
+    if(!ga)return false;
+    if(_isPlaceholder(GOOGLE_CLIENT_ID))return false;
+    if(!ga._inited){await ga.initialize({clientId:GOOGLE_CLIENT_ID,scopes:['profile','email'],grantOfflineAccess:false});ga._inited=true;}
+    return true;
+  }catch(e){return false;}
+}
 let _gisReady=false;
 function _decodeJwt(token){
   try{
@@ -2002,16 +2059,10 @@ function _decodeJwt(token){
 function _onGoogleCredential(resp){
   const data=_decodeJwt(resp.credential);
   if(!data){toast('Не удалось обработать вход Google');return;}
-  user={
-    name:data.name||(data.given_name||'')+' '+(data.family_name||'').trim()||data.email||'Google User',
-    type:'google',
-    email:data.email,
-    picture:data.picture,
-    sub:data.sub
-  };
-  // Save to local DB so user can log in again as 'login' next time
-  if(data.email){DB[data.email]={name:user.name,pw:btoa(data.sub||'g_'+data.email),google:true};saveDB();user.login=data.email;}
-  afterAuth();
+  const nm=data.name||((data.given_name||'')+' '+(data.family_name||'')).trim()||data.email||'Google User';
+  const m=document.getElementById('g-modal');if(m)m.style.display='none';
+  if(data.email){DB[data.email]={name:nm,pw:btoa(data.sub||'g_'+data.email),google:true};saveDB();}
+  _completeLogin({id:'google_'+(data.sub||data.email),name:nm,type:'google',email:data.email,picture:data.picture,sub:data.sub,login:data.email});
 }
 function _ensureGis(cb){
   if(_gisReady)return cb();
@@ -2025,18 +2076,94 @@ function _ensureGis(cb){
   google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:_onGoogleCredential,ux_mode:'popup',auto_select:false});
   _gisReady=true;cb();
 }
-function loginGoogle(){
-  if(!GOOGLE_CLIENT_ID||GOOGLE_CLIENT_ID.indexOf('__')===0){
-    toast('Google вход не настроен');return;
+async function loginGoogle(){
+  if(_isPlaceholder(GOOGLE_CLIENT_ID)){toast('Google вход не настроен');return;}
+  // Try native plugin first (works in APK)
+  const nativeOk=await _initNativeGoogle();
+  if(nativeOk){
+    try{
+      const r=await window.Capacitor.Plugins.GoogleAuth.signIn();
+      // r: {id, email, name, familyName, givenName, imageUrl, authentication:{idToken,accessToken}}
+      _completeLogin({
+        id:'google_'+r.id,name:r.name||r.email||'Google User',
+        type:'google',email:r.email,picture:r.imageUrl,sub:r.id
+      });
+      if(r.email){DB[r.email]={name:r.name||'',pw:btoa('g_'+r.id),google:true};saveDB();}
+      return;
+    }catch(e){
+      const msg=(e&&e.message)||String(e);
+      if(/cancel|user_cancel|sign_in_cancelled|12501/i.test(msg))return; // user closed
+      toast('Google: '+msg.slice(0,80));
+      return;
+    }
   }
+  // Web fallback (browser preview only)
   _ensureGis(()=>{
-    // Try One Tap prompt; if it doesn't show, render a button overlay
     google.accounts.id.prompt((notif)=>{
-      if(notif.isNotDisplayed()||notif.isSkippedMoment()){
-        _showGoogleButtonModal();
-      }
+      if(notif.isNotDisplayed()||notif.isSkippedMoment()){_showGoogleButtonModal();}
     });
   });
+}
+
+// ===== TELEGRAM LOGIN =====
+async function loginTelegram(){
+  if(_isPlaceholder(TELEGRAM_BOT_USERNAME)||_isPlaceholder(AUTH_BACKEND_URL)){
+    toast('Telegram вход пока не настроен');return;
+  }
+  // Generate one-time session id, open bot deep link, poll backend for the auth result
+  const sid='tg_'+Math.random().toString(36).slice(2,12)+Date.now().toString(36);
+  const link='https://t.me/'+TELEGRAM_BOT_USERNAME+'?start='+sid;
+  // Open via Capacitor Browser if available, else system
+  try{
+    if(_isNative()&&window.Capacitor.Plugins.Browser){
+      await window.Capacitor.Plugins.Browser.open({url:link});
+    } else {
+      window.open(link,'_blank');
+    }
+  }catch(e){toast('Не удалось открыть Telegram');return;}
+  toast('Открыл Telegram. Нажми Start — вернёмся сюда.');
+  // poll backend
+  const t0=Date.now();const url=AUTH_BACKEND_URL.replace(/\/$/,'')+'/auth/tg/poll?sid='+sid;
+  const tick=async()=>{
+    if(Date.now()-t0>180000){toast('Время ожидания вышло');return;}
+    try{
+      const r=await fetch(url);if(r.status===200){
+        const j=await r.json();
+        if(j&&j.id){
+          _completeLogin({id:'tg_'+j.id,name:j.first_name||j.username||'Telegram',type:'telegram',tg_id:j.id,username:j.username,picture:j.photo_url});
+          return;
+        }
+      }
+    }catch(e){}
+    setTimeout(tick,2000);
+  };
+  setTimeout(tick,2500);
+}
+
+// ===== EMAIL OTP =====
+async function startEmailOtp(){
+  if(_isPlaceholder(AUTH_BACKEND_URL)){toast('Вход по почте пока не настроен');return;}
+  const email=prompt('Введи email:');
+  if(!email||!/.+@.+\..+/.test(email)){if(email)toast('Некорректный email');return;}
+  const url=AUTH_BACKEND_URL.replace(/\/$/,'');
+  try{
+    const r=await fetch(url+'/auth/email/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
+    if(!r.ok){const t=await r.text();toast('Ошибка: '+t.slice(0,80));return;}
+  }catch(e){toast('Сеть не доступна');return;}
+  const code=prompt('Код отправлен на '+email+'. Введи 6-значный код:');
+  if(!code)return;
+  try{
+    const r=await fetch(url+'/auth/email/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,code})});
+    if(!r.ok){const t=await r.text();toast('Неверный код: '+t.slice(0,80));return;}
+    const j=await r.json();
+    _completeLogin({id:'email_'+email,name:email.split('@')[0],type:'email',email,token:j.token});
+    DB[email]={name:email.split('@')[0],pw:btoa('e_'+(j.token||'')),otp:true};saveDB();
+  }catch(e){toast('Сеть не доступна');}
+}
+
+function _showAvailableQuickButtons(){
+  if(!_isPlaceholder(TELEGRAM_BOT_USERNAME))document.getElementById('btn-tg').style.display='';
+  if(!_isPlaceholder(AUTH_BACKEND_URL))document.getElementById('btn-otp').style.display='';
 }
 function _showGoogleButtonModal(){
   let m=document.getElementById('g-modal');
@@ -2052,8 +2179,21 @@ function _showGoogleButtonModal(){
   document.body.appendChild(m);
   google.accounts.id.renderButton(document.getElementById('g-btn-host'),{theme:'filled_black',size:'large',text:'continue_with',shape:'pill',width:260});
 }
-function loginSkip(){user={name:'Гость',type:'guest'};afterAuth();}
+function loginSkip(){if(user.type!=='anon'&&user.type!=='guest')user=_newAnonUser();saveUser();afterAuth();}
+function logoutToAnon(){
+  if(!confirm('Выйти и продолжить как гость? Прогресс на этом устройстве сохранится.'))return;
+  user=_newAnonUser();saveUser();
+  if(_isNative()){try{window.Capacitor.Plugins.GoogleAuth&&window.Capacitor.Plugins.GoogleAuth.signOut();}catch(e){}}
+  afterAuth();
+}
+// Auto-bootstrap: skip auth screen for users with stored identity (incl. anon).
+window.addEventListener('DOMContentLoaded',()=>{
+  _showAvailableQuickButtons&&_showAvailableQuickButtons();
+  saveUser();
+  setTimeout(()=>{afterAuth();},50);
+});
 function afterAuth(){
+  saveUser();
   document.getElementById('h-name').textContent=user.name.split(' ')[0];
   updateHero();
   if(!prefs.done){startOnboarding();return;}
@@ -2378,11 +2518,23 @@ function getWorst(){
 function renderProfile(){
   const worst=getWorst();
   const pb=document.getElementById('pb');pb.innerHTML='';
-  const typeBadge=user.type==='google'?'<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:var(--bg3);border:1px solid var(--b2);color:var(--t2);margin-left:6px">G</span>':user.type==='login'?'<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:var(--gxx);border:1px solid var(--gm);color:var(--g);margin-left:6px">●</span>':'';
+  const badges={google:['G','#4285F4'],login:['@','var(--g)'],telegram:['✈','#229ED9'],email:['✉','#FF9F40'],anon:['👻','var(--t2)'],guest:['👻','var(--t2)']};
+  const [bIco,bClr]=badges[user.type]||['?','var(--t2)'];
+  const typeBadge=`<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(0,0,0,.3);border:1px solid ${bClr};color:${bClr};margin-left:6px">${bIco}</span>`;
+  const subText={
+    login:'@'+user.login,google:'Google · '+(user.email||''),telegram:'Telegram · @'+(user.username||''),
+    email:'Email · '+(user.email||''),anon:'Анонимный аккаунт — привяжите для синхронизации',guest:'Гость'
+  }[user.type]||'';
+  const isAnon=user.type==='anon'||user.type==='guest';
   pb.innerHTML+=`<div class="phead">
-    <div class="pava">👤</div>
+    <div class="pava">${user.picture?`<img src="${user.picture}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:'👤'}</div>
     <div class="pname">${user.name}${typeBadge}</div>
-    <div class="psub">${user.type==='login'?'@'+user.login:user.type==='google'?'Google-аккаунт':'Гость — войдите для синхронизации'}</div>
+    <div class="psub">${subText}</div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
+      ${isAnon
+        ? '<button onclick="openLinkAccount()" style="background:var(--gxx);border:1px solid var(--g);color:var(--g);padding:8px 14px;border-radius:10px;cursor:pointer;font-size:12px;text-shadow:0 0 6px var(--gm)">🔐 Войти / привязать аккаунт</button>'
+        : '<button onclick="logoutToAnon()" style="background:transparent;border:1px solid var(--b2);color:var(--t2);padding:8px 14px;border-radius:10px;cursor:pointer;font-size:11px">Выйти</button>'}
+    </div>
   </div>
   <div class="sgrid">
     <div class="ps"><div class="psn">${xp}</div><div class="psl">XP</div></div>

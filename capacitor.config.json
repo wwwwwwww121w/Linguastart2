@@ -18,5 +18,11 @@
     "webContentsDebuggingEnabled": false,
     "captureInput": true
   },
-  "plugins": {}
+  "plugins": {
+    "GoogleAuth": {
+      "scopes": ["profile", "email"],
+      "serverClientId": "__GOOGLE_CLIENT_ID__",
+      "forceCodeForRefreshToken": false
+    }
+  }
 }

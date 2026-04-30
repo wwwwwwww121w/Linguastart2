@@ -1,0 +1,14 @@
+name = "linguastart-auth"
+main = "worker.js"
+compatibility_date = "2024-09-01"
+
+[[kv_namespaces]]
+binding = "SESSIONS"
+# id = "..."  # filled in by `wrangler kv namespace create SESSIONS`
+
+# Set secrets via:
+#   wrangler secret put RESEND_API_KEY
+#   wrangler secret put TELEGRAM_BOT_TOKEN
+#   wrangler secret put AUTH_SHARED_SECRET
+#   wrangler secret put FROM_EMAIL          # optional (default onboarding@resend.dev)
+#   wrangler secret put ALLOWED_ORIGIN      # optional (default *)
