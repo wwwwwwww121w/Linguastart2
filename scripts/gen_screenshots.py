@@ -37,6 +37,7 @@ async def goto_and_setup(page):
     # auto-login as guest
     await page.evaluate(
         """() => {
+            window.aiHasKey = () => true;
             user = {name:'Алексей', type:'login', login:'alex'};
             xp = 245; streak = 7; lessons = 6;
             afterAuth();
@@ -80,9 +81,22 @@ async def main():
         await page.evaluate("navTo('lessons-ar')")
         await shoot(page, '07-lessons-ar')
 
-        # 8) Profile scrolled to error analysis
-        await page.evaluate("navTo('profile'); window.scrollTo(0, document.body.scrollHeight/2)")
-        await shoot(page, '08-recommendations')
+        # 8) AI tutor (mock conversation for screenshot)
+        await page.evaluate(
+            """() => {
+                window.aiHasKey = () => true;
+                aiState = {date:new Date().toISOString().slice(0,10), used:3, msgs:[
+                    {r:'a',c:"Hi! I'm your tutor. What would you like to talk about today? 🌟"},
+                    {r:'u',c:"I want to learn travel English"},
+                    {r:'a',c:"Great choice! Let's start at the airport. ✈️ What do you say to a check-in agent? Try a sentence."},
+                    {r:'u',c:"I want check in my luggage please"},
+                    {r:'a',c:"Almost perfect! 👍 'I want' should be 'I'd like to' in polite English.\\n📝 Лучше: I'd like to check in my luggage, please.\\nNow tell me — window or aisle seat?"}
+                ]};
+                renderAiCard(); renderAi(); navTo('ai');
+            }"""
+        )
+        await asyncio.sleep(0.5)
+        await shoot(page, '08-ai-tutor')
 
         await browser.close()
 

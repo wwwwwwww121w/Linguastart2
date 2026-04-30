@@ -116,6 +116,50 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
 .sw input:checked + .sw-t{background:var(--gxx);border-color:var(--gm)}
 .sw input:checked + .sw-t::before{transform:translateX(18px);background:var(--g);box-shadow:0 0 8px var(--g)}
 
+/* ===== AI TUTOR ===== */
+.ai-card{margin:6px 18px 14px;padding:14px;background:linear-gradient(135deg,rgba(0,255,65,.10),var(--bg2));border:1px solid var(--gm);border-radius:var(--r);display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s;box-shadow:0 0 18px var(--gxx);position:relative;overflow:hidden}
+.ai-card:active{transform:scale(.99)}
+.ai-card .ai-spark{position:absolute;top:-30%;right:-10%;width:60%;height:160%;background:radial-gradient(circle,rgba(0,255,65,.18),transparent 60%);pointer-events:none;animation:aiSpin 14s linear infinite}
+@keyframes aiSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.ai-card .ai-ico{font-size:30px;filter:drop-shadow(0 0 8px var(--g));z-index:1}
+.ai-card .ai-info{flex:1;z-index:1}
+.ai-card .ai-h{font-size:14px;color:var(--t0);font-weight:500;margin-bottom:2px}
+.ai-card .ai-h b{color:var(--g);text-shadow:0 0 6px var(--g)}
+.ai-card .ai-s{font-size:11px;color:var(--t2)}
+.ai-card .ai-arr{color:var(--g);font-size:18px;text-shadow:0 0 6px var(--g);z-index:1}
+#s-ai{display:none}
+#s-ai.active{display:flex;flex-direction:column}
+.ai-hdr{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--b1);background:var(--bg1);flex-shrink:0}
+.ai-hdr .ai-tt{flex:1}
+.ai-hdr .ai-tt h2{font-size:15px;font-weight:500;color:var(--t0);margin:0}
+.ai-hdr .ai-tt p{font-size:10px;color:var(--t2);margin:2px 0 0}
+.ai-hdr .ai-q{font-size:10px;color:var(--g);background:var(--gxx);border:1px solid var(--gm);padding:3px 8px;border-radius:10px;text-shadow:0 0 6px var(--g)}
+.ai-chat{flex:1;overflow-y:auto;padding:14px 16px 8px;display:flex;flex-direction:column;gap:10px;background:radial-gradient(circle at 50% 0%,rgba(0,255,65,.04),transparent 50%)}
+.ai-msg{max-width:82%;padding:10px 13px;border-radius:14px;font-size:13px;line-height:1.4;animation:fadeUp .25s ease both;word-wrap:break-word}
+.ai-msg.u{align-self:flex-end;background:var(--gxx);border:1px solid var(--gm);color:var(--g);border-bottom-right-radius:4px;text-shadow:0 0 4px var(--g)}
+.ai-msg.a{align-self:flex-start;background:var(--bg2);border:1px solid var(--b2);color:var(--t0);border-bottom-left-radius:4px}
+.ai-msg.a .speak{margin-left:6px;background:transparent;border:none;color:var(--g);cursor:pointer;font-size:12px;opacity:.8}
+.ai-msg.a .speak:hover{opacity:1;text-shadow:0 0 6px var(--g)}
+.ai-msg.sys{align-self:center;background:transparent;color:var(--t2);font-size:10px;text-align:center;padding:4px;border:none}
+.ai-typing{align-self:flex-start;display:flex;gap:4px;padding:10px 13px;background:var(--bg2);border:1px solid var(--b2);border-radius:14px;border-bottom-left-radius:4px}
+.ai-typing span{width:6px;height:6px;background:var(--g);border-radius:50%;animation:tBounce 1.2s infinite ease-in-out;box-shadow:0 0 4px var(--g)}
+.ai-typing span:nth-child(2){animation-delay:.15s}
+.ai-typing span:nth-child(3){animation-delay:.3s}
+@keyframes tBounce{0%,80%,100%{transform:scale(.6);opacity:.4}40%{transform:scale(1);opacity:1}}
+.ai-suggest{display:flex;gap:6px;padding:0 16px 6px;flex-wrap:wrap}
+.ai-sugg{font-size:11px;background:var(--bg2);border:1px solid var(--b2);color:var(--t1);padding:7px 11px;border-radius:14px;cursor:pointer;transition:all .15s}
+.ai-sugg:hover{border-color:var(--gm);color:var(--g);background:var(--gxx)}
+.ai-input{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--b1);background:var(--bg1)}
+.ai-input textarea{flex:1;background:var(--bg2);border:1px solid var(--b2);border-radius:18px;padding:10px 14px;color:var(--t0);font-size:13px;outline:none;resize:none;font-family:inherit;min-height:38px;max-height:120px;transition:border-color .15s}
+.ai-input textarea:focus{border-color:var(--gm);box-shadow:0 0 0 2px var(--gxx)}
+.ai-send{flex-shrink:0;background:var(--gxx);border:1px solid var(--gm);color:var(--g);width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:18px;text-shadow:0 0 6px var(--g);align-self:flex-end;transition:all .15s}
+.ai-send:active{transform:scale(.94)}
+.ai-send:disabled{opacity:.4;cursor:not-allowed}
+.ai-paywall{margin:14px 16px;padding:18px;background:linear-gradient(135deg,rgba(0,255,65,.08),var(--bg2));border:1px solid var(--gm);border-radius:var(--r);text-align:center}
+.ai-paywall h3{font-size:14px;color:var(--g);margin-bottom:6px;text-shadow:0 0 6px var(--g)}
+.ai-paywall p{font-size:11px;color:var(--t2);margin-bottom:10px;line-height:1.4}
+.ai-paywall .pw-btn{background:var(--g);color:#000;border:none;padding:9px 18px;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer}
+
 /* ===== SRS / DAILY REVIEW ===== */
 .srs-card{margin:6px 18px 14px;padding:14px;background:linear-gradient(135deg,rgba(0,255,65,.08),var(--bg2));border:1px solid var(--gm);border-radius:var(--r);display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s;box-shadow:0 0 16px var(--gxx)}
 .srs-card:active{transform:scale(.99)}
@@ -551,6 +595,7 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
       </div>
     </div>
     <div id="srs-host"></div>
+    <div id="ai-host"></div>
     <div class="sec-lbl">Языки</div>
     <div class="lang-grid">
       <div class="lc" onclick="navTo('lessons-en')">
@@ -630,6 +675,21 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
     <div class="qh" id="qh">♥ 3</div>
   </div>
   <div class="qbody" id="qbody"></div>
+</div>
+
+<!-- AI TUTOR -->
+<div class="screen" id="s-ai">
+  <div class="ai-hdr">
+    <div class="back" onclick="navTo('home')">←</div>
+    <div class="ai-tt"><h2>🤖 AI Тьютор</h2><p id="ai-sub">Разговорная практика · Llama 3.3 70B</p></div>
+    <div class="ai-q" id="ai-q">5/5</div>
+  </div>
+  <div class="ai-chat" id="ai-chat"></div>
+  <div class="ai-suggest" id="ai-sugg"></div>
+  <div class="ai-input">
+    <textarea id="ai-in" placeholder="Напиши что-нибудь..." rows="1" onkeydown="aiKey(event)" oninput="aiAutosize(this)"></textarea>
+    <button class="ai-send" id="ai-snd" onclick="aiSend()">↑</button>
+  </div>
 </div>
 
 <!-- TIERLIST -->
@@ -1723,6 +1783,129 @@ function startReview(){
   show('lesson');renderQ();
 }
 
+// ===== AI TUTOR (Fireworks) =====
+const FIREWORKS_API_KEY='__FIREWORKS_API_KEY__';
+const AI_PROXY_URL=''; // set to enable serverless proxy instead of direct key
+const AI_MODEL='accounts/fireworks/models/llama-v3p3-70b-instruct';
+const AI_FREE_DAILY=10;
+const AI_KEY='ls_ai_v1';
+let aiState={msgs:[],date:'',used:0};
+(function loadAi(){try{const r=localStorage.getItem(AI_KEY);if(r)Object.assign(aiState,JSON.parse(r));}catch(e){}
+  const today=new Date().toISOString().slice(0,10);
+  if(aiState.date!==today){aiState.date=today;aiState.used=0;}
+})();
+function saveAi(){try{localStorage.setItem(AI_KEY,JSON.stringify(aiState));}catch(e){}}
+function aiHasKey(){return AI_PROXY_URL || (FIREWORKS_API_KEY && FIREWORKS_API_KEY.indexOf('__')!==0);}
+function renderAiCard(){
+  const host=document.getElementById('ai-host');if(!host)return;
+  if(!aiHasKey()){host.innerHTML='';return;}
+  host.innerHTML=`<div class="ai-card" onclick="navTo('ai')">
+    <div class="ai-spark"></div>
+    <div class="ai-ico">🤖</div>
+    <div class="ai-info"><div class="ai-h">AI Тьютор · <b>разговорная практика</b></div><div class="ai-s">Поболтай с тьютором — он исправит ошибки и подскажет</div></div>
+    <div class="ai-arr">→</div>
+  </div>`;
+}
+function aiLangName(){return prefs.primary==='ar'?'арабский':prefs.primary==='both'?'английский (можно менять на арабский по запросу)':'английский';}
+function aiSysPrompt(){
+  const lang=aiLangName();
+  const lvl=prefs.level||'A1';
+  const goal=ONB_GOALS.find(g=>g.id===prefs.goal)?.h||'';
+  return `Ты — дружелюбный преподаватель ${lang} языка для русскоязычного ученика уровня ${lvl}.${goal?' Цель ученика: '+goal+'.':''} Правила:
+1) Веди диалог в основном на изучаемом языке (${lang}), но если ученик что-то не понял — объясняй коротко по-русски.
+2) Уровень ${lvl}: используй простые слова и короткие предложения.
+3) Если ученик пишет с ошибкой — мягко исправь: сначала ответь на смысл, потом ниже одной строкой "📝 Лучше: <правильный вариант>".
+4) Каждый ответ — максимум 3 коротких предложения. Заканчивай вопросом, чтобы ученик мог продолжить.
+5) Никогда не отвечай списком из 10 пунктов — это разговор, а не лекция.`;
+}
+function aiInitChatIfEmpty(){
+  if(aiState.msgs.length>0)return;
+  const greetEn="Hi! I'm your tutor. What would you like to talk about today? 🌟";
+  const greetAr="مرحبا! أنا معلمك. عن ماذا تريد أن نتحدث اليوم؟";
+  const greet=prefs.primary==='ar'?greetAr:greetEn;
+  aiState.msgs.push({r:'a',c:greet});saveAi();
+}
+function aiSuggestions(){
+  const en=['Hello! How are you?','Tell me a joke','Help me order food','Quiz me on colors'];
+  const ar=['مرحبا، كيف حالك؟','علمني عبارات للسفر','اختبرني في الأرقام'];
+  return prefs.primary==='ar'?ar:en;
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function renderAi(){
+  if(!aiHasKey()){
+    document.getElementById('ai-chat').innerHTML=`<div class="ai-paywall"><h3>🤖 AI Тьютор отключен</h3><p>API ключ Fireworks не задан в этой сборке.</p></div>`;
+    document.getElementById('ai-sugg').innerHTML='';
+    document.getElementById('ai-q').textContent='—';
+    document.getElementById('ai-snd').disabled=true;
+    return;
+  }
+  aiInitChatIfEmpty();
+  const chat=document.getElementById('ai-chat');
+  chat.innerHTML=aiState.msgs.map(m=>{
+    if(m.r==='sys')return `<div class="ai-msg sys">${escapeHtml(m.c)}</div>`;
+    if(m.r==='u')return `<div class="ai-msg u">${escapeHtml(m.c)}</div>`;
+    const safe=escapeHtml(m.c).replace(/\n/g,'<br>');
+    const lang=prefs.primary==='ar'?'ar':'en';
+    return `<div class="ai-msg a">${safe}<button class="speak" onclick="speak(${JSON.stringify(m.c).replace(/"/g,'&quot;')},'${lang}')" title="Прослушать">🔊</button></div>`;
+  }).join('');
+  // suggestions only when last is assistant
+  const sg=document.getElementById('ai-sugg');
+  if(aiState.msgs.length<3 && aiState.msgs[aiState.msgs.length-1]?.r==='a'){
+    sg.innerHTML=aiSuggestions().map(s=>`<button class="ai-sugg" onclick="aiUseSuggestion('${escapeHtml(s).replace(/'/g,"\\'")}')">${escapeHtml(s)}</button>`).join('');
+  } else sg.innerHTML='';
+  // remaining counter
+  const left=Math.max(0,AI_FREE_DAILY-aiState.used);
+  document.getElementById('ai-q').textContent=left+'/'+AI_FREE_DAILY;
+  setTimeout(()=>{chat.scrollTop=chat.scrollHeight;},20);
+}
+function aiUseSuggestion(s){const ta=document.getElementById('ai-in');ta.value=s;aiSend();}
+function aiAutosize(t){t.style.height='auto';t.style.height=Math.min(120,t.scrollHeight)+'px';}
+function aiKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();aiSend();}}
+function aiResetChat(){aiState.msgs=[];saveAi();renderAi();}
+async function aiSend(){
+  const ta=document.getElementById('ai-in');const txt=(ta.value||'').trim();
+  if(!txt)return;
+  if(aiState.used>=AI_FREE_DAILY){
+    aiState.msgs.push({r:'sys',c:'⛔ Дневной лимит 10 сообщений. Завтра он сбросится. (Подписка снимет лимит)'});saveAi();renderAi();return;
+  }
+  aiState.msgs.push({r:'u',c:txt});aiState.used++;saveAi();
+  ta.value='';aiAutosize(ta);renderAi();
+  // typing indicator
+  const chat=document.getElementById('ai-chat');
+  const typ=document.createElement('div');typ.className='ai-typing';typ.innerHTML='<span></span><span></span><span></span>';
+  chat.appendChild(typ);chat.scrollTop=chat.scrollHeight;
+  try{
+    const reply=await aiCall(aiState.msgs);
+    typ.remove();
+    aiState.msgs.push({r:'a',c:reply});saveAi();renderAi();
+  }catch(e){
+    typ.remove();
+    const errMsg='⚠️ Не удалось получить ответ: '+(e&&e.message?e.message:'сеть или API недоступен');
+    aiState.msgs.push({r:'sys',c:errMsg});aiState.used=Math.max(0,aiState.used-1);saveAi();renderAi();
+  }
+}
+async function aiCall(msgs){
+  const body={
+    model:AI_MODEL,
+    max_tokens:300,
+    temperature:0.7,
+    messages:[{role:'system',content:aiSysPrompt()},
+      ...msgs.filter(m=>m.r==='u'||m.r==='a').map(m=>({role:m.r==='u'?'user':'assistant',content:m.c}))]
+  };
+  const url=AI_PROXY_URL||'https://api.fireworks.ai/inference/v1/chat/completions';
+  const headers={'Content-Type':'application/json','Accept':'application/json'};
+  if(!AI_PROXY_URL)headers['Authorization']='Bearer '+FIREWORKS_API_KEY;
+  const r=await fetch(url,{method:'POST',headers,body:JSON.stringify(body)});
+  if(!r.ok){
+    let txt='';try{txt=await r.text();}catch(e){}
+    throw new Error('HTTP '+r.status+(txt?' — '+txt.slice(0,140):''));
+  }
+  const j=await r.json();
+  const c=j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content;
+  if(!c)throw new Error('Пустой ответ от модели');
+  return c.trim();
+}
+
 // ===== LOCAL NOTIFICATIONS =====
 async function ensureNotifPermission(){
   try{
@@ -1886,7 +2069,8 @@ function navTo(id){
   else if(id==='profile') renderProfile();
   else if(id==='lessons-en') renderLessons('en');
   else if(id==='lessons-ar') renderLessons('ar');
-  else if(id==='home') renderSrsCard();
+  else if(id==='home'){renderSrsCard();renderAiCard();}
+  else if(id==='ai') renderAi();
   show(id);
 }
 
