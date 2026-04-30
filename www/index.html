@@ -170,6 +170,109 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
 .srs-card .srs-s{font-size:11px;color:var(--t2)}
 .srs-card .srs-arr{color:var(--g);font-size:18px;text-shadow:0 0 6px var(--g)}
 
+/* ===== LEAGUE CARD ===== */
+.lg-card{margin:6px 18px 14px;padding:14px;background:linear-gradient(135deg,rgba(155,89,182,.10),var(--bg2));border:1px solid var(--b2);border-radius:var(--r);cursor:pointer;transition:all .15s}
+.lg-card.is-p{border-color:var(--gm);box-shadow:0 0 14px var(--gxx)}
+.lg-card:active{transform:scale(.99)}
+.lg-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.lg-ic{font-size:30px;filter:drop-shadow(0 0 8px currentColor)}
+.lg-info{flex:1}
+.lg-info h4{font-size:14px;color:var(--t0);font-weight:500}
+.lg-info p{font-size:11px;color:var(--t2);margin-top:2px}
+.lg-cnt{font-size:10px;color:var(--t2)}
+.lg-bar{height:5px;background:var(--b2);border-radius:3px;overflow:hidden;margin-top:4px}
+.lg-fl{height:100%;border-radius:3px;box-shadow:0 0 8px currentColor;transition:width .3s}
+
+/* ===== MISSIONS CARD (home) ===== */
+.ms-card{margin:6px 18px 14px;padding:13px 14px;background:var(--bg2);border:1px solid var(--b2);border-radius:var(--r)}
+.ms-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.ms-h h4{font-size:13px;color:var(--t0);font-weight:500}
+.ms-h .ms-sub{font-size:10px;color:var(--t2)}
+.ms-row{display:flex;align-items:center;gap:10px;padding:7px 0}
+.ms-row.dn .ms-n{color:var(--g);text-decoration:line-through;text-shadow:0 0 5px var(--g)}
+.ms-row.dn .ms-ic{filter:grayscale(0) drop-shadow(0 0 6px var(--g))}
+.ms-ic{font-size:18px;width:26px;text-align:center;filter:grayscale(.3)}
+.ms-n{flex:1;font-size:12px;color:var(--t1)}
+.ms-pg{font-size:10px;color:var(--t2);font-variant-numeric:tabular-nums}
+.ms-claim{width:100%;margin-top:8px;padding:9px;background:var(--g);color:#000;border:none;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;display:none}
+.ms-claim.show{display:block}
+.ms-claim:disabled{opacity:.5;cursor:not-allowed}
+
+/* ===== SHORTS / STORIES / VOICE / PRON HOME TILES ===== */
+.h-tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px 6px}
+.h-tile{background:var(--bg1);border:1px solid var(--b2);border-radius:var(--r);padding:14px 12px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden;min-height:90px}
+.h-tile:active,.h-tile:hover{border-color:var(--gm);box-shadow:0 0 12px var(--gxx)}
+.h-tile .ht-ic{font-size:26px;margin-bottom:6px;filter:drop-shadow(0 0 6px var(--g))}
+.h-tile h3{font-size:12px;color:var(--t0);font-weight:500}
+.h-tile p{font-size:10px;color:var(--t2);margin-top:2px;line-height:1.3}
+.h-tile .ht-tag{position:absolute;top:8px;right:8px;font-size:9px;color:var(--g);background:var(--gxx);border:1px solid var(--gm);padding:2px 6px;border-radius:8px;text-shadow:0 0 5px var(--g)}
+
+/* ===== SHORTS SCREEN (vertical swipe) ===== */
+#s-shorts{background:#000}
+.sh-wrap{position:relative;width:100%;height:100%;overflow:hidden;touch-action:pan-y}
+.sh-top{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(180deg,rgba(0,0,0,.8),transparent);color:var(--t0);font-size:12px}
+.sh-top .back{width:30px;height:30px;background:rgba(0,0,0,.5);border-radius:50%;border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;color:var(--t0);cursor:pointer}
+.sh-pages{height:100%;width:100%;transform:translateY(0);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.sh-page{width:100%;height:100%;position:relative;display:flex;align-items:center;justify-content:center;background:#050505}
+.sh-iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.sh-subs{position:absolute;left:0;right:0;bottom:140px;padding:0 22px;z-index:3;color:#fff;text-align:center;pointer-events:none}
+.sh-subs .sh-en{font-size:17px;font-weight:500;text-shadow:0 1px 4px #000,0 0 10px #000;margin-bottom:6px;background:rgba(0,0,0,.35);padding:5px 10px;border-radius:10px;display:inline-block;max-width:95%}
+.sh-subs .sh-ru{font-size:13px;color:#cfead0;text-shadow:0 1px 3px #000;background:rgba(0,0,0,.35);padding:4px 9px;border-radius:8px;display:inline-block}
+.sh-side{position:absolute;right:10px;bottom:96px;z-index:4;display:flex;flex-direction:column;gap:14px;align-items:center}
+.sh-btn{width:48px;height:48px;border-radius:50%;background:rgba(0,0,0,.55);border:1px solid rgba(0,255,65,.4);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
+.sh-btn small{display:block;font-size:9px;margin-top:2px;color:var(--t1)}
+.sh-btn.on{color:var(--g);border-color:var(--g);text-shadow:0 0 8px var(--g)}
+.sh-meta{position:absolute;left:14px;bottom:18px;right:80px;z-index:4;color:#fff}
+.sh-meta h4{font-size:13px;font-weight:500;color:#fff;text-shadow:0 1px 3px #000}
+.sh-meta p{font-size:11px;color:#cfd9cf;margin-top:2px;text-shadow:0 1px 3px #000}
+.sh-dots{position:absolute;top:60px;right:10px;z-index:4;display:flex;flex-direction:column;gap:4px}
+.sh-dot{width:3px;height:14px;background:rgba(255,255,255,.25);border-radius:2px}
+.sh-dot.on{background:var(--g);box-shadow:0 0 6px var(--g)}
+.sh-load{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;z-index:2;pointer-events:none;background:linear-gradient(180deg,#050505,#0a0f0a)}
+
+/* ===== STORIES ===== */
+.st-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px 12px}
+.st-card{background:var(--bg1);border:1px solid var(--b2);border-radius:var(--r);padding:14px 12px;cursor:pointer;transition:all .15s;position:relative}
+.st-card:active,.st-card:hover{border-color:var(--gm);box-shadow:0 0 12px var(--gxx)}
+.st-ic{font-size:28px;margin-bottom:6px;filter:drop-shadow(0 0 6px var(--g))}
+.st-card h3{font-size:13px;color:var(--t0);font-weight:500}
+.st-card p{font-size:10px;color:var(--t2);margin-top:2px}
+.st-lvl{position:absolute;top:8px;right:8px;font-size:9px;color:var(--g);background:var(--gxx);border:1px solid var(--gm);padding:2px 6px;border-radius:8px}
+#st-body{padding:12px 18px 80px;overflow-y:auto;flex:1}
+.st-hero{padding:14px 0 10px;text-align:center}
+.st-hero .st-hi{font-size:42px;margin-bottom:6px;filter:drop-shadow(0 0 12px var(--g))}
+.st-hero h1{font-size:18px;color:var(--t0);font-weight:500}
+.st-hero p{font-size:11px;color:var(--t2);margin-top:3px}
+.st-line{background:var(--bg2);border:1px solid var(--b2);border-radius:12px;padding:12px 14px;margin-bottom:8px;animation:fadein .25s ease}
+.st-en{font-size:15px;color:var(--t0);line-height:1.4;margin-bottom:6px}
+.st-en .w-hot{color:var(--g);cursor:pointer;border-bottom:1px dotted var(--gm);text-shadow:0 0 4px var(--gxx)}
+.st-ru{font-size:12px;color:var(--t2);line-height:1.4}
+.st-audio{background:var(--bg3);border:1px solid var(--b2);border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;margin-left:6px;color:var(--g);vertical-align:middle}
+.st-ans{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--b1);background:var(--bg1)}
+.st-ans button{flex:1;padding:10px;border-radius:10px;font-size:12px;cursor:pointer}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ===== VOICE CHAT ===== */
+.vc-mic{width:82px;height:82px;border-radius:50%;background:linear-gradient(145deg,#003211,#001a08);border:2px solid var(--gm);color:var(--g);display:flex;align-items:center;justify-content:center;font-size:36px;cursor:pointer;transition:all .2s;box-shadow:0 0 24px var(--gxx);margin:18px auto}
+.vc-mic.rec{background:linear-gradient(145deg,#4a0510,#1a0005);border-color:#ff4444;color:#ff6a6a;box-shadow:0 0 32px rgba(255,68,68,.55);animation:pulseRec 1s ease-in-out infinite}
+.vc-mic:disabled{opacity:.5;cursor:not-allowed}
+@keyframes pulseRec{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.vc-status{text-align:center;font-size:11px;color:var(--t2);min-height:16px;margin-bottom:10px}
+.vc-log{flex:1;overflow-y:auto;padding:8px 18px}
+.vc-line{margin:8px 0;padding:10px 12px;border-radius:12px;max-width:85%;font-size:13px;line-height:1.4}
+.vc-line.u{margin-left:auto;background:var(--g);color:#000}
+.vc-line.a{background:var(--bg2);border:1px solid var(--b2);color:var(--t0)}
+
+/* ===== PRONUNCIATION ===== */
+.pr-card{margin:10px 18px;background:var(--bg1);border:1px solid var(--b2);border-radius:var(--r);padding:16px;text-align:center}
+.pr-card.ok{border-color:var(--g);box-shadow:0 0 16px var(--gxx)}
+.pr-tgt{font-size:18px;color:var(--t0);margin:8px 0 10px;line-height:1.4}
+.pr-tgt.ar{font-size:22px;direction:rtl;text-align:right}
+.pr-said{font-size:12px;color:var(--t2);margin:6px 0}
+.pr-score{font-size:34px;color:var(--g);font-weight:500;text-shadow:0 0 12px var(--g);margin:8px 0}
+.pr-diff span.ok{color:var(--g);text-shadow:0 0 4px var(--g)}
+.pr-diff span.bad{color:#e55;text-decoration:underline;text-decoration-color:#e55}
+
 /* ===== HOME ===== */
 .hero{padding:20px 18px 18px;border-bottom:1px solid var(--b1);background:var(--bg1)}
 .hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
@@ -644,8 +747,17 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
         <div class="pill">🏆 #<b id="p-rank">12</b></div>
       </div>
     </div>
+    <div id="ms-host"></div>
+    <div id="lg-host"></div>
     <div id="srs-host"></div>
     <div id="ai-host"></div>
+    <div class="sec-lbl">Тренировки</div>
+    <div class="h-tiles">
+      <div class="h-tile" onclick="navTo('shorts')"><span class="ht-tag">NEW</span><div class="ht-ic">🎬</div><h3>Короткие видео</h3><p>Shorts с субтитрами<br>+save в SRS</p></div>
+      <div class="h-tile" onclick="navTo('stories')"><span class="ht-tag">NEW</span><div class="ht-ic">📖</div><h3>Истории</h3><p>Диалоги<br>с озвучкой</p></div>
+      <div class="h-tile" onclick="navTo('voice')"><span class="ht-tag">NEW</span><div class="ht-ic">🎤</div><h3>Голос с AI</h3><p>Говори<br>— AI поймёт</p></div>
+      <div class="h-tile" onclick="navTo('pron')"><span class="ht-tag">NEW</span><div class="ht-ic">🔊</div><h3>Произношение</h3><p>Оценка<br>с микрофона</p></div>
+    </div>
     <div class="sec-lbl">Языки</div>
     <div class="lang-grid">
       <div class="lc" onclick="navTo('lessons-en')">
@@ -745,6 +857,72 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
     <div id="tt-timer" style="font-size:11px;color:var(--g);text-shadow:0 0 6px var(--g);min-width:36px;text-align:right">⏱ 0</div>
   </div>
   <div class="qbody" id="tbody"></div>
+</div>
+
+<!-- SHORTS (vertical swipe video feed) -->
+<div class="screen" id="s-shorts">
+  <div class="sh-wrap" id="sh-wrap">
+    <div class="sh-top">
+      <div class="back" onclick="closeShorts()">←</div>
+      <div style="flex:1">🎬 Короткие видео</div>
+      <div id="sh-count" style="font-size:10px;color:var(--t2)">0/0</div>
+    </div>
+    <div class="sh-dots" id="sh-dots"></div>
+    <div class="sh-pages" id="sh-pages"></div>
+  </div>
+</div>
+
+<!-- LEAGUE -->
+<div class="screen" id="s-league">
+  <div class="hdr"><div class="back" onclick="navTo('home')">←</div><h2>🏅 Лига</h2></div>
+  <div class="scroll" id="lg-body"></div>
+</div>
+
+<!-- STORIES LIST -->
+<div class="screen" id="s-stories">
+  <div class="hdr"><div class="back" onclick="navTo('home')">←</div><h2>📖 Истории</h2></div>
+  <div class="scroll" style="padding-top:10px">
+    <div class="sec-lbl">Короткие диалоги с переводом</div>
+    <div class="st-grid" id="st-grid"></div>
+  </div>
+</div>
+
+<!-- STORY READER -->
+<div class="screen" id="s-story">
+  <div class="qtop">
+    <div class="back" onclick="navTo('stories')">←</div>
+    <div style="flex:1;text-align:center;font-size:13px;color:var(--g);text-shadow:0 0 6px var(--g)" id="st-title">📖</div>
+    <div style="width:30px"></div>
+  </div>
+  <div id="st-body"></div>
+  <div class="st-ans">
+    <button class="ghost" onclick="navTo('stories')">← К списку</button>
+    <button class="chk" onclick="finishStory()">Готово ✓</button>
+  </div>
+</div>
+
+<!-- VOICE AI -->
+<div class="screen" id="s-voice">
+  <div class="ai-hdr">
+    <div class="back" onclick="navTo('home')">←</div>
+    <div class="ai-tt"><h2>🎤 Голосовой тьютор</h2><p>Нажми и удерживай — говори</p></div>
+    <div class="ai-q" id="vc-q">0</div>
+  </div>
+  <div class="vc-log" id="vc-log"></div>
+  <div class="vc-status" id="vc-status">Нажми на микрофон, чтобы начать</div>
+  <button class="vc-mic" id="vc-mic" onmousedown="vcStart()" onmouseup="vcStop()" onmouseleave="vcStop()" ontouchstart="vcStart()" ontouchend="vcStop()">🎤</button>
+  <div style="text-align:center;padding:8px 14px 16px">
+    <button class="ghost" style="font-size:11px;padding:8px 14px" onclick="vcClearLog()">🗑 Очистить</button>
+  </div>
+</div>
+
+<!-- PRONUNCIATION -->
+<div class="screen" id="s-pron">
+  <div class="hdr">
+    <div class="back" onclick="navTo('home')">←</div>
+    <h2>🔊 Произношение</h2>
+  </div>
+  <div class="scroll" id="pr-body" style="padding-top:10px"></div>
 </div>
 
 <!-- AI TUTOR -->
@@ -1991,6 +2169,102 @@ const TLD=[
 ];
 const TCFG={S:{c:'#ffd700',b:'rgba(255,215,0,.1)',n:'S — Мастер'},A:{c:'#aaa',b:'rgba(170,170,170,.08)',n:'A — Эксперт'},B:{c:'var(--g)',b:'var(--gxx)',n:'B — Продвинутый'},C:{c:'var(--t1)',b:'rgba(122,170,122,.06)',n:'C — Средний'},D:{c:'var(--t2)',b:'rgba(61,107,61,.05)',n:'D — Начинающий'}};
 
+// ===== LEAGUES =====
+const LEAGUES=[
+  {id:'bronze', n:'Бронза',   ic:'🥉', c:'#cd7f32', need:0},
+  {id:'silver', n:'Серебро',  ic:'🥈', c:'#c0c0c0', need:50},
+  {id:'gold',   n:'Золото',   ic:'🥇', c:'#ffd700', need:150},
+  {id:'sapphire',n:'Сапфир',  ic:'💎', c:'#4a90e2', need:300},
+  {id:'ruby',   n:'Рубин',    ic:'❤️', c:'#e74c3c', need:500},
+  {id:'diamond',n:'Алмаз',    ic:'💠', c:'#9b59b6', need:800}
+];
+// Dummy cohort for league view (30 bots, plus you)
+function _mkCohort(seed){
+  const names=['Макс','Аня','Лёша','Катя','Саня','Вера','Ден','Оля','Тима','Наташа','Лев','Ира','Юра','Даша','Толя','Поля','Миша','Соня','Никита','Вика','Рома','Марина','Костя','Лера','Илья','Юля','Гоша','Надя','Антон','Галя'];
+  const avs=['🧑','👩','👨','🧔','👦','👧','🧓','👴','👵','🦸'];
+  const rng=(n)=>Math.floor((Math.sin(seed*9301+n*49297)*233280)%1000);
+  return names.map((n,i)=>({n:n,av:avs[Math.abs(rng(i))%avs.length],xp:Math.max(0,Math.abs(rng(i))*2+i*5)}));
+}
+
+// ===== MISSIONS =====
+const MISSION_BANK=[
+  {id:'xp20',   n:'Набери 20 XP',           ic:'⚡', target:20,  type:'xp'},
+  {id:'xp40',   n:'Набери 40 XP',           ic:'⚡', target:40,  type:'xp'},
+  {id:'lesson1',n:'Пройди 1 урок',          ic:'📚', target:1,   type:'lesson'},
+  {id:'lesson2',n:'Пройди 2 урока',         ic:'📚', target:2,   type:'lesson'},
+  {id:'test1',  n:'Сдай 1 тест',            ic:'📝', target:1,   type:'test'},
+  {id:'ai3',    n:'Ответь AI-тьютору 3 раза', ic:'🤖', target:3, type:'ai'},
+  {id:'srs5',   n:'Повтори 5 слов в SRS',   ic:'🧠', target:5,   type:'srs'},
+  {id:'short1', n:'Посмотри 1 видео',       ic:'🎬', target:1,   type:'short'},
+  {id:'story1', n:'Прочитай 1 историю',     ic:'📖', target:1,   type:'story'},
+  {id:'voice1', n:'1 минута голосом с AI',  ic:'🎤', target:1,   type:'voice'},
+  {id:'pron3',  n:'Произнеси 3 фразы',      ic:'🔊', target:3,   type:'pron'}
+];
+
+// ===== SHORT VIDEO FEED (curated Shorts + VK Clips; lightweight, embed-friendly) =====
+const SHORTS=[
+  // Shorter, classroom-safe content with dual subtitles
+  {id:'ZPHb0HEj1xw',p:'yt',t:'Greetings — common phrases',ch:'Speak English',en:'How are you? — I\'m fine, thanks.',ru:'Как дела? — Хорошо, спасибо.',topic:'greetings',lang:'en'},
+  {id:'xi2DwV7Hxn4',p:'yt',t:'Numbers 1–10 fast',ch:'Learn English',en:'One, two, three, four, five.',ru:'Один, два, три, четыре, пять.',topic:'numbers',lang:'en'},
+  {id:'bhrUesEpJrE',p:'yt',t:'Colors quick lesson',ch:'Simple English',en:'Red, blue, green, yellow, black.',ru:'Красный, синий, зелёный, жёлтый, чёрный.',topic:'colors',lang:'en'},
+  {id:'dMH0bHeiRNg',p:'yt',t:'Family members',ch:'English with Lucy',en:'Mother, father, brother, sister.',ru:'Мама, папа, брат, сестра.',topic:'family',lang:'en'},
+  {id:'guxhn036Nu0',p:'yt',t:'Food vocabulary',ch:'BBC Learning',en:'Bread, milk, apple, cheese, water.',ru:'Хлеб, молоко, яблоко, сыр, вода.',topic:'food',lang:'en'},
+  {id:'cd4sTHdrSwg',p:'yt',t:'Body parts',ch:'Easy English',en:'Head, hand, eye, nose, mouth.',ru:'Голова, рука, глаз, нос, рот.',topic:'body',lang:'en'},
+  {id:'v5gc_tZ3uRk',p:'yt',t:'Animals',ch:'Fun English',en:'Dog, cat, bird, fish, horse.',ru:'Собака, кошка, птица, рыба, лошадь.',topic:'animals',lang:'en'},
+  {id:'aHOuB3a2FrM',p:'yt',t:'Arabic alphabet intro',ch:'Learn Arabic',en:'الف · با · تا · ثا',ru:'Алиф, Ба, Та, Са.',topic:'alphabet1',lang:'ar'},
+  {id:'mWn2SgeAsb0',p:'yt',t:'Arabic greetings',ch:'Arabic for you',en:'السلام عليكم · مرحبا',ru:'Мир вам! Здравствуй!',topic:'greetings_ar',lang:'ar'}
+];
+
+// ===== STORIES (bilingual, tap-to-translate) =====
+const STORIES=[
+  {id:'coffee',lang:'en',lvl:'A1',ic:'☕',t:'Morning coffee',sum:'Короткая сцена в кафе',body:[
+    {en:'Good morning!',ru:'Доброе утро!',glo:{morning:'утро'}},
+    {en:'Good morning. One coffee, please.',ru:'Доброе утро. Один кофе, пожалуйста.',glo:{coffee:'кофе',please:'пожалуйста'}},
+    {en:'Small or large?',ru:'Маленький или большой?',glo:{small:'маленький',large:'большой'}},
+    {en:'Large, please. How much is it?',ru:'Большой, пожалуйста. Сколько стоит?',glo:{'how much':'сколько стоит'}},
+    {en:'Three dollars.',ru:'Три доллара.',glo:{three:'три',dollars:'долларов'}},
+    {en:'Here you are. Thank you!',ru:'Вот, пожалуйста. Спасибо!',glo:{'thank you':'спасибо'}}
+  ]},
+  {id:'airport',lang:'en',lvl:'A2',ic:'✈️',t:'At the airport',sum:'Регистрация на рейс',body:[
+    {en:'Where is the check-in desk?',ru:'Где стойка регистрации?',glo:{where:'где','check-in':'регистрация'}},
+    {en:'It\'s over there, near gate 12.',ru:'Она вон там, около выхода 12.',glo:{over:'там',gate:'выход'}},
+    {en:'Can I have your passport, please?',ru:'Ваш паспорт, пожалуйста.',glo:{passport:'паспорт'}},
+    {en:'Here is my passport and ticket.',ru:'Вот мой паспорт и билет.',glo:{ticket:'билет'}},
+    {en:'You have a window seat. Boarding is at 10:30.',ru:'У вас место у окна. Посадка в 10:30.',glo:{window:'окно',seat:'место',boarding:'посадка'}}
+  ]},
+  {id:'hotel',lang:'en',lvl:'A2',ic:'🏨',t:'Hotel check-in',sum:'Бронь и заселение',body:[
+    {en:'I have a reservation for tonight.',ru:'У меня бронь на сегодня.',glo:{reservation:'бронь',tonight:'сегодня вечером'}},
+    {en:'Your name, please?',ru:'Ваше имя?',glo:{name:'имя'}},
+    {en:'Anna Smith.',ru:'Анна Смит.'},
+    {en:'Room 304. Here is your key.',ru:'Комната 304. Вот ваш ключ.',glo:{room:'комната',key:'ключ'}},
+    {en:'What time is breakfast?',ru:'Во сколько завтрак?',glo:{breakfast:'завтрак'}},
+    {en:'From 7 to 10 on the second floor.',ru:'С 7 до 10 на втором этаже.',glo:{floor:'этаж'}}
+  ]},
+  {id:'market_ar',lang:'ar',lvl:'A1',ic:'🛒',t:'В магазине (AR)',sum:'Простые фразы в магазине',body:[
+    {en:'مرحبا',ru:'Здравствуйте',glo:{}},
+    {en:'كم الثمن؟',ru:'Сколько стоит?',glo:{}},
+    {en:'خمسة ريالات',ru:'Пять риалов',glo:{}},
+    {en:'شكرا',ru:'Спасибо',glo:{}}
+  ]}
+];
+
+// ===== PRONUNCIATION TARGETS =====
+const PRON_TARGETS={
+  en:[
+    {t:'Hello, how are you?',lvl:'A1'},
+    {t:'Nice to meet you.',lvl:'A1'},
+    {t:'I would like a cup of coffee, please.',lvl:'A2'},
+    {t:'Could you tell me the way to the station?',lvl:'A2'},
+    {t:'The weather is beautiful today.',lvl:'A2'},
+    {t:'I have been learning English for two years.',lvl:'B1'}
+  ],
+  ar:[
+    {t:'السلام عليكم',lvl:'A1'},
+    {t:'كيف حالك',lvl:'A1'},
+    {t:'أنا من روسيا',lvl:'A1'}
+  ]
+};
+
 // ===== STATE =====
 // User state — anonymous account is created automatically on first launch.
 const USER_KEY='ls_user_v1';
@@ -2009,6 +2283,79 @@ let quiz=[],qi=0,hearts=3,sel=null,done=false,curLang='en',curTopic='';
 let errors={};
 const TOTAL_EN=EN_UNITS.reduce((s,u)=>s+u.ls.length,0);
 const TOTAL_AR=AR_UNITS.reduce((s,u)=>s+u.ls.length,0);
+
+// ===== LEAGUE STATE =====
+const LG_KEY='ls_league_v1';
+function _weekStart(){const d=new Date();const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);d.setHours(0,0,0,0);return d.toISOString().slice(0,10);}
+function _loadLeague(){try{const r=localStorage.getItem(LG_KEY);if(r)return JSON.parse(r);}catch(e){}
+  return {tier:0,weekXp:0,weekStart:_weekStart(),cohortSeed:Math.floor(Math.random()*10000),last:null};
+}
+let league=_loadLeague();
+function saveLeague(){try{localStorage.setItem(LG_KEY,JSON.stringify(league));}catch(e){}}
+function _checkWeekReset(){
+  const now=_weekStart();
+  if(league.weekStart===now)return null;
+  // End-of-week promotion/demotion
+  const threshold=LEAGUES[Math.min(league.tier+1,LEAGUES.length-1)]?.need||9999;
+  let result=null;
+  if(league.tier<LEAGUES.length-1 && league.weekXp>=threshold){
+    league.tier+=1;result={type:'promo',tier:league.tier};
+  } else if(league.tier>0 && league.weekXp<(LEAGUES[league.tier].need)/3){
+    league.tier-=1;result={type:'demo',tier:league.tier};
+  } else {
+    result={type:'stay',tier:league.tier};
+  }
+  league.weekStart=now;league.weekXp=0;league.cohortSeed=Math.floor(Math.random()*10000);league.last=result;saveLeague();
+  return result;
+}
+function addLeagueXp(n){_checkWeekReset();league.weekXp=(league.weekXp||0)+n;saveLeague();}
+
+// ===== MISSIONS STATE =====
+const MS_KEY='ls_missions_v1';
+function _today(){return new Date().toISOString().slice(0,10);}
+function _rollMissions(){
+  const pool=MISSION_BANK.slice();
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  // Always include one easy XP mission + one lesson mission + one random
+  const picks=[];
+  const pick=(type)=>{const i=pool.findIndex(m=>m.type===type);return i>=0?pool.splice(i,1)[0]:null;};
+  const a=pick('xp'),b=pick('lesson'),c=pool[0];
+  if(a)picks.push(a);if(b)picks.push(b);if(c)picks.push(c);
+  return picks.map(m=>({id:m.id,progress:0}));
+}
+function _loadMissions(){try{const r=localStorage.getItem(MS_KEY);if(r)return JSON.parse(r);}catch(e){}
+  return {date:_today(),tasks:_rollMissions(),claimed:false};
+}
+let missions=_loadMissions();
+function saveMissions(){try{localStorage.setItem(MS_KEY,JSON.stringify(missions));}catch(e){}}
+function _ensureMissions(){
+  if(missions.date!==_today()){missions={date:_today(),tasks:_rollMissions(),claimed:false};saveMissions();}
+}
+function missionDef(id){return MISSION_BANK.find(m=>m.id===id);}
+function addMissionProgress(type,n){
+  _ensureMissions();
+  let changed=false;
+  missions.tasks.forEach(t=>{
+    const d=missionDef(t.id);if(!d||d.type!==type)return;
+    if(t.progress>=d.target)return;
+    t.progress=Math.min(d.target,(t.progress||0)+(n||1));
+    changed=true;
+  });
+  if(changed)saveMissions();
+}
+function missionsDoneCount(){_ensureMissions();return missions.tasks.filter(t=>t.progress>=(missionDef(t.id)?.target||0)).length;}
+function missionsAllDone(){_ensureMissions();return missions.tasks.every(t=>t.progress>=(missionDef(t.id)?.target||0));}
+function claimMissions(){
+  _ensureMissions();
+  if(!missionsAllDone()||missions.claimed){toast('Не все миссии выполнены');return;}
+  const bonus=30;xp+=bonus;addLeagueXp(bonus);missions.claimed=true;saveMissions();
+  updateHero();renderMissionCard();toast('🎁 +'+bonus+' XP бонус за день!');
+}
+
+// ===== VOICE CHAT / PRON STATE =====
+const VOICE_KEY='ls_voice_v1';
+let voiceState=(()=>{try{const r=localStorage.getItem(VOICE_KEY);if(r)return JSON.parse(r);}catch(e){}return {history:[],pronScore:{}};})();
+function saveVoice(){try{localStorage.setItem(VOICE_KEY,JSON.stringify(voiceState));}catch(e){}}
 
 // ===== LESSON PROGRESSION =====
 let doneLessons={en:new Set(['greetings','numbers']),ar:new Set()};
@@ -2337,6 +2684,7 @@ async function aiSend(){
     aiState.msgs.push({r:'sys',c:'⛔ Дневной лимит 10 сообщений. Завтра он сбросится. (Подписка снимет лимит)'});saveAi();renderAi();return;
   }
   aiState.msgs.push({r:'u',c:txt});aiState.used++;saveAi();
+  addMissionProgress('ai',1);
   ta.value='';aiAutosize(ta);renderAi();
   // typing indicator
   const chat=document.getElementById('ai-chat');
@@ -2661,8 +3009,13 @@ function navTo(id){
   else if(id==='profile') renderProfile();
   else if(id==='lessons-en') renderLessons('en');
   else if(id==='lessons-ar') renderLessons('ar');
-  else if(id==='home'){renderSrsCard();renderAiCard();}
+  else if(id==='home'){renderSrsCard();renderAiCard();renderMissionCard();renderLeagueCard();}
   else if(id==='ai') renderAi();
+  else if(id==='shorts') renderShorts();
+  else if(id==='stories') renderStoriesList();
+  else if(id==='voice') {vcRenderLog();}
+  else if(id==='pron') renderPron();
+  else if(id==='league') renderLeague();
   show(id);
 }
 
@@ -2782,6 +3135,369 @@ function toast(msg){
   t.style.cssText='position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--gm);color:var(--g);padding:10px 18px;border-radius:20px;font-size:13px;text-shadow:0 0 6px var(--g);box-shadow:0 0 16px var(--gxx);z-index:1000;animation:bounceIn .35s ease';
   t.textContent=msg;document.body.appendChild(t);
   setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),320);},1800);
+}
+
+// ===== MISSIONS CARD =====
+function renderMissionCard(){
+  const host=document.getElementById('ms-host');if(!host)return;
+  _ensureMissions();
+  const rows=missions.tasks.map(t=>{
+    const d=missionDef(t.id);if(!d)return '';
+    const done=t.progress>=d.target;
+    return `<div class="ms-row ${done?'dn':''}">
+      <div class="ms-ic">${done?'✅':d.ic}</div>
+      <div class="ms-n">${d.n}</div>
+      <div class="ms-pg">${Math.min(t.progress,d.target)}/${d.target}</div>
+    </div>`;
+  }).join('');
+  const all=missionsAllDone();
+  const claimBtn=`<button class="ms-claim ${all&&!missions.claimed?'show':''}" ${missions.claimed?'disabled':''} onclick="claimMissions()">${missions.claimed?'🎁 Бонус получен':'🎁 Забрать +30 XP'}</button>`;
+  host.innerHTML=`<div class="ms-card">
+    <div class="ms-h"><h4>🎯 Миссии дня</h4><span class="ms-sub">${missionsDoneCount()}/${missions.tasks.length}</span></div>
+    ${rows}
+    ${claimBtn}
+  </div>`;
+}
+
+// ===== LEAGUE CARD =====
+function renderLeagueCard(){
+  const host=document.getElementById('lg-host');if(!host)return;
+  _checkWeekReset();
+  const L=LEAGUES[league.tier];const next=LEAGUES[league.tier+1];
+  const thr=next?next.need:L.need;
+  const pct=Math.min(100,Math.round((league.weekXp/(thr||1))*100));
+  const daysLeft=((()=>{const d=new Date();const day=(d.getDay()+6)%7;return 7-day;})());
+  const promoNote=league.last&&league.last.type==='promo'?`<p>🎉 Повышение: ${LEAGUES[league.last.tier].ic} ${LEAGUES[league.last.tier].n}!</p>`:'';
+  host.innerHTML=`<div class="lg-card ${pct>=100?'is-p':''}" onclick="navTo('league')">
+    <div class="lg-top">
+      <div class="lg-ic" style="color:${L.c}">${L.ic}</div>
+      <div class="lg-info"><h4>Лига ${L.n}</h4><p>${next?'До ':''}${next?next.ic+' '+next.n+' — '+Math.max(0,thr-league.weekXp)+' XP':'Вершина лиг'}</p>${promoNote}</div>
+      <div class="lg-cnt">${daysLeft} дн.</div>
+    </div>
+    <div class="lg-bar"><div class="lg-fl" style="width:${pct}%;background:${L.c};color:${L.c}"></div></div>
+  </div>`;
+}
+
+// League screen
+function renderLeague(){
+  _checkWeekReset();
+  const L=LEAGUES[league.tier];
+  // Check if s-league exists, else reuse tierlist body via renderTL-like pattern
+  const body=document.getElementById('lg-body');
+  if(!body)return;
+  const me={n:(user&&user.name)||'Вы',av:'⭐',xp:league.weekXp||0,me:1};
+  const cohort=_mkCohort(league.cohortSeed).slice(0,30).concat([me]).sort((a,b)=>b.xp-a.xp);
+  const myIdx=cohort.findIndex(c=>c.me);
+  const prom=3,rel=27;
+  const rows=cohort.map((c,i)=>{
+    const zone=i<prom?'promo':(i>=cohort.length-2?'demo':'');
+    const zcss=zone==='promo'?'border-color:#3ea34e;box-shadow:0 0 10px rgba(0,255,65,.25)':zone==='demo'?'border-color:#a35a5a':'';
+    const me=c.me?'background:var(--gxx);border-color:var(--gm);':'';
+    return `<div class="tl-row" style="${zcss};${me}">
+      <div class="tl-pos">${i+1}</div>
+      <div class="tl-av">${c.av}</div>
+      <div class="tl-info"><h4>${c.me?'⭐ Вы':c.n}</h4><p>${zone==='promo'?'↑ в '+(LEAGUES[league.tier+1]?.n||'финал'):zone==='demo'?'↓ в '+(LEAGUES[league.tier-1]?.n||'Бронзу'):''}</p></div>
+      <div class="tl-xp">${c.xp} XP</div>
+    </div>`;
+  }).join('');
+  body.innerHTML=`
+    <div style="padding:18px;text-align:center;border-bottom:1px solid var(--b1)">
+      <div style="font-size:50px;filter:drop-shadow(0 0 14px ${L.c});color:${L.c}">${L.ic}</div>
+      <h2 style="font-size:20px;color:${L.c};text-shadow:0 0 8px ${L.c}">Лига ${L.n}</h2>
+      <p style="font-size:12px;color:var(--t2);margin-top:4px">XP за неделю: <b style="color:var(--g)">${league.weekXp}</b>  · Ты #${myIdx+1} из ${cohort.length}</p>
+      <p style="font-size:10px;color:var(--t2);margin-top:6px">Топ-3 → повышение ↑ · Последние 2 → понижение ↓</p>
+    </div>
+    ${rows}
+  `;
+}
+
+// ===== SHORTS =====
+let _sh={idx:0,seen:new Set()};
+function renderShorts(){
+  const pages=document.getElementById('sh-pages');
+  const dots=document.getElementById('sh-dots');
+  if(!pages||!dots)return;
+  pages.innerHTML=SHORTS.map((v,i)=>`
+    <div class="sh-page" data-idx="${i}">
+      <div class="sh-load" id="sh-load-${i}">⏳ Загрузка…</div>
+      <iframe class="sh-iframe" id="sh-if-${i}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+      <div class="sh-subs"><div class="sh-en">${v.en}</div><br><div class="sh-ru">${v.ru}</div></div>
+      <div class="sh-meta"><h4>${v.t}</h4><p>${v.ch} · ${v.lang==='ar'?'🇸🇦':'🇬🇧'} ${v.topic}</p></div>
+      <div class="sh-side">
+        <button class="sh-btn" onclick="shSaveSrs(${i})" title="В SRS">⭐<small>В SRS</small></button>
+        <button class="sh-btn" onclick="shOpenExternal(${i})" title="Открыть">↗<small>YT</small></button>
+        <button class="sh-btn" onclick="shSpeak(${i})" title="Озвучить">🔊<small>Читать</small></button>
+      </div>
+    </div>
+  `).join('');
+  pages.style.height=(SHORTS.length*100)+'vh';
+  pages.style.display='block';
+  dots.innerHTML=SHORTS.map((_,i)=>`<div class="sh-dot ${i===0?'on':''}"></div>`).join('');
+  _sh.idx=0;_sh.seen=new Set([0]);
+  _shGoto(0);
+  _shLoadIframe(0);
+  addMissionProgress('short',1);
+  // touch swipe
+  const wrap=document.getElementById('sh-wrap');
+  let y0=null;
+  wrap.ontouchstart=e=>{y0=e.touches[0].clientY;};
+  wrap.ontouchend=e=>{if(y0===null)return;const dy=e.changedTouches[0].clientY-y0;if(dy<-40)shNext();else if(dy>40)shPrev();y0=null;};
+  wrap.onwheel=e=>{if(e.deltaY>30)shNext();else if(e.deltaY<-30)shPrev();};
+}
+function _shGoto(i){
+  const pages=document.getElementById('sh-pages');if(!pages)return;
+  pages.style.transform=`translateY(-${i*100}%)`;
+  document.getElementById('sh-count').textContent=(i+1)+'/'+SHORTS.length;
+  Array.from(document.querySelectorAll('.sh-dot')).forEach((d,k)=>d.classList.toggle('on',k===i));
+  _sh.idx=i;
+  // Pause non-visible iframes (set src to blank to stop)
+  SHORTS.forEach((_,k)=>{
+    const ifr=document.getElementById('sh-if-'+k);if(!ifr)return;
+    if(k===i){if(!_sh.seen.has(k)){_shLoadIframe(k);_sh.seen.add(k);}}
+    else { try{ifr.src='about:blank';}catch(e){} }
+  });
+  if(_sh.seen.has(i))_shLoadIframe(i);
+}
+function _shLoadIframe(i){
+  const v=SHORTS[i];if(!v)return;
+  const ifr=document.getElementById('sh-if-'+i);const ld=document.getElementById('sh-load-'+i);
+  if(!ifr)return;
+  ifr.src=`https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&playsinline=1&rel=0&modestbranding=1&mute=0&loop=1&playlist=${encodeURIComponent(v.id)}`;
+  ifr.onload=()=>{if(ld)ld.style.display='none';};
+  setTimeout(()=>{if(ld)ld.style.display='none';},6000);
+}
+function shNext(){if(_sh.idx<SHORTS.length-1)_shGoto(_sh.idx+1);}
+function shPrev(){if(_sh.idx>0)_shGoto(_sh.idx-1);}
+function closeShorts(){
+  // stop all iframes
+  SHORTS.forEach((_,k)=>{const ifr=document.getElementById('sh-if-'+k);if(ifr){try{ifr.src='about:blank';}catch(e){}}});
+  navTo('home');
+}
+function shSpeak(i){const v=SHORTS[i];if(!v)return;doSpeak(v.en,v.lang==='ar'?'ar':'en');}
+function shOpenExternal(i){const v=SHORTS[i];if(!v)return;const url=`https://www.youtube.com/watch?v=${encodeURIComponent(v.id)}`;try{if(window.Capacitor&&window.Capacitor.Browser)window.Capacitor.Browser.open({url});else window.open(url,'_blank');}catch(e){window.open(url,'_blank');}}
+function shSaveSrs(i){
+  const v=SHORTS[i];if(!v)return;
+  voiceState.favs=voiceState.favs||[];
+  const key='sh_'+v.id;
+  if(voiceState.favs.find(f=>f.k===key)){toast('Уже в избранном');return;}
+  voiceState.favs.push({k:key,en:v.en,ru:v.ru,topic:v.topic,lang:v.lang,t:Date.now()});
+  saveVoice();
+  toast('⭐ Сохранено в избранное');
+  const btn=event&&event.currentTarget;if(btn){btn.classList.add('on');}
+}
+
+// ===== STORIES =====
+function renderStoriesList(){
+  const g=document.getElementById('st-grid');if(!g)return;
+  g.innerHTML=STORIES.map(s=>`
+    <div class="st-card" onclick="openStory('${s.id}')">
+      <span class="st-lvl">${s.lvl}</span>
+      <div class="st-ic">${s.ic}</div>
+      <h3>${s.t}</h3>
+      <p>${s.sum}</p>
+    </div>
+  `).join('');
+}
+let _curStory=null;
+function openStory(id){
+  const s=STORIES.find(x=>x.id===id);if(!s)return;
+  _curStory=s;
+  document.getElementById('st-title').textContent=s.ic+' '+s.t;
+  const lang=s.lang;
+  const lines=s.body.map((ln,i)=>{
+    let en=escapeHtml(ln.en);
+    // Mark glossary words
+    if(ln.glo){Object.keys(ln.glo).forEach(w=>{
+      const re=new RegExp('\\b('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')\\b','i');
+      en=en.replace(re,`<span class="w-hot" onclick="glossTap(event,'${w.replace(/'/g,"\\'")}','${(ln.glo[w]||'').replace(/'/g,"\\'")}')">$1</span>`);
+    });}
+    return `<div class="st-line" style="animation-delay:${i*0.05}s">
+      <div class="st-en">${en} <span class="st-audio" onclick="doSpeak(${JSON.stringify(ln.en).replace(/"/g,'&quot;')},'${lang}')">🔊</span></div>
+      <div class="st-ru">${escapeHtml(ln.ru)}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('st-body').innerHTML=`
+    <div class="st-hero">
+      <div class="st-hi">${s.ic}</div>
+      <h1>${s.t}</h1>
+      <p>${s.sum} · ${s.lvl}</p>
+    </div>
+    ${lines}
+  `;
+  show('story');
+}
+function glossTap(ev,w,ru){
+  ev.stopPropagation();
+  toast(w+' → '+ru);
+}
+function finishStory(){
+  if(!_curStory){navTo('stories');return;}
+  xp+=8;addLeagueXp(8);addMissionProgress('story',1);updateHero();saveMissions();
+  toast('📖 +8 XP');
+  navTo('stories');
+}
+
+// ===== VOICE AI (MediaRecorder + Fireworks Whisper + AI response) =====
+let _vc={rec:null,chunks:[],busy:false,startT:0};
+async function vcStart(ev){
+  if(ev)ev.preventDefault();
+  if(_vc.busy||_vc.rec)return;
+  if(!aiHasKey()){toast('Нужен API ключ');return;}
+  try{
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast('Нет доступа к микрофону');return;}
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    const mr=new MediaRecorder(stream);
+    _vc.chunks=[];_vc.rec=mr;_vc.startT=Date.now();
+    mr.ondataavailable=e=>{if(e.data&&e.data.size>0)_vc.chunks.push(e.data);};
+    mr.onstop=async()=>{
+      stream.getTracks().forEach(t=>t.stop());
+      _vc.rec=null;
+      const blob=new Blob(_vc.chunks,{type:'audio/webm'});
+      await _vcProcess(blob);
+    };
+    mr.start();
+    document.getElementById('vc-mic').classList.add('rec');
+    document.getElementById('vc-status').textContent='🎙 Говори…';
+  } catch(e){toast('Микрофон недоступен');}
+}
+function vcStop(ev){
+  if(ev)ev.preventDefault();
+  if(!_vc.rec)return;
+  const dur=(Date.now()-_vc.startT)/1000;
+  document.getElementById('vc-mic').classList.remove('rec');
+  document.getElementById('vc-status').textContent='⏳ Распознаю…';
+  if(dur<0.3){_vc.rec.stop();_vc.rec=null;document.getElementById('vc-status').textContent='Слишком коротко';return;}
+  _vc.rec.stop();
+}
+async function _vcProcess(blob){
+  _vc.busy=true;
+  try{
+    const transcript=await fireworksTranscribe(blob);
+    if(!transcript){_vc.busy=false;document.getElementById('vc-status').textContent='Не расслышал — попробуй ещё';return;}
+    _vcAppend('u',transcript);
+    addMissionProgress('voice',1);
+    document.getElementById('vc-status').textContent='💬 Думаю…';
+    const reply=await _vcChat(transcript);
+    _vcAppend('a',reply);
+    document.getElementById('vc-status').textContent='Нажми микрофон';
+    doSpeak(reply,prefs.primary==='ar'?'ar':'en');
+  } catch(e){
+    document.getElementById('vc-status').textContent='Ошибка: '+(e.message||'сеть');
+  }
+  _vc.busy=false;
+}
+function _vcAppend(role,text){
+  voiceState.history.push({r:role,c:text,t:Date.now()});saveVoice();
+  const log=document.getElementById('vc-log');
+  const d=document.createElement('div');d.className='vc-line '+role;d.textContent=text;
+  log.appendChild(d);log.scrollTop=log.scrollHeight;
+  document.getElementById('vc-q').textContent=voiceState.history.filter(m=>m.r==='u').length;
+}
+async function fireworksTranscribe(blob){
+  if(AI_PROXY_URL){
+    const fd=new FormData();fd.append('file',blob,'audio.webm');fd.append('model','whisper-v3');
+    const r=await fetch(AI_PROXY_URL+'/transcribe',{method:'POST',body:fd});
+    if(!r.ok)throw new Error('proxy '+r.status);
+    const j=await r.json();return (j.text||'').trim();
+  }
+  if(!FIREWORKS_API_KEY||FIREWORKS_API_KEY.indexOf('__')===0)throw new Error('no key');
+  const fd=new FormData();
+  fd.append('file',blob,'audio.webm');
+  fd.append('model','whisper-v3-turbo');
+  fd.append('response_format','json');
+  fd.append('language',prefs.primary==='ar'?'ar':'en');
+  const r=await fetch('https://audio-turbo.us-virginia-1.direct.fireworks.ai/v1/audio/transcriptions',{method:'POST',headers:{'Authorization':'Bearer '+FIREWORKS_API_KEY},body:fd});
+  if(!r.ok){const t=await r.text().catch(()=>'');throw new Error('whisper '+r.status+' '+t.slice(0,80));}
+  const j=await r.json();return (j.text||'').trim();
+}
+async function _vcChat(userText){
+  const sys=aiSysPrompt()+'\n\nIMPORTANT: This is a VOICE conversation. Keep replies to 1–2 short sentences max and always end with a question to keep the conversation flowing.';
+  const history=voiceState.history.slice(-6).map(m=>({role:m.r==='u'?'user':'assistant',content:m.c}));
+  const body={model:AI_MODEL,temperature:0.7,max_tokens:220,messages:[{role:'system',content:sys},...history,{role:'user',content:userText}]};
+  const headers={'Content-Type':'application/json'};if(!AI_PROXY_URL)headers['Authorization']='Bearer '+FIREWORKS_API_KEY;
+  const url=AI_PROXY_URL?AI_PROXY_URL+'/chat':'https://api.fireworks.ai/inference/v1/chat/completions';
+  const r=await fetch(url,{method:'POST',headers,body:JSON.stringify(body)});
+  if(!r.ok)throw new Error('chat '+r.status);
+  const j=await r.json();return j.choices[0].message.content;
+}
+function vcClearLog(){voiceState.history=[];saveVoice();document.getElementById('vc-log').innerHTML='';document.getElementById('vc-q').textContent='0';}
+function vcRenderLog(){
+  const log=document.getElementById('vc-log');if(!log)return;
+  log.innerHTML=voiceState.history.map(m=>`<div class="vc-line ${m.r}">${escapeHtml(m.c)}</div>`).join('');
+  log.scrollTop=log.scrollHeight;
+  document.getElementById('vc-q').textContent=voiceState.history.filter(m=>m.r==='u').length;
+}
+
+// ===== PRONUNCIATION SCORING =====
+let _pr={rec:null,chunks:[],target:null,busy:false};
+function renderPron(){
+  const lang=prefs.primary==='ar'?'ar':'en';
+  const list=PRON_TARGETS[lang]||PRON_TARGETS.en;
+  const host=document.getElementById('pr-body');if(!host)return;
+  host.innerHTML=list.map((p,i)=>{
+    const lastScore=(voiceState.pronScore&&voiceState.pronScore[lang+'_'+i]);
+    return `<div class="pr-card" id="pr-${i}">
+      <div style="font-size:10px;color:var(--t2);letter-spacing:1.2px">${p.lvl}</div>
+      <div class="pr-tgt ${lang==='ar'?'ar':''}">${escapeHtml(p.t)}</div>
+      <button class="ghost" style="font-size:11px;padding:6px 14px" onclick="doSpeak(${JSON.stringify(p.t).replace(/"/g,'&quot;')},'${lang}')">🔊 Послушать</button>
+      <div style="margin-top:10px">
+        <button class="chk" id="pr-rec-${i}" onclick="prToggle(${i})">🎤 Записать и проверить</button>
+      </div>
+      ${lastScore?`<div class="pr-score">${lastScore.score}%</div><div class="pr-said">«${escapeHtml(lastScore.said)}»</div>`:''}
+    </div>`;
+  }).join('');
+}
+async function prToggle(i){
+  const lang=prefs.primary==='ar'?'ar':'en';
+  const list=PRON_TARGETS[lang]||PRON_TARGETS.en;
+  const tgt=list[i];if(!tgt)return;
+  if(_pr.rec){
+    _pr.rec.stop();
+    return;
+  }
+  if(!aiHasKey()){toast('Нужен API ключ для оценки');return;}
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast('Микрофон недоступен');return;}
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    const mr=new MediaRecorder(stream);
+    _pr.rec=mr;_pr.chunks=[];_pr.target={i,lang,t:tgt.t};
+    mr.ondataavailable=e=>{if(e.data&&e.data.size>0)_pr.chunks.push(e.data);};
+    mr.onstop=async()=>{
+      stream.getTracks().forEach(t=>t.stop());
+      _pr.rec=null;
+      const btn=document.getElementById('pr-rec-'+i);if(btn){btn.textContent='⏳ Распознаю…';btn.disabled=true;}
+      try{
+        const blob=new Blob(_pr.chunks,{type:'audio/webm'});
+        const said=await fireworksTranscribe(blob);
+        const score=_pronScore(tgt.t,said);
+        voiceState.pronScore=voiceState.pronScore||{};
+        voiceState.pronScore[lang+'_'+i]={score,said,t:Date.now()};
+        saveVoice();addMissionProgress('pron',1);
+        xp+=Math.round(score/10);addLeagueXp(Math.round(score/10));updateHero();
+        renderPron();
+        toast(score>=85?'🎉 Отлично!':score>=60?'👍 Неплохо':'🤔 Попробуй ещё');
+      } catch(e){toast('Ошибка: '+(e.message||'сеть'));const btn=document.getElementById('pr-rec-'+i);if(btn){btn.textContent='🎤 Записать и проверить';btn.disabled=false;}}
+    };
+    mr.start();
+    const btn=document.getElementById('pr-rec-'+i);if(btn)btn.textContent='⏹ Остановить';
+  } catch(e){toast('Не удалось записать');}
+}
+function _pronScore(target,said){
+  if(!said)return 0;
+  const norm=(s)=>s.toLowerCase().replace(/[.,!?;:()"']/g,'').replace(/\s+/g,' ').trim();
+  const a=norm(target),b=norm(said);
+  if(!a||!b)return 0;
+  // Levenshtein-based similarity
+  const la=a.length,lb=b.length;
+  const dp=Array.from({length:la+1},()=>new Array(lb+1).fill(0));
+  for(let i=0;i<=la;i++)dp[i][0]=i;
+  for(let j=0;j<=lb;j++)dp[0][j]=j;
+  for(let i=1;i<=la;i++)for(let j=1;j<=lb;j++){
+    dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j-1],dp[i-1][j],dp[i][j-1]);
+  }
+  const dist=dp[la][lb];
+  const sim=1-dist/Math.max(la,lb);
+  return Math.max(0,Math.round(sim*100));
 }
 
 // ===== IN-APP VIDEO PLAYER =====
@@ -3016,7 +3732,10 @@ function showComplete(){
   const isReview=curTopic==='_review';
   const xpGain=Math.max(5,10-(3-hearts)*2);
   xp+=xpGain;lessons++;
-  if(!isReview){doneLessons[curLang].add(curTopic);saveProgress();}
+  addLeagueXp(xpGain);
+  addMissionProgress('xp',xpGain);
+  if(!isReview){doneLessons[curLang].add(curTopic);saveProgress();addMissionProgress('lesson',1);}
+  else {addMissionProgress('srs',quiz.length);}
   updateHero();
   const corr=quiz.length-(3-hearts);
   const perfect=hearts===3;
@@ -3172,7 +3891,7 @@ function showTestResult(){
   const m=Math.floor(elapsed/60),s=elapsed%60;
   const cert=pct>=80;
   const xpGain=Math.max(5,Math.round(pct/5));
-  xp+=xpGain;updateHero();
+  xp+=xpGain;addLeagueXp(xpGain);addMissionProgress('xp',xpGain);addMissionProgress('test',1);updateHero();
   saveTestRecord(_test.key,pct);
   const isCw=_test.mode==='control';
   const tbody=document.getElementById('tbody');
