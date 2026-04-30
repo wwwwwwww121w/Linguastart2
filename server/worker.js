@@ -1,33 +1,86 @@
-// LinguaStart auth backend — single Cloudflare Worker handling:
+// LinguaStart auth + AI proxy backend (Cloudflare Worker)
+//
+// Endpoints:
 //   POST /auth/email/send      { email }                  -> sends 6-digit code via Resend
 //   POST /auth/email/verify    { email, code }            -> { token } on success
-//   POST /telegram/webhook     (Telegram updates)         -> stashes /start sid -> user pairing
+//   POST /telegram/webhook     (Telegram updates)         -> requires X-Telegram-Bot-Api-Secret-Token
 //   GET  /auth/tg/poll?sid=... -> 204 if pending, 200 + user JSON when bot received /start
+//   POST /ai/chat              -> proxies to Fireworks chat completion (server-side key)
+//   POST /ai/transcribe        -> proxies to Fireworks Whisper (server-side key)
 //
-// Env bindings required (set via `wrangler secret put` or dashboard):
-//   RESEND_API_KEY        re_...
-//   TELEGRAM_BOT_TOKEN    123456789:AAH...
-//   AUTH_SHARED_SECRET    any random string used to sign tokens
-//   FROM_EMAIL            optional; default 'LinguaStart <onboarding@resend.dev>'
-//   ALLOWED_ORIGIN        '*' for dev; set to your domain in prod
-// KV binding: SESSIONS (namespace)
+// Env bindings (`wrangler secret put`):
+//   RESEND_API_KEY               re_...
+//   TELEGRAM_BOT_TOKEN           123456789:AAH...
+//   TELEGRAM_WEBHOOK_SECRET      any random string (REQUIRED — set webhook with this secret_token)
+//   AUTH_SHARED_SECRET           any random string used to sign tokens
+//   FIREWORKS_API_KEY            fw_... (REQUIRED for /ai endpoints)
+//   FROM_EMAIL                   optional; default 'LinguaStart <onboarding@resend.dev>'
+//   ALLOWED_ORIGIN               'https://localhost' for Capacitor; '*' for dev
+// KV binding: SESSIONS
 
 const TG_API = (token) => `https://api.telegram.org/bot${token}`;
 const RESEND_URL = 'https://api.resend.com/emails';
+const FW_CHAT = 'https://api.fireworks.ai/inference/v1/chat/completions';
+const FW_TRANSCRIBE = 'https://audio-turbo.us-virginia-1.direct.fireworks.ai/v1/audio/transcriptions';
 
-const cors = (env) => ({
-  'Access-Control-Allow-Origin': env.ALLOWED_ORIGIN || '*',
-  'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-});
+// ---- helpers ----
+const cors = (env, origin) => {
+  const allow = env.ALLOWED_ORIGIN || '*';
+  // If wildcard configured, echo the request origin to keep CORS workable across Capacitor schemes.
+  // If a specific origin is configured, only allow that one.
+  const allowOrigin = allow === '*' ? (origin || '*') : (origin === allow ? allow : allow);
+  return {
+    'Access-Control-Allow-Origin': allowOrigin,
+    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Max-Age': '86400',
+    'Vary': 'Origin',
+    'X-Content-Type-Options': 'nosniff',
+    'Referrer-Policy': 'no-referrer',
+  };
+};
 
-const json = (env, body, status = 200) =>
-  new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', ...cors(env) } });
+const json = (env, body, status = 200, origin) =>
+  new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', ...cors(env, origin) } });
 
-const text = (env, body, status = 200) =>
-  new Response(body, { status, headers: { 'Content-Type': 'text/plain', ...cors(env) } });
+const text = (env, body, status = 200, origin) =>
+  new Response(body, { status, headers: { 'Content-Type': 'text/plain', ...cors(env, origin) } });
 
 const rand6 = () => String(Math.floor(100000 + Math.random() * 900000));
+
+// constant-time string equality (avoids early-return timing leak)
+function safeEq(a, b) {
+  if (typeof a !== 'string' || typeof b !== 'string') return false;
+  if (a.length !== b.length) return false;
+  let r = 0;
+  for (let i = 0; i < a.length; i++) r |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return r === 0;
+}
+
+// IP-based sliding-window rate limiter using KV.
+// `bucket` is a string key prefix; `limit` requests per `windowSec` window per ip.
+async function rateLimit(env, ip, bucket, limit, windowSec) {
+  if (!ip) ip = 'anon';
+  const k = `rl:${bucket}:${ip}`;
+  const now = Math.floor(Date.now() / 1000);
+  const cur = await env.SESSIONS.get(k);
+  let entry = cur ? JSON.parse(cur) : { c: 0, t: now };
+  if (now - entry.t > windowSec) entry = { c: 0, t: now };
+  entry.c += 1;
+  // KV write back — TTL keeps the bucket from growing.
+  await env.SESSIONS.put(k, JSON.stringify(entry), { expirationTtl: windowSec * 2 });
+  return { ok: entry.c <= limit, count: entry.c, retryAfter: Math.max(1, windowSec - (now - entry.t)) };
+}
+
+// Track failed verify attempts per email to prevent brute-force of the 6-digit OTP.
+async function bumpVerifyAttempts(env, email) {
+  const k = `va:${email}`;
+  const cur = await env.SESSIONS.get(k);
+  const n = (cur ? parseInt(cur, 10) : 0) + 1;
+  await env.SESSIONS.put(k, String(n), { expirationTtl: 900 });
+  return n;
+}
+async function clearVerifyAttempts(env, email) { await env.SESSIONS.delete(`va:${email}`); }
 
 async function sendEmailCode(env, email, code) {
   const from = env.FROM_EMAIL || 'LinguaStart <onboarding@resend.dev>';
@@ -60,72 +113,146 @@ async function sign(env, payload) {
   return btoa(JSON.stringify(payload)) + '.' + b64;
 }
 
+const validEmail = (e) => typeof e === 'string' && e.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+const validCode  = (c) => typeof c === 'string' && /^\d{6}$/.test(c);
+
 export default {
   async fetch(req, env) {
-    if (req.method === 'OPTIONS') return new Response(null, { headers: cors(env) });
+    const origin = req.headers.get('Origin') || '';
+    if (req.method === 'OPTIONS') return new Response(null, { headers: cors(env, origin) });
     const url = new URL(req.url);
     const path = url.pathname;
+    const ip = req.headers.get('CF-Connecting-IP') || req.headers.get('X-Real-IP') || 'unknown';
 
     try {
+      // ---- Email OTP ----
       if (path === '/auth/email/send' && req.method === 'POST') {
-        const { email } = await req.json();
-        if (!email || !/.+@.+\..+/.test(email)) return text(env, 'invalid email', 400);
+        const rl = await rateLimit(env, ip, 'email_send', 5, 600); // 5 sends / 10 min / IP
+        if (!rl.ok) return text(env, 'rate limited', 429, origin);
+        const body = await req.json().catch(() => ({}));
+        const email = (body.email || '').toLowerCase().trim();
+        if (!validEmail(email)) return text(env, 'invalid email', 400, origin);
+        const perEmail = await rateLimit(env, email, 'email_send_addr', 3, 600); // 3 / 10 min / addr
+        if (!perEmail.ok) return text(env, 'rate limited', 429, origin);
         const code = rand6();
         await env.SESSIONS.put(`email:${email}`, code, { expirationTtl: 600 });
+        await clearVerifyAttempts(env, email);
         await sendEmailCode(env, email, code);
-        return json(env, { ok: true });
+        return json(env, { ok: true }, 200, origin);
       }
 
       if (path === '/auth/email/verify' && req.method === 'POST') {
-        const { email, code } = await req.json();
+        const rl = await rateLimit(env, ip, 'email_verify', 30, 600); // 30 attempts / 10 min / IP
+        if (!rl.ok) return text(env, 'rate limited', 429, origin);
+        const body = await req.json().catch(() => ({}));
+        const email = (body.email || '').toLowerCase().trim();
+        const code = String(body.code || '');
+        if (!validEmail(email) || !validCode(code)) return text(env, 'invalid input', 400, origin);
+        const attempts = await bumpVerifyAttempts(env, email);
+        if (attempts > 8) {
+          await env.SESSIONS.delete(`email:${email}`); // invalidate code on too many tries
+          return text(env, 'too many attempts', 429, origin);
+        }
         const stored = await env.SESSIONS.get(`email:${email}`);
-        if (!stored || stored !== String(code)) return text(env, 'wrong code', 400);
+        if (!stored || !safeEq(stored, code)) return text(env, 'wrong code', 400, origin);
         await env.SESSIONS.delete(`email:${email}`);
+        await clearVerifyAttempts(env, email);
         const token = await sign(env, { email, iat: Date.now() });
-        return json(env, { ok: true, email, token });
+        return json(env, { ok: true, email, token }, 200, origin);
       }
 
+      // ---- Telegram webhook (must include secret token from Telegram bot setWebhook) ----
       if (path === '/telegram/webhook' && req.method === 'POST') {
-        const update = await req.json();
+        const got = req.headers.get('X-Telegram-Bot-Api-Secret-Token') || '';
+        if (!env.TELEGRAM_WEBHOOK_SECRET || !safeEq(got, env.TELEGRAM_WEBHOOK_SECRET)) {
+          return text(env, 'forbidden', 403, origin);
+        }
+        const update = await req.json().catch(() => ({}));
         const msg = update.message;
         if (msg && msg.text && msg.text.startsWith('/start')) {
           const parts = msg.text.split(' ');
           const sid = parts[1];
-          if (sid && msg.from) {
+          // sid must look like a uuid/short token to prevent KV key abuse
+          if (sid && /^[a-zA-Z0-9_-]{6,64}$/.test(sid) && msg.from) {
             const data = {
               id: msg.from.id,
-              first_name: msg.from.first_name || '',
-              last_name: msg.from.last_name || '',
-              username: msg.from.username || '',
+              first_name: String(msg.from.first_name || '').slice(0, 100),
+              last_name: String(msg.from.last_name || '').slice(0, 100),
+              username: String(msg.from.username || '').slice(0, 100),
               photo_url: '',
             };
             await env.SESSIONS.put(`tg:${sid}`, JSON.stringify(data), { expirationTtl: 600 });
-            // Acknowledge to user
             await fetch(`${TG_API(env.TELEGRAM_BOT_TOKEN)}/sendMessage`, {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ chat_id: msg.chat.id, text: 'Готово ✅ Возвращайся в приложение — оно само залогинит тебя.' }),
             });
           }
         }
-        return json(env, { ok: true });
+        return json(env, { ok: true }, 200, origin);
       }
 
       if (path === '/auth/tg/poll' && req.method === 'GET') {
-        const sid = url.searchParams.get('sid');
-        if (!sid) return text(env, 'missing sid', 400);
+        const rl = await rateLimit(env, ip, 'tg_poll', 120, 60); // 2/sec
+        if (!rl.ok) return text(env, 'rate limited', 429, origin);
+        const sid = url.searchParams.get('sid') || '';
+        if (!/^[a-zA-Z0-9_-]{6,64}$/.test(sid)) return text(env, 'missing sid', 400, origin);
         const v = await env.SESSIONS.get(`tg:${sid}`);
-        if (!v) return new Response(null, { status: 204, headers: cors(env) });
+        if (!v) return new Response(null, { status: 204, headers: cors(env, origin) });
         await env.SESSIONS.delete(`tg:${sid}`);
         const data = JSON.parse(v);
         const token = await sign(env, { tg_id: data.id, iat: Date.now() });
-        return json(env, { ...data, token });
+        return json(env, { ...data, token }, 200, origin);
       }
 
-      if (path === '/' || path === '/health') return text(env, 'LinguaStart auth OK');
+      // ---- AI proxy (keeps Fireworks key server-side) ----
+      if (path === '/ai/chat' && req.method === 'POST') {
+        if (!env.FIREWORKS_API_KEY) return text(env, 'ai disabled', 503, origin);
+        const rl = await rateLimit(env, ip, 'ai_chat', 30, 60); // 30/min/IP
+        if (!rl.ok) return text(env, 'rate limited', 429, origin);
+        const body = await req.json().catch(() => null);
+        if (!body || !Array.isArray(body.messages)) return text(env, 'invalid', 400, origin);
+        // Cap fields to prevent abuse
+        const safe = {
+          model: 'accounts/fireworks/models/llama-v3p3-70b-instruct',
+          temperature: Math.min(1.5, Math.max(0, Number(body.temperature) || 0.7)),
+          max_tokens: Math.min(1024, Math.max(16, parseInt(body.max_tokens, 10) || 320)),
+          messages: body.messages.slice(-20).map((m) => ({
+            role: ['system', 'user', 'assistant'].includes(m.role) ? m.role : 'user',
+            content: String(m.content || '').slice(0, 4000),
+          })),
+        };
+        const r = await fetch(FW_CHAT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.FIREWORKS_API_KEY}` },
+          body: JSON.stringify(safe),
+        });
+        const t = await r.text();
+        return new Response(t, { status: r.status, headers: { 'Content-Type': 'application/json', ...cors(env, origin) } });
+      }
 
-      return text(env, 'not found', 404);
+      if (path === '/ai/transcribe' && req.method === 'POST') {
+        if (!env.FIREWORKS_API_KEY) return text(env, 'ai disabled', 503, origin);
+        const rl = await rateLimit(env, ip, 'ai_tx', 20, 60); // 20/min/IP
+        if (!rl.ok) return text(env, 'rate limited', 429, origin);
+        // Pass the form-data through (file + model + language)
+        const ct = req.headers.get('Content-Type') || '';
+        if (!ct.startsWith('multipart/form-data')) return text(env, 'expected multipart', 400, origin);
+        const r = await fetch(FW_TRANSCRIBE, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${env.FIREWORKS_API_KEY}` },
+          body: req.body,
+          // @ts-ignore — Cloudflare Workers stream passthrough requires duplex
+          duplex: 'half',
+        });
+        const t = await r.text();
+        return new Response(t, { status: r.status, headers: { 'Content-Type': 'application/json', ...cors(env, origin) } });
+      }
+
+      if (path === '/' || path === '/health') return text(env, 'LinguaStart auth OK', 200, origin);
+      return text(env, 'not found', 404, origin);
     } catch (e) {
-      return text(env, 'error: ' + (e && e.message), 500);
+      // Don't leak stack traces
+      return text(env, 'error', 500, origin);
     }
   },
 };

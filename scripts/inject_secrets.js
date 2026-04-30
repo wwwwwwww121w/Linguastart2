@@ -6,13 +6,19 @@ const path = require('path');
 const PUBLIC_HTML = 'android/app/src/main/assets/public/index.html';
 const CAP_CONFIG = 'android/app/src/main/assets/capacitor.config.json';
 
+// SECURITY: FIREWORKS_API_KEY is intentionally NOT injected into shipping APKs.
+// AI calls are proxied through the Cloudflare Worker (AUTH_BACKEND_URL/ai/*),
+// which holds the key as a server-side secret. To inject for local desktop dev
+// only, set ALLOW_FIREWORKS_KEY_IN_APK=1 (never do this for prod builds).
 const REPLACEMENTS = [
   { env: 'GOOGLE_OAUTH_CLIENT_ID', placeholder: '__GOOGLE_CLIENT_ID__', label: 'Google Client ID' },
-  { env: 'FIREWORKS_API_KEY', placeholder: '__FIREWORKS_API_KEY__', label: 'Fireworks API Key' },
   { env: 'TELEGRAM_BOT_ID', placeholder: '__TELEGRAM_BOT_ID__', label: 'Telegram Bot ID' },
   { env: 'TELEGRAM_BOT_USERNAME', placeholder: '__TELEGRAM_BOT_USERNAME__', label: 'Telegram Bot Username' },
   { env: 'AUTH_BACKEND_URL', placeholder: '__AUTH_BACKEND_URL__', label: 'Auth Backend URL' },
 ];
+if (process.env.ALLOW_FIREWORKS_KEY_IN_APK === '1') {
+  REPLACEMENTS.push({ env: 'FIREWORKS_API_KEY', placeholder: '__FIREWORKS_API_KEY__', label: 'Fireworks API Key (DEV ONLY)' });
+}
 
 function patch(file, allowMissing) {
   if (!fs.existsSync(file)) {
