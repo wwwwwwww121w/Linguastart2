@@ -199,6 +199,23 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
 .err-fill.hot{background:var(--err);box-shadow:0 0 4px #ff4040aa}
 .rep-btn{font-size:12px;padding:8px 12px;border-radius:var(--r2);border:1px solid var(--b3);background:var(--bg3);color:var(--t0);cursor:pointer;width:100%;text-align:left;transition:all .1s}
 .rep-btn:active{background:var(--bg4)}
+/* in-app YouTube player */
+.vp-modal{position:fixed;inset:0;z-index:9998;display:none;align-items:center;justify-content:center;padding:0}
+.vp-modal.show{display:flex;animation:fi .25s ease}
+.vp-bg{position:absolute;inset:0;background:rgba(3,10,3,.92);backdrop-filter:blur(8px)}
+.vp-card{position:relative;width:100%;max-width:520px;background:var(--bg1);border:1px solid var(--b3);border-radius:14px;overflow:hidden;box-shadow:0 0 30px var(--gxx);margin:12px;animation:bounceIn .3s ease}
+.vp-head{display:flex;align-items:flex-start;justify-content:space-between;padding:12px 14px;gap:10px;border-bottom:1px solid var(--b2)}
+.vp-titles{flex:1;min-width:0}
+.vp-title{font-size:13px;font-weight:500;color:var(--t0);line-height:1.3;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.vp-ch{font-size:10px;color:var(--t2)}
+.vp-close{flex-shrink:0;background:var(--bg2);border:1px solid var(--b2);color:var(--t1);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.vp-close:hover{color:var(--g);border-color:var(--gm);box-shadow:0 0 10px var(--gxx)}
+.vp-frame-wrap{position:relative;width:100%;background:#000}
+.vp-frame{position:relative;width:100%;padding-top:56.25%}
+.vp-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vp-actions{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--b2)}
+.vp-act{flex:1;padding:9px;background:var(--bg2);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:11px;cursor:pointer;transition:all .15s}
+.vp-act:hover{color:var(--g);border-color:var(--gm);background:var(--gxx)}
 .yt-card{background:var(--bg1);border:1px solid var(--b2);border-radius:var(--r);overflow:hidden;margin-bottom:7px;cursor:pointer;transition:border-color .1s}
 .yt-card:hover{border-color:var(--gm);box-shadow:0 0 8px var(--gxx)}
 .yt-thumb{width:100%;height:105px;background:var(--bg3);display:flex;align-items:center;justify-content:center;position:relative}
@@ -1344,19 +1361,34 @@ const LNAMES={
   weather_ar:'Погода АР',verbs_ar:'Глаголы АР',prepositions_ar:'Предлоги АР',
   city_ar:'Город АР',house_ar:'Дом АР',countries_ar:'Страны АР',
 };
+// Curated YouTube videos. id = real video ID -> embeddable in iframe player.
 const YT={
-  greetings:[{t:'Приветствия на английском — полный разбор',ch:'EnglishStep',d:'8:24',q:'english+greetings+beginners+russian'},{t:'Hello, Hi, Hey — как говорить правильно',ch:'SpeakEnglish',d:'6:15',q:'hello+english+ways'}],
-  numbers:[{t:'Числа на английском 1–100 с произношением',ch:'LearnEnglishRu',d:'10:42',q:'english+numbers+1+100+pronunciation'},{t:'Английские числа — ошибки русских',ch:'EnglishMistakes',d:'7:30',q:'english+numbers+mistakes+russian'}],
-  colors:[{t:'Цвета на английском — все оттенки',ch:'ColorsLearn',d:'9:18',q:'colors+english+pronunciation+all'}],
-  family:[{t:'Семья на английском — все слова',ch:'FamilyEnglish',d:'11:20',q:'family+english+vocabulary+russian'}],
-  food:[{t:'Еда на английском — базовый словарь',ch:'EnglishFood',d:'8:30',q:'food+drinks+english+vocabulary'}],
-  body:[{t:'Тело человека на английском',ch:'BodyEnglish',d:'9:10',q:'body+parts+english+russian+beginners'}],
-  weather:[{t:'Погода на английском — все слова и фразы',ch:'WeatherEng',d:'7:45',q:'weather+english+vocabulary+russian'}],
-  travel:[{t:'Путешествие на английском — выживание в аэропорту',ch:'TravelEng',d:'12:00',q:'travel+english+airport+phrases'}],
-  alphabet1:[{t:'Арабский алфавит — первые 7 букв с нуля',ch:'АрабскийПросто',d:'12:15',q:'arabic+alphabet+first+letters+beginners'},{t:'Как читать арабские буквы — ا ب ت',ch:'ArabicStart',d:'9:40',q:'arabic+reading+beginners+letters'}],
-  greetings_ar:[{t:'Арабские приветствия — السلام عليكم и другие',ch:'АрабскийПросто',d:'7:55',q:'arabic+greetings+السلام+russian'}],
+  // English
+  greetings:[{id:'fI8EsEXS59w',t:'Basic English Greetings — How to Greet Someone',ch:'Professor Korten',d:'5:58'},{id:'7M1n3orfdsk',t:'English Greetings — Hello, Hi, Hey & More',ch:'Speak English With Mr Duncan',d:'14:30'}],
+  numbers:[{id:'dNP6L6y7ZEM',t:'Numbers 1–100 in English with Pronunciation',ch:'Woodward English',d:'5:52'},{id:'D4eJ5kg28nU',t:'Learn English Numbers 1–100',ch:'Shaw English Online',d:'10:56'}],
+  colors:[{id:'ffXp5Tgzhxo',t:'Light vs Dark Colors in English',ch:'Woodward English',d:'2:39'}],
+  family:[{id:'eQaS-p6_63s',t:'My Family — Family Vocabulary',ch:'Twominute English',d:'4:35'},{id:'disSYNgNHPg',t:'Practice Your English Pronunciation — FAMILY',ch:'Easy ENGLISH with James',d:'18:31'}],
+  food:[{id:'iRUWzeEGI44',t:'Learn 100+ Foods & Dishes in English',ch:'English with Lucy',d:'20:49'}],
+  body:[{id:'W1aR3h_RQ94',t:'Parts of the Body — 80+ Basic Vocabulary',ch:'Shaw English Online',d:'5:27'}],
+  weather:[{id:'tcNFLgd7TQE',t:'Weather Vocabulary in English',ch:'Twominute English',d:'4:30'}],
+  days:[{id:'TG7PZCwvQIE',t:'Days of the Week | Months | Dates',ch:'English with Morgan',d:'7:41'}],
+  travel:[{id:'5n3qY7mz0GE',t:'Travel English — at the Airport',ch:'Speak English With Mr Duncan',d:'10:00'}],
+  drinks:[{id:'iRUWzeEGI44',t:'Foods & Drinks Vocabulary',ch:'English with Lucy',d:'20:49'}],
+  fruits:[{id:'AvdV3XLvsic',t:'Learn 70 Fruit Names in English',ch:'Smart English Pro',d:'15:00'}],
+  // Arabic
+  alphabet1:[{id:'0CBllWroGs8',t:'Learn Arabic Alphabet — First Lesson',ch:'Yalla Arabee',d:'16:41'},{id:'pVyFx9VG41U',t:'Arabic Alphabet For Beginners 1/4',ch:'Arabic Mike',d:'6:35'}],
+  greetings_ar:[{id:'eYW3VW0lnHw',t:'Learn Arabic — Greetings — Level 1',ch:'Arabic Shehab',d:'7:14'},{id:'P7Nt1qsv5b8',t:'Greetings & Responses in Arabic',ch:'Arabic101',d:'9:00'}],
+  numbers_ar:[{id:'UFTXm_DZeJc',t:'Arabic Counting Made Easy: Numbers 1–30',ch:'EngRabic',d:'8:02'}],
+  // Defaults per language
+  _default_en:[{id:'dNP6L6y7ZEM',t:'English for Beginners — Numbers 1–100',ch:'Woodward English',d:'5:52'},{id:'fI8EsEXS59w',t:'Beginner English — Greetings',ch:'Professor Korten',d:'5:58'}],
+  _default_ar:[{id:'0CBllWroGs8',t:'Arabic Alphabet — First Lesson',ch:'Yalla Arabee',d:'16:41'},{id:'eYW3VW0lnHw',t:'Arabic Greetings — Level 1',ch:'Arabic Shehab',d:'7:14'}],
 };
-function getYT(t){return YT[t]||[{t:`Разбор: ${LNAMES[t]||t} — урок для начинающих`,ch:'LinguaStart',d:'8:00',q:`english+${t}+lesson+beginners`}];}
+function getYT(t){
+  if(YT[t])return YT[t];
+  // Pick default by topic suffix
+  const ar=String(t).endsWith('_ar')||['alphabet1','alphabet2','alphabet3'].includes(t);
+  return ar?YT._default_ar:YT._default_en;
+}
 
 const TLD=[
   {w:[
@@ -1589,6 +1621,67 @@ function toast(msg){
   t.textContent=msg;document.body.appendChild(t);
   setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),320);},1800);
 }
+
+// ===== IN-APP VIDEO PLAYER =====
+function playVideo(id,title,channel){
+  if(!id){toast('Видео недоступно');return;}
+  // Pause TTS audio if any
+  try{if(typeof _stopAudio==='function')_stopAudio();}catch(e){}
+  let m=document.getElementById('vp-modal');
+  if(!m){
+    m=document.createElement('div');m.id='vp-modal';m.className='vp-modal';
+    m.innerHTML=`<div class="vp-bg" onclick="closeVideo()"></div>
+      <div class="vp-card">
+        <div class="vp-head">
+          <div class="vp-titles">
+            <div class="vp-title" id="vp-t"></div>
+            <div class="vp-ch" id="vp-c"></div>
+          </div>
+          <button class="vp-close" onclick="closeVideo()" aria-label="Закрыть">✕</button>
+        </div>
+        <div class="vp-frame-wrap"><div class="vp-frame" id="vp-frame"></div></div>
+        <div class="vp-actions">
+          <button class="vp-act" id="vp-yt" onclick="openExternal()" title="Открыть на YouTube">↗ YouTube</button>
+        </div>
+      </div>`;
+    document.body.appendChild(m);
+  }
+  m.dataset.vid=id;
+  document.getElementById('vp-t').textContent=title||'Видеоурок';
+  document.getElementById('vp-c').textContent=channel||'';
+  // Build iframe (privacy-enhanced domain works inside Capacitor WebView)
+  const src=`https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
+  document.getElementById('vp-frame').innerHTML=`<iframe src="${src}" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+  m.classList.add('show');
+  // back button intercept
+  history.pushState({vp:1},'');
+}
+function closeVideo(){
+  const m=document.getElementById('vp-modal');if(!m)return;
+  m.classList.remove('show');
+  const f=document.getElementById('vp-frame');if(f)f.innerHTML='';
+  m.dataset.vid='';
+  // pop the history state if it's ours
+  try{if(history.state&&history.state.vp)history.back();}catch(e){}
+}
+function openExternal(){
+  const m=document.getElementById('vp-modal');const id=m&&m.dataset.vid;
+  if(!id)return;
+  const url='https://www.youtube.com/watch?v='+encodeURIComponent(id);
+  closeVideo();
+  if(window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.Browser){window.Capacitor.Plugins.Browser.open({url});}
+  else window.open(url,'_blank');
+}
+function openVideoSearch(query){
+  // try to find a curated default and open it; else go to YouTube search externally
+  const url='https://www.youtube.com/results?search_query='+encodeURIComponent(query);
+  if(window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.Browser){window.Capacitor.Plugins.Browser.open({url});}
+  else window.open(url,'_blank');
+}
+window.addEventListener('popstate',()=>{
+  const m=document.getElementById('vp-modal');
+  if(m&&m.classList.contains('show')){m.classList.remove('show');const f=document.getElementById('vp-frame');if(f)f.innerHTML='';m.dataset.vid='';}
+});
 function renderQ(){
   if(qi>=quiz.length){showComplete();return;}
   document.getElementById('qpf').style.width=Math.round(qi/quiz.length*100)+'%';
@@ -1824,17 +1917,16 @@ function renderProfile(){
   const ytTopic=worst.length>0?worst[0].id:'greetings';
   const vids=getYT(ytTopic);
   const tnm=LNAMES[ytTopic]||ytTopic;
-  let yh=`<div class="recsec"><div class="rec-lbl">▶ YouTube — разбор тем</div>`;
+  let yh=`<div class="recsec"><div class="rec-lbl">▶ Видеоуроки — встроенный плеер</div>`;
   yh+=`<div class="yt-hot">🔴 По теме: ${tnm}${worst.length>0&&worst[0].pct>40?` (${worst[0].pct}% ошибок)`:''}</div>`;
   vids.forEach(v=>{
-    const url=`https://www.youtube.com/results?search_query=${encodeURIComponent(v.q)}`;
-    yh+=`<div class="yt-card" onclick="window.open('${url}','_blank')">
-      <div class="yt-thumb"><div class="yt-bg">▶</div><div class="yt-play">▶</div><div class="yt-badge">YT</div></div>
-      <div class="yt-info"><div class="yt-title">${v.t}</div><div class="yt-meta">${v.ch} · ${v.d}</div></div>
+    const thumb=`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`;
+    yh+=`<div class="yt-card" onclick="playVideo('${v.id}','${(v.t||'').replace(/'/g,"\\'")}','${(v.ch||'').replace(/'/g,"\\'")}')">
+      <div class="yt-thumb" style="background-image:url(${thumb});background-size:cover;background-position:center"><div class="yt-play">▶</div><div class="yt-badge">▶ ${v.d||''}</div></div>
+      <div class="yt-info"><div class="yt-title">${v.t}</div><div class="yt-meta">${v.ch}</div></div>
     </div>`;
   });
-  const gu=`https://www.youtube.com/results?search_query=${encodeURIComponent(tnm+' английский урок')}`;
-  yh+=`<button style="width:100%;padding:11px;border-radius:var(--r2);border:1px solid var(--b3);background:var(--bg2);color:var(--t1);font-size:12px;cursor:pointer" onclick="window.open('${gu}','_blank')">Ещё видео на YouTube →</button>`;
+  yh+=`<button style="width:100%;padding:11px;border-radius:var(--r2);border:1px solid var(--b3);background:var(--bg2);color:var(--t1);font-size:12px;cursor:pointer" onclick="openVideoSearch('${(tnm+' урок').replace(/'/g,"\\'")}')">🔍 Искать ещё на YouTube →</button>`;
   yh+='</div>';pb.innerHTML+=yh;
 
   // achievements

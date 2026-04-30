@@ -3,9 +3,20 @@
   "appName": "LinguaStart",
   "webDir": "www",
   "server": {
-    "androidScheme": "https"
+    "androidScheme": "https",
+    "allowNavigation": [
+      "www.youtube.com",
+      "*.youtube.com",
+      "youtube-nocookie.com",
+      "*.youtube-nocookie.com",
+      "*.googlevideo.com",
+      "i.ytimg.com"
+    ]
   },
   "android": {
-    "allowMixedContent": false
-  }
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": false,
+    "captureInput": true
+  },
+  "plugins": {}
 }
