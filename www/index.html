@@ -681,7 +681,7 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
 <div class="screen" id="s-ai">
   <div class="ai-hdr">
     <div class="back" onclick="navTo('home')">←</div>
-    <div class="ai-tt"><h2>🤖 AI Тьютор</h2><p id="ai-sub">Разговорная практика · Llama 3.3 70B</p></div>
+    <div class="ai-tt"><h2>🤖 AI Тьютор</h2><p id="ai-sub">Разговорная практика на русском</p></div>
     <div class="ai-q" id="ai-q">5/5</div>
   </div>
   <div class="ai-chat" id="ai-chat"></div>
@@ -1788,7 +1788,7 @@ const FIREWORKS_API_KEY='__FIREWORKS_API_KEY__';
 const AI_PROXY_URL=''; // set to enable serverless proxy instead of direct key
 const AI_MODEL='accounts/fireworks/models/llama-v3p3-70b-instruct';
 const AI_FREE_DAILY=10;
-const AI_KEY='ls_ai_v1';
+const AI_KEY='ls_ai_v2';
 let aiState={msgs:[],date:'',used:0};
 (function loadAi(){try{const r=localStorage.getItem(AI_KEY);if(r)Object.assign(aiState,JSON.parse(r));}catch(e){}
   const today=new Date().toISOString().slice(0,10);
@@ -1811,24 +1811,23 @@ function aiSysPrompt(){
   const lang=aiLangName();
   const lvl=prefs.level||'A1';
   const goal=ONB_GOALS.find(g=>g.id===prefs.goal)?.h||'';
-  return `Ты — дружелюбный преподаватель ${lang} языка для русскоязычного ученика уровня ${lvl}.${goal?' Цель ученика: '+goal+'.':''} Правила:
-1) Веди диалог в основном на изучаемом языке (${lang}), но если ученик что-то не понял — объясняй коротко по-русски.
-2) Уровень ${lvl}: используй простые слова и короткие предложения.
-3) Если ученик пишет с ошибкой — мягко исправь: сначала ответь на смысл, потом ниже одной строкой "📝 Лучше: <правильный вариант>".
-4) Каждый ответ — максимум 3 коротких предложения. Заканчивай вопросом, чтобы ученик мог продолжить.
-5) Никогда не отвечай списком из 10 пунктов — это разговор, а не лекция.`;
+  return `Ты — дружелюбный русскоязычный преподаватель ${lang} языка для ученика уровня ${lvl}.${goal?' Цель ученика: '+goal+'.':''} Жёсткие правила:
+1) ВСЕГДА отвечай ПО-РУССКИ. Не пиши абзацы на ${lang} языке.
+2) Когда даёшь слово или фразу на ${lang} языке — пиши в формате: «слово на ${lang}» — перевод. Пример: «hello» — привет.
+3) Уровень ${lvl}: используй простую лексику, короткие фразы. Не перегружай.
+4) Если ученик пишет с ошибкой — мягко исправь: сначала ответь по смыслу, потом одной строкой «📝 Правильно: <правильный вариант>».
+5) Каждый ответ — максимум 3 коротких предложения. В конце задавай ученику маленький вопрос, чтобы вести диалог.
+6) Никаких длинных списков из 10 пунктов — это живой разговор, а не лекция.
+7) Никогда не упоминай, что ты — языковая модель / Llama / AI. Ты — преподаватель.`;
 }
 function aiInitChatIfEmpty(){
   if(aiState.msgs.length>0)return;
-  const greetEn="Hi! I'm your tutor. What would you like to talk about today? 🌟";
-  const greetAr="مرحبا! أنا معلمك. عن ماذا تريد أن نتحدث اليوم؟";
-  const greet=prefs.primary==='ar'?greetAr:greetEn;
+  const lang=prefs.primary==='ar'?'арабский':'английский';
+  const greet=`Привет! 🌟 Я твой персональный преподаватель ${lang} языка. О чём хочешь поговорить или потренироваться сегодня?`;
   aiState.msgs.push({r:'a',c:greet});saveAi();
 }
 function aiSuggestions(){
-  const en=['Hello! How are you?','Tell me a joke','Help me order food','Quiz me on colors'];
-  const ar=['مرحبا، كيف حالك؟','علمني عبارات للسفر','اختبرني في الأرقام'];
-  return prefs.primary==='ar'?ar:en;
+  return ['Поприветствуй меня','Расскажи о себе','Хочу учить фразы для путешествий','Дай мне мини-задание'];
 }
 function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function renderAi(){
