@@ -68,6 +68,64 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
 .auth-err{font-size:11px;color:var(--err);text-align:center;margin-top:8px;min-height:16px}
 .skip-btn{font-size:12px;color:var(--t2);border:none;background:none;cursor:pointer;padding:12px;width:100%;text-align:center;margin-top:8px}
 
+/* ===== ONBOARDING ===== */
+#s-onb{justify-content:flex-start;overflow-y:auto}
+.onb-wrap{padding:24px 22px 32px;display:flex;flex-direction:column;min-height:100%}
+.onb-prog{display:flex;gap:6px;margin-bottom:24px}
+.onb-prog .seg{flex:1;height:4px;background:var(--b2);border-radius:2px;overflow:hidden}
+.onb-prog .seg.on{background:var(--g);box-shadow:0 0 8px var(--g)}
+.onb-step{flex:1;display:flex;flex-direction:column;animation:fadeUp .3s ease both}
+.onb-icn{font-size:50px;text-align:center;margin-bottom:14px;filter:drop-shadow(0 0 14px var(--g))}
+.onb-h{font-size:22px;font-weight:300;letter-spacing:-.5px;color:var(--t0);text-align:center;margin-bottom:8px;line-height:1.25}
+.onb-h span{color:var(--g);text-shadow:0 0 10px var(--g)}
+.onb-sub{font-size:12px;color:var(--t2);text-align:center;margin-bottom:22px;line-height:1.45}
+.onb-opts{display:flex;flex-direction:column;gap:9px;margin-bottom:18px}
+.onb-opt{display:flex;align-items:center;gap:12px;padding:13px 14px;background:var(--bg2);border:1px solid var(--b2);border-radius:var(--r2);cursor:pointer;transition:all .15s;text-align:left}
+.onb-opt:hover{border-color:var(--b3)}
+.onb-opt.sel{border-color:var(--gm);background:var(--gxx);box-shadow:0 0 14px var(--gxx)}
+.onb-opt .o-em{font-size:24px;flex-shrink:0;width:36px;text-align:center}
+.onb-opt .o-tx{flex:1}
+.onb-opt .o-h{font-size:13px;color:var(--t0);font-weight:500}
+.onb-opt .o-s{font-size:11px;color:var(--t2);margin-top:2px}
+.onb-opt .o-mk{width:18px;height:18px;border:1.5px solid var(--b3);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all .15s}
+.onb-opt.sel .o-mk{border-color:var(--g);background:var(--g);color:#000;text-shadow:none}
+.onb-nav{display:flex;gap:9px;margin-top:auto;padding-top:14px}
+.onb-back{padding:13px 18px;background:transparent;color:var(--t2);border:1px solid var(--b2);border-radius:var(--r2);font-size:13px;cursor:pointer}
+.onb-next{flex:1;padding:13px;background:var(--gxx);border:1px solid var(--gm);color:var(--g);font-weight:500;border-radius:var(--r2);font-size:14px;cursor:pointer;text-shadow:0 0 6px var(--g)}
+.onb-next:disabled{opacity:.4;cursor:not-allowed}
+.onb-next:active:not(:disabled){background:var(--gx)}
+.qz-q{font-size:24px;font-weight:300;color:var(--t0);text-align:center;margin:6px 0 16px;letter-spacing:-.4px}
+.qz-q b{color:var(--g);text-shadow:0 0 8px var(--g)}
+.qz-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.qz-opt{padding:14px 12px;background:var(--bg2);border:1px solid var(--b2);border-radius:var(--r2);font-size:13px;color:var(--t0);cursor:pointer;text-align:center;transition:all .15s}
+.qz-opt:hover{border-color:var(--b3)}
+.qz-opt.sel{border-color:var(--gm);background:var(--gxx);color:var(--g);box-shadow:0 0 14px var(--gxx)}
+.onb-result{padding:18px;background:var(--bg2);border:1px solid var(--b2);border-radius:var(--r);margin-bottom:14px;text-align:center}
+.onb-result .lvl{font-size:32px;color:var(--g);font-weight:300;text-shadow:0 0 12px var(--g);margin-bottom:4px}
+.onb-result .lvl-n{font-size:11px;color:var(--t2);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.onb-result .pln{display:flex;flex-direction:column;gap:8px;text-align:left;padding-top:14px;border-top:1px solid var(--b2)}
+.onb-result .pln-row{display:flex;justify-content:space-between;font-size:12px}
+.onb-result .pln-row span:first-child{color:var(--t2)}
+.onb-result .pln-row span:last-child{color:var(--t0);font-weight:500}
+
+/* toggle switch */
+.sw{position:relative;display:inline-block;width:42px;height:24px;flex-shrink:0}
+.sw input{opacity:0;width:0;height:0}
+.sw-t{position:absolute;cursor:pointer;inset:0;background:var(--bg3);border:1px solid var(--b2);border-radius:24px;transition:.2s}
+.sw-t::before{content:'';position:absolute;height:16px;width:16px;left:3px;top:3px;background:var(--t2);border-radius:50%;transition:.2s}
+.sw input:checked + .sw-t{background:var(--gxx);border-color:var(--gm)}
+.sw input:checked + .sw-t::before{transform:translateX(18px);background:var(--g);box-shadow:0 0 8px var(--g)}
+
+/* ===== SRS / DAILY REVIEW ===== */
+.srs-card{margin:6px 18px 14px;padding:14px;background:linear-gradient(135deg,rgba(0,255,65,.08),var(--bg2));border:1px solid var(--gm);border-radius:var(--r);display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s;box-shadow:0 0 16px var(--gxx)}
+.srs-card:active{transform:scale(.99)}
+.srs-card .srs-ico{font-size:30px;filter:drop-shadow(0 0 8px var(--g))}
+.srs-card .srs-info{flex:1}
+.srs-card .srs-h{font-size:14px;color:var(--t0);font-weight:500;margin-bottom:2px}
+.srs-card .srs-h b{color:var(--g);text-shadow:0 0 6px var(--g)}
+.srs-card .srs-s{font-size:11px;color:var(--t2)}
+.srs-card .srs-arr{color:var(--g);font-size:18px;text-shadow:0 0 6px var(--g)}
+
 /* ===== HOME ===== */
 .hero{padding:20px 18px 18px;border-bottom:1px solid var(--b1);background:var(--bg1)}
 .hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
@@ -466,6 +524,18 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
   </div>
 </div>
 
+<!-- ONBOARDING -->
+<div class="screen" id="s-onb">
+  <div class="onb-wrap">
+    <div class="onb-prog" id="onb-prog"></div>
+    <div id="onb-body"></div>
+    <div class="onb-nav">
+      <button class="onb-back" id="onb-back" onclick="onbBack()">←</button>
+      <button class="onb-next" id="onb-next" onclick="onbNext()">Далее →</button>
+    </div>
+  </div>
+</div>
+
 <!-- HOME -->
 <div class="screen" id="s-home">
   <div class="scroll">
@@ -480,6 +550,7 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
         <div class="pill">🏆 #<b id="p-rank">12</b></div>
       </div>
     </div>
+    <div id="srs-host"></div>
     <div class="sec-lbl">Языки</div>
     <div class="lang-grid">
       <div class="lc" onclick="navTo('lessons-en')">
@@ -1445,6 +1516,245 @@ function lessonStatus(lang,id){
 }
 function get_enLessons(){return doneLessons.en.size;}
 function get_arLessons(){return doneLessons.ar.size;}
+
+// ===== ONBOARDING / USER PREFERENCES =====
+const PREFS_KEY='ls_prefs_v1';
+let prefs={done:false,goal:null,minutes:null,reminderHour:19,reminderOn:false,primary:null,level:null,quizScore:0};
+(function loadPrefs(){try{const r=localStorage.getItem(PREFS_KEY);if(r)Object.assign(prefs,JSON.parse(r));}catch(e){}})();
+function savePrefs(){try{localStorage.setItem(PREFS_KEY,JSON.stringify(prefs));}catch(e){}}
+
+const ONB_GOALS=[
+  {id:'travel',em:'✈️',h:'Путешествия',s:'Базовые фразы для поездок'},
+  {id:'work',em:'💼',h:'Работа / карьера',s:'Английский для интервью и резюме'},
+  {id:'culture',em:'🎬',h:'Фильмы и музыка',s:'Понимать без субтитров'},
+  {id:'exam',em:'📚',h:'Экзамены',s:'IELTS, TOEFL, ОГЭ/ЕГЭ'},
+  {id:'casual',em:'☕',h:'Просто для души',s:'Учиться без давления'}
+];
+const ONB_MIN=[
+  {id:5,em:'⚡',h:'5 минут',s:'Лёгкий старт'},
+  {id:10,em:'🔥',h:'10 минут',s:'Стандартный темп'},
+  {id:15,em:'💪',h:'15 минут',s:'Серьёзный подход'},
+  {id:30,em:'🚀',h:'30 минут',s:'Прогресс будет быстрым'}
+];
+const ONB_LANG=[
+  {id:'en',em:'🇬🇧',h:'Английский',s:'30+ уроков, A1 → B2'},
+  {id:'ar',em:'🇸🇦',h:'Арабский',s:'21+ урок, алфавит → A2'},
+  {id:'both',em:'🌐',h:'Оба языка',s:'Учить параллельно'}
+];
+// 5 quick placement questions (mix EN+AR, easy-ish)
+const ONB_QZ=[
+  {q:'<b>Hello</b>',o:['Привет','Спасибо','Пока','Извините'],a:0},
+  {q:'Как сказать <b>«числа»</b> по-английски?',o:['Letters','Words','Numbers','Colors'],a:2},
+  {q:'<b>Family</b> — это…',o:['Друг','Семья','Работа','Дом'],a:1},
+  {q:'<b>السلام عليكم</b> — это…',o:['Спасибо','Здравствуй','Прощай','Пожалуйста'],a:1},
+  {q:'Past Simple для <b>go</b>:',o:['goed','went','gone','goes'],a:1}
+];
+let onbStep=0,onbAns={};
+function startOnboarding(){
+  onbStep=0;onbAns={goal:null,minutes:null,primary:null,quiz:[]};
+  show('onb');renderOnb();
+}
+function renderOnb(){
+  const total=6;
+  const prog=document.getElementById('onb-prog');
+  prog.innerHTML='';for(let i=0;i<total;i++){const seg=document.createElement('div');seg.className='seg'+(i<=onbStep?' on':'');prog.appendChild(seg);}
+  const body=document.getElementById('onb-body');
+  const back=document.getElementById('onb-back');back.style.visibility=onbStep===0?'hidden':'visible';
+  const next=document.getElementById('onb-next');
+  let h='';
+  if(onbStep===0){
+    h=`<div class="onb-step">
+      <div class="onb-icn">🌐</div>
+      <div class="onb-h">Добро пожаловать в <span>LinguaStart</span></div>
+      <div class="onb-sub">За 5 шагов настроим программу под тебя:<br>цель → темп → язык → твой текущий уровень.</div>
+    </div>`;
+    next.textContent='Поехали →';next.disabled=false;
+  } else if(onbStep===1){
+    h=`<div class="onb-step">
+      <div class="onb-h">Зачем учишь язык?</div>
+      <div class="onb-sub">Подберём правильные темы.</div>
+      <div class="onb-opts">${ONB_GOALS.map(g=>`<div class="onb-opt${onbAns.goal===g.id?' sel':''}" onclick="onbPick('goal','${g.id}')"><div class="o-em">${g.em}</div><div class="o-tx"><div class="o-h">${g.h}</div><div class="o-s">${g.s}</div></div><div class="o-mk">✓</div></div>`).join('')}</div>
+    </div>`;
+    next.textContent='Далее →';next.disabled=!onbAns.goal;
+  } else if(onbStep===2){
+    h=`<div class="onb-step">
+      <div class="onb-h">Сколько времени в день?</div>
+      <div class="onb-sub">Будем напоминать в одно и то же время.</div>
+      <div class="onb-opts">${ONB_MIN.map(g=>`<div class="onb-opt${onbAns.minutes===g.id?' sel':''}" onclick="onbPick('minutes',${g.id})"><div class="o-em">${g.em}</div><div class="o-tx"><div class="o-h">${g.h}</div><div class="o-s">${g.s}</div></div><div class="o-mk">✓</div></div>`).join('')}</div>
+    </div>`;
+    next.textContent='Далее →';next.disabled=!onbAns.minutes;
+  } else if(onbStep===3){
+    h=`<div class="onb-step">
+      <div class="onb-h">С какого языка начнём?</div>
+      <div class="onb-sub">Можно сменить или добавить второй позже.</div>
+      <div class="onb-opts">${ONB_LANG.map(g=>`<div class="onb-opt${onbAns.primary===g.id?' sel':''}" onclick="onbPick('primary','${g.id}')"><div class="o-em">${g.em}</div><div class="o-tx"><div class="o-h">${g.h}</div><div class="o-s">${g.s}</div></div><div class="o-mk">✓</div></div>`).join('')}</div>
+    </div>`;
+    next.textContent='Далее →';next.disabled=!onbAns.primary;
+  } else if(onbStep===4){
+    // quiz screen — multi-step inside
+    const qi=onbAns.quiz.length;
+    if(qi>=ONB_QZ.length){
+      // computed level — go to result
+      onbStep=5;renderOnb();return;
+    }
+    const q=ONB_QZ[qi];
+    h=`<div class="onb-step">
+      <div class="onb-sub">Вопрос ${qi+1} из ${ONB_QZ.length}</div>
+      <div class="qz-q">${q.q}</div>
+      <div class="qz-grid">${q.o.map((opt,i)=>`<div class="qz-opt" onclick="onbAnsQ(${i})">${opt}</div>`).join('')}</div>
+    </div>`;
+    next.textContent='Пропустить →';next.disabled=false;
+  } else if(onbStep===5){
+    // compute level
+    const correct=onbAns.quiz.filter(x=>x).length;
+    const lvl=correct>=4?'A2':correct>=2?'A1':'A0';
+    const lvlN={A0:'Самый начинающий',A1:'Начинающий',A2:'Базовый'}[lvl];
+    onbAns.level=lvl;onbAns.score=correct;
+    const goalName=ONB_GOALS.find(g=>g.id===onbAns.goal)?.h||'';
+    const langName=ONB_LANG.find(g=>g.id===onbAns.primary)?.h||'';
+    h=`<div class="onb-step">
+      <div class="onb-icn">🎯</div>
+      <div class="onb-h">Программа готова</div>
+      <div class="onb-sub">${correct}/${ONB_QZ.length} верных ответов</div>
+      <div class="onb-result">
+        <div class="lvl">${lvl}</div>
+        <div class="lvl-n">${lvlN}</div>
+        <div class="pln">
+          <div class="pln-row"><span>Цель</span><span>${goalName}</span></div>
+          <div class="pln-row"><span>Время в день</span><span>${onbAns.minutes} мин</span></div>
+          <div class="pln-row"><span>Язык</span><span>${langName}</span></div>
+          <div class="pln-row"><span>Уровень</span><span>${lvl}</span></div>
+        </div>
+      </div>
+      <div class="onb-sub" style="margin:0">Можно изменить в Профиле в любой момент.</div>
+    </div>`;
+    next.textContent='Начать обучение 🚀';next.disabled=false;
+  }
+  body.innerHTML=h;
+}
+function onbPick(k,v){onbAns[k]=v;renderOnb();}
+function onbAnsQ(i){
+  const qi=onbAns.quiz.length;
+  const ok=ONB_QZ[qi].a===i;
+  onbAns.quiz.push(ok);
+  // brief visual feedback then advance
+  const opts=document.querySelectorAll('.qz-opt');
+  if(opts[i])opts[i].classList.add('sel');
+  setTimeout(()=>renderOnb(),250);
+}
+function onbBack(){if(onbStep>0){onbStep--;if(onbStep===4&&onbAns.quiz.length===ONB_QZ.length)onbAns.quiz.pop();renderOnb();}}
+function onbNext(){
+  if(onbStep<5){
+    if(onbStep===4){
+      // user pressed "Skip" — fill remaining as wrong
+      while(onbAns.quiz.length<ONB_QZ.length)onbAns.quiz.push(false);
+      onbStep=5;renderOnb();return;
+    }
+    onbStep++;renderOnb();
+  } else {
+    // finalize
+    Object.assign(prefs,{
+      done:true,goal:onbAns.goal,minutes:onbAns.minutes,primary:onbAns.primary,
+      level:onbAns.level,quizScore:onbAns.score,reminderOn:true,reminderHour:19
+    });
+    savePrefs();
+    // schedule push reminder
+    try{scheduleReminder();}catch(e){}
+    toast('Программа сохранена! Учим '+(onbAns.primary==='ar'?'арабский':onbAns.primary==='both'?'оба':'английский'));
+    navTo('home');
+  }
+}
+
+// ===== SRS (Spaced Repetition) =====
+const SRS_KEY='ls_srs_v1';
+let srs=[];
+(function loadSrs(){try{const r=localStorage.getItem(SRS_KEY);if(r)srs=JSON.parse(r);}catch(e){srs=[];}})();
+function saveSrs(){try{localStorage.setItem(SRS_KEY,JSON.stringify(srs));}catch(e){}}
+function srsAdd(lang,topic,wordIdx,word){
+  // SM-2 lite — start with low interval and ef=2.5
+  const k=lang+':'+topic+':'+wordIdx;
+  if(srs.find(c=>c.k===k))return;
+  const due=Date.now()+15*60*1000; // 15 min later
+  srs.push({k,lang,topic,wordIdx,word,ef:2.5,interval:0,reps:0,due,lapses:1});
+  saveSrs();
+}
+function srsReview(k,quality){
+  // quality: 0=fail,1=hard,2=good,3=easy
+  const c=srs.find(x=>x.k===k);if(!c)return;
+  if(quality===0){c.reps=0;c.interval=10/1440;c.lapses++;}
+  else{
+    if(c.reps===0)c.interval=1;
+    else if(c.reps===1)c.interval=3;
+    else c.interval=Math.round(c.interval*c.ef);
+    c.reps++;
+    const q=quality===1?3:quality===2?4:5;
+    c.ef=Math.max(1.3,c.ef+(0.1-(5-q)*(0.08+(5-q)*0.02)));
+  }
+  c.due=Date.now()+c.interval*86400000;
+  // remove if mastered (5+ reps + ef high)
+  if(c.reps>=5&&c.interval>=21){srs=srs.filter(x=>x.k!==c.k);}
+  saveSrs();
+}
+function srsDueCount(){const now=Date.now();return srs.filter(c=>c.due<=now).length;}
+function renderSrsCard(){
+  const host=document.getElementById('srs-host');if(!host)return;
+  const n=srsDueCount();
+  if(n===0){host.innerHTML='';return;}
+  host.innerHTML=`<div class="srs-card" onclick="startReview()">
+    <div class="srs-ico">🧠</div>
+    <div class="srs-info"><div class="srs-h">Повторить <b>${n}</b> ${pluralize(n,'слово','слова','слов')}</div><div class="srs-s">Интервальное повторение — закрепи изученное</div></div>
+    <div class="srs-arr">→</div>
+  </div>`;
+}
+function pluralize(n,a,b,c){const m=n%100;if(m>10&&m<20)return c;const m2=n%10;if(m2===1)return a;if(m2>=2&&m2<=4)return b;return c;}
+function startReview(){
+  // Build a quiz from due items
+  const now=Date.now();
+  const due=srs.filter(c=>c.due<=now).slice(0,15);
+  if(due.length===0){toast('Нет слов для повторения');return;}
+  const built=due.map(c=>{
+    const all=(QUIZ[c.lang]&&QUIZ[c.lang][c.topic])||[];
+    const orig=all[c.wordIdx];
+    if(orig)return {...orig,_srsKey:c.k};
+    return null;
+  }).filter(Boolean);
+  if(built.length===0){toast('Не удалось загрузить слова');return;}
+  quiz=built;qi=0;hearts=3;sel=null;done=false;curLang=due[0].lang;curTopic='_review';
+  show('lesson');renderQ();
+}
+
+// ===== LOCAL NOTIFICATIONS =====
+async function ensureNotifPermission(){
+  try{
+    if(window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.LocalNotifications){
+      const r=await window.Capacitor.Plugins.LocalNotifications.requestPermissions();
+      return r&&r.display==='granted';
+    }
+  }catch(e){}
+  return false;
+}
+async function scheduleReminder(){
+  if(!prefs.reminderOn)return;
+  try{
+    const Plg=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.LocalNotifications;
+    if(!Plg)return;
+    const ok=await ensureNotifPermission();if(!ok)return;
+    // cancel any existing first
+    try{await Plg.cancel({notifications:[{id:777}]});}catch(e){}
+    const hour=prefs.reminderHour||19;
+    await Plg.schedule({notifications:[{
+      id:777,
+      title:'🔥 Не теряй серию!',
+      body:`У тебя ${streak||0} дн. подряд. ${prefs.minutes||10} минут — и день засчитан.`,
+      schedule:{on:{hour,minute:0},allowWhileIdle:true,every:'day'}
+    }]});
+  }catch(e){console.warn('reminder schedule failed',e);}
+}
+async function toggleReminder(on){
+  prefs.reminderOn=!!on;savePrefs();
+  if(on)await scheduleReminder();
+  else{try{await window.Capacitor.Plugins.LocalNotifications.cancel({notifications:[{id:777}]});}catch(e){}}
+}
 // fake local DB
 let DB={};try{DB=JSON.parse(localStorage.getItem('ls_db')||'{}')}catch(e){}
 function saveDB(){try{localStorage.setItem('ls_db',JSON.stringify(DB))}catch(e){}}
@@ -1548,7 +1858,9 @@ function _showGoogleButtonModal(){
 function loginSkip(){user={name:'Гость',type:'guest'};afterAuth();}
 function afterAuth(){
   document.getElementById('h-name').textContent=user.name.split(' ')[0];
-  updateHero();navTo('home');
+  updateHero();
+  if(!prefs.done){startOnboarding();return;}
+  navTo('home');
 }
 function updateHero(){
   document.getElementById('p-xp').textContent=xp;
@@ -1574,6 +1886,7 @@ function navTo(id){
   else if(id==='profile') renderProfile();
   else if(id==='lessons-en') renderLessons('en');
   else if(id==='lessons-ar') renderLessons('ar');
+  else if(id==='home') renderSrsCard();
   show(id);
 }
 
@@ -1724,17 +2037,25 @@ function pick(i){
 function doCheck(){
   if(done||sel===null)return;done=true;
   const q=quiz[qi];
-  errors[curTopic].t++;
+  if(curTopic!=='_review')errors[curTopic].t++;
   const btns=document.querySelectorAll('.opt');
   btns[q.a].className='opt ok';
   const ok=sel===q.a;
   if(!ok){
-    btns[sel].className='opt no';hearts=Math.max(0,hearts-1);errors[curTopic].w++;
+    btns[sel].className='opt no';hearts=Math.max(0,hearts-1);
+    if(curTopic!=='_review')errors[curTopic].w++;
+    // SRS: queue this word for spaced repetition
+    if(curTopic!=='_review'){
+      const all=(QUIZ[curLang]&&QUIZ[curLang][curTopic])||[];
+      const idx=all.findIndex(x=>x&&x.w===q.w);
+      if(idx>=0)srsAdd(curLang,curTopic,idx,q.w);
+    } else if(q._srsKey){srsReview(q._srsKey,0);}
     const qh=document.getElementById('qh');
     if(qh){qh.textContent='♥ '+hearts;qh.classList.remove('lose');void qh.offsetWidth;qh.classList.add('lose');}
     if(navigator.vibrate)navigator.vibrate(60);
   } else {
     spawnXp(2);
+    if(curTopic==='_review'&&q._srsKey)srsReview(q._srsKey,2);
     if(navigator.vibrate)navigator.vibrate(20);
   }
   const ck=document.getElementById('ck');
@@ -1775,17 +2096,19 @@ function nextLessonAfter(lang,id){
 }
 function showComplete(){
   document.getElementById('qpf').style.width='100%';
+  const isReview=curTopic==='_review';
   const xpGain=Math.max(5,10-(3-hearts)*2);
   xp+=xpGain;lessons++;
-  doneLessons[curLang].add(curTopic);
-  saveProgress();
+  if(!isReview){doneLessons[curLang].add(curTopic);saveProgress();}
   updateHero();
   const corr=quiz.length-(3-hearts);
   const perfect=hearts===3;
   const qbody=document.getElementById('qbody');
-  const nxt=nextLessonAfter(curLang,curTopic);
+  const nxt=isReview?null:nextLessonAfter(curLang,curTopic);
   const langTag=curLang==='en'?'🇬🇧':'🇸🇦';
-  const nextBtn=nxt
+  const nextBtn=isReview
+    ?`<div style="text-align:center;font-size:11px;color:var(--g);margin-bottom:10px;text-shadow:0 0 6px var(--g)">🧠 Повторение засчитано</div>`
+    :nxt
     ?`<button class="hbtn green" style="margin-bottom:8px" onclick="startLesson('${curLang}','${nxt.id}')">${nxt.ic} Следующий: ${nxt.n} →</button>`
     :`<div style="text-align:center;font-size:11px;color:var(--g);margin-bottom:10px;text-shadow:0 0 6px var(--g)">${langTag} Все уроки этого языка пройдены! 🏆</div>`;
   qbody.innerHTML=`
@@ -1880,6 +2203,26 @@ function renderProfile(){
 
   // voice picker
   pb.innerHTML+=renderVoicePicker();
+
+  // settings (notifications + onboarding redo)
+  const lvlText=prefs.level?` · Уровень ${prefs.level}`:'';
+  const goalName=ONB_GOALS.find(g=>g.id===prefs.goal)?.h||'—';
+  pb.innerHTML+=`<div class="recsec"><div class="rec-lbl">Настройки</div><div class="rec-card" style="display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+      <div><div style="font-size:13px;color:var(--t0)">🔔 Ежедневное напоминание</div><div style="font-size:10px;color:var(--t2)">Серия не прервётся, если ты учишь каждый день${lvlText}</div></div>
+      <label class="sw"><input type="checkbox" id="sw-notif" ${prefs.reminderOn?'checked':''} onchange="toggleReminder(this.checked)"><span class="sw-t"></span></label>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+      <div style="font-size:12px;color:var(--t1)">Время напоминания</div>
+      <select id="sel-hour" onchange="prefs.reminderHour=+this.value;savePrefs();scheduleReminder();" style="background:var(--bg3);color:var(--t0);border:1px solid var(--b2);border-radius:8px;padding:6px 10px;font-size:12px">
+        ${[8,9,12,15,18,19,20,21,22].map(h=>`<option value="${h}" ${prefs.reminderHour===h?'selected':''}>${h}:00</option>`).join('')}
+      </select>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:6px;border-top:1px solid var(--b2)">
+      <div><div style="font-size:12px;color:var(--t1)">🎯 Цель: ${goalName}</div><div style="font-size:10px;color:var(--t2)">${prefs.minutes||'—'} мин/день · ${prefs.primary==='ar'?'Арабский':prefs.primary==='both'?'Оба':'Английский'}</div></div>
+      <button onclick="startOnboarding()" style="background:var(--bg3);border:1px solid var(--b2);color:var(--t1);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:11px">Изменить</button>
+    </div>
+  </div></div>`;
 
   // error analysis
   if(worst.length>0){
