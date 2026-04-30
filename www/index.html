@@ -1788,7 +1788,7 @@ const FIREWORKS_API_KEY='__FIREWORKS_API_KEY__';
 const AI_PROXY_URL=''; // set to enable serverless proxy instead of direct key
 const AI_MODEL='accounts/fireworks/models/llama-v3p3-70b-instruct';
 const AI_FREE_DAILY=10;
-const AI_KEY='ls_ai_v2';
+const AI_KEY='ls_ai_v3';
 let aiState={msgs:[],date:'',used:0};
 (function loadAi(){try{const r=localStorage.getItem(AI_KEY);if(r)Object.assign(aiState,JSON.parse(r));}catch(e){}
   const today=new Date().toISOString().slice(0,10);
@@ -1808,26 +1808,41 @@ function renderAiCard(){
 }
 function aiLangName(){return prefs.primary==='ar'?'арабский':prefs.primary==='both'?'английский (можно менять на арабский по запросу)':'английский';}
 function aiSysPrompt(){
-  const lang=aiLangName();
+  const isAr=prefs.primary==='ar';
+  const targetName=isAr?'Arabic (Modern Standard)':'English';
+  const targetCode=isAr?'арабском':'английском';
   const lvl=prefs.level||'A1';
   const goal=ONB_GOALS.find(g=>g.id===prefs.goal)?.h||'';
-  return `Ты — дружелюбный русскоязычный преподаватель ${lang} языка для ученика уровня ${lvl}.${goal?' Цель ученика: '+goal+'.':''} Жёсткие правила:
-1) ВСЕГДА отвечай ПО-РУССКИ. Не пиши абзацы на ${lang} языке.
-2) Когда даёшь слово или фразу на ${lang} языке — пиши в формате: «слово на ${lang}» — перевод. Пример: «hello» — привет.
-3) Уровень ${lvl}: используй простую лексику, короткие фразы. Не перегружай.
-4) Если ученик пишет с ошибкой — мягко исправь: сначала ответь по смыслу, потом одной строкой «📝 Правильно: <правильный вариант>».
-5) Каждый ответ — максимум 3 коротких предложения. В конце задавай ученику маленький вопрос, чтобы вести диалог.
-6) Никаких длинных списков из 10 пунктов — это живой разговор, а не лекция.
-7) Никогда не упоминай, что ты — языковая модель / Llama / AI. Ты — преподаватель.`;
+  return `You are a friendly tutor of ${targetName} for a Russian-speaking learner at level ${lvl}.${goal?' Their learning goal: '+goal+'.':''}
+
+STRICT RULES — follow EVERY message:
+1) Conduct the conversation IN ${targetName}. Greetings, questions, examples — all in ${targetName}.
+2) The learner is at ${lvl}: use very simple words and short sentences (1–2 lines).
+3) Whenever you write a ${targetName} sentence longer than 4 words OR use a word the learner might not know, add a Russian translation/hint in parentheses RIGHT AFTER it on the same line. Example: "How was your weekend? (Как прошли твои выходные?)".
+4) If the learner makes a mistake (grammar, word choice, spelling) — switch to RUSSIAN for the correction block. Use this exact format on a new line:
+   📝 По-русски: <короткое объяснение что не так и почему>
+   ✅ Правильно: <correct ${targetName} sentence>
+   Then continue the dialogue in ${targetName}.
+5) Each reply: max 3 short sentences total. Always end with a follow-up question in ${targetName} (with parenthetical Russian hint).
+6) Never write long bulleted lists. This is a conversation, not a lecture.
+7) Never mention that you are a language model / Llama / AI. You are a human-like tutor.
+8) If the learner writes in Russian, gently translate their idea to ${targetName} and continue the conversation in ${targetName}.
+
+Now greet the learner in ${targetName} (with Russian hint in parentheses) and start a friendly chat.`;
 }
 function aiInitChatIfEmpty(){
   if(aiState.msgs.length>0)return;
-  const lang=prefs.primary==='ar'?'арабский':'английский';
-  const greet=`Привет! 🌟 Я твой персональный преподаватель ${lang} языка. О чём хочешь поговорить или потренироваться сегодня?`;
+  const isAr=prefs.primary==='ar';
+  const greet=isAr
+    ? 'مرحبا! 🌟 أنا معلمك. (Привет! Я твой преподаватель.)\nعن ماذا تريد أن نتحدث اليوم؟ (О чём хочешь поговорить сегодня?)'
+    : "Hi! 🌟 I'm your tutor. (Привет! Я твой преподаватель.)\nWhat would you like to talk about today? (О чём хочешь поговорить сегодня?)";
   aiState.msgs.push({r:'a',c:greet});saveAi();
 }
 function aiSuggestions(){
-  return ['Поприветствуй меня','Расскажи о себе','Хочу учить фразы для путешествий','Дай мне мини-задание'];
+  if(prefs.primary==='ar'){
+    return ['مرحبا! كيف حالك؟','أريد تعلم عبارات السفر','اختبرني في الأرقام','صحح لي هذه الجملة'];
+  }
+  return ['Hello! How are you?','Tell me a joke','Help me order food','Quiz me on colors'];
 }
 function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function renderAi(){
