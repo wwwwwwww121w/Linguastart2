@@ -317,7 +317,52 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
 .vp-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .vp-actions{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--b2)}
 .vp-act{flex:1;padding:9px;background:var(--bg2);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:11px;cursor:pointer;transition:all .15s}
-.vp-act:hover{color:var(--g);border-color:var(--gm);background:var(--gxx)}
+.vp-act:hover,.vp-act.on{color:var(--g);border-color:var(--gm);background:var(--gxx);box-shadow:0 0 12px var(--gxx)}
+.vp-load{position:absolute;inset:0;background:rgba(0,0,0,.78);display:none;flex-direction:column;align-items:center;justify-content:center;color:var(--t1);font-size:11px;gap:10px;z-index:2}
+.vp-load.show,.vp-frame-wrap .vp-load[style*="flex"]{display:flex}
+.vp-spin{width:30px;height:30px;border:2.5px solid var(--b3);border-top-color:var(--g);border-radius:50%;animation:spin .8s linear infinite;box-shadow:0 0 10px var(--gxx)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.vp-fallback{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,20,5,.95),rgba(0,0,0,.96));display:none;flex-direction:column;align-items:center;justify-content:center;color:var(--t1);font-size:12px;padding:20px;text-align:center;z-index:3}
+.vp-list{display:flex;gap:6px;padding:8px 12px;overflow-x:auto;border-top:1px solid var(--b2);scrollbar-width:thin}
+.vp-list:empty{display:none}
+.vp-chip{flex-shrink:0;padding:6px 12px;background:var(--bg2);border:1px solid var(--b2);border-radius:14px;color:var(--t2);font-size:10px;cursor:pointer;white-space:nowrap;transition:all .15s}
+.vp-chip:hover{color:var(--t0)}
+.vp-chip.on{color:var(--g);border-color:var(--gm);background:var(--gxx);text-shadow:0 0 6px var(--g)}
+/* THEORY screen */
+.th-body{flex:1;overflow-y:auto;padding:8px 18px 30px;animation:fi .3s ease}
+.th-hero{padding:18px 0 14px;text-align:center}
+.th-hero .th-ic{font-size:42px;margin-bottom:6px}
+.th-hero h1{font-size:22px;font-weight:600;color:var(--t0);margin-bottom:4px;text-shadow:0 0 10px var(--gxx)}
+.th-hero p{font-size:11px;color:var(--g);text-shadow:0 0 6px var(--g);letter-spacing:.05em}
+.th-card{background:var(--bg1);border:1px solid var(--b2);border-radius:var(--r);padding:14px 16px;margin-bottom:12px}
+.th-card h3{font-size:11px;color:var(--g);text-shadow:0 0 6px var(--g);letter-spacing:.05em;margin-bottom:8px;text-transform:uppercase}
+.th-card .th-text{font-size:13px;color:var(--t0);line-height:1.55}
+.th-card ul{padding-left:0;list-style:none}
+.th-card li{padding:9px 0 9px 22px;position:relative;font-size:13px;color:var(--t1);line-height:1.5;border-bottom:1px solid var(--b1)}
+.th-card li:last-child{border-bottom:none}
+.th-card li:before{content:'▸';position:absolute;left:6px;top:9px;color:var(--g);text-shadow:0 0 6px var(--g)}
+.th-ex{padding:11px 14px;background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r2);margin-bottom:6px}
+.th-ex .th-l{font-size:14px;color:var(--g);text-shadow:0 0 6px var(--g);margin-bottom:3px;font-weight:500}
+.th-ex .th-l.ar{font-size:18px;text-align:right;direction:rtl;font-family:'Amiri',serif}
+.th-ex .th-r{font-size:11px;color:var(--t2)}
+.th-actions{display:flex;gap:8px;margin-top:14px}
+.th-actions button{flex:1;padding:14px;border-radius:var(--r2);font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--gm);background:linear-gradient(135deg,var(--g) 0%,var(--g2) 100%);color:#031a06;box-shadow:0 0 16px var(--gx)}
+.th-actions button.ghost{background:var(--bg2);color:var(--t1);border:1px solid var(--b3);box-shadow:none}
+.th-actions button:active{transform:translateY(1px)}
+/* TEST mode */
+.tt-input{width:100%;padding:14px;background:var(--bg2);border:2px solid var(--b3);border-radius:var(--r2);color:var(--t0);font-size:18px;text-align:center;outline:none;transition:all .2s;margin:14px 0}
+.tt-input:focus{border-color:var(--g);box-shadow:0 0 14px var(--gxx)}
+.tt-input.ok{border-color:var(--g);box-shadow:0 0 16px var(--gxx)}
+.tt-input.bad{border-color:var(--err);box-shadow:0 0 14px #ff404044}
+.tt-hint{font-size:10px;color:var(--t2);text-align:center;margin-top:-8px;margin-bottom:12px}
+.cw-card{background:linear-gradient(135deg,#0a3015,#072209);border:1.5px solid var(--gm);border-radius:var(--r);padding:14px 16px;margin-bottom:8px;box-shadow:0 0 14px var(--gxx);position:relative;overflow:hidden}
+.cw-card.lk{background:var(--bg2);border-color:var(--b3);opacity:.6;box-shadow:none}
+.cw-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.cw-ico{font-size:24px}
+.cw-head h4{font-size:13px;color:var(--t0);font-weight:600}
+.cw-head p{font-size:10px;color:var(--g);text-shadow:0 0 6px var(--g)}
+.cw-card.lk .cw-head p{color:var(--t2);text-shadow:none}
+.cw-meta{font-size:10px;color:var(--t2)}
 .yt-card{background:var(--bg1);border:1px solid var(--b2);border-radius:var(--r);overflow:hidden;margin-bottom:7px;cursor:pointer;transition:border-color .1s}
 .yt-card:hover{border-color:var(--gm);box-shadow:0 0 8px var(--gxx)}
 .yt-thumb{width:100%;height:105px;background:var(--bg3);display:flex;align-items:center;justify-content:center;position:relative}
@@ -682,6 +727,26 @@ html,body{height:100%;overflow:hidden;background:#030a03;color:#e8ffe8;font-fami
   <div class="qbody" id="qbody"></div>
 </div>
 
+<!-- THEORY -->
+<div class="screen" id="s-theory">
+  <div class="qtop">
+    <div class="back" onclick="navTo('home')">←</div>
+    <div style="flex:1;text-align:center;font-size:13px;color:var(--g);text-shadow:0 0 6px var(--g)">📖 Теория</div>
+    <div style="width:30px"></div>
+  </div>
+  <div class="th-body" id="th-body"></div>
+</div>
+
+<!-- TEST -->
+<div class="screen" id="s-test">
+  <div class="qtop">
+    <div class="back" onclick="navTo('home')">✕</div>
+    <div class="qpw"><div class="qpf" id="tpf" style="width:0%"></div></div>
+    <div id="tt-timer" style="font-size:11px;color:var(--g);text-shadow:0 0 6px var(--g);min-width:36px;text-align:right">⏱ 0</div>
+  </div>
+  <div class="qbody" id="tbody"></div>
+</div>
+
 <!-- AI TUTOR -->
 <div class="screen" id="s-ai">
   <div class="ai-hdr">
@@ -835,22 +900,41 @@ const QUIZ={
   en:{
     greetings:[
       {w:'Hello',o:['Привет','Пока','Спасибо','Да'],a:0},
+      {w:'Hi',o:['Привет','Эй','Пока','Привет (неформальное)'],a:3},
       {w:'Good morning',o:['Добрый вечер','Доброе утро','Спокойной ночи','До свидания'],a:1},
-      {w:'Thank you',o:['Пожалуйста','Извините','Спасибо','Нет'],a:2},
+      {w:'Good afternoon',o:['Добрый день','Доброе утро','Добрый вечер','Спокойной ночи'],a:0},
+      {w:'Good evening',o:['Добрый вечер','Доброе утро','Добрый день','До свидания'],a:0},
+      {w:'Good night',o:['Доброе утро','Спокойной ночи','Добрый день','Пока'],a:1},
       {w:'Goodbye',o:['Привет','До свидания','Спасибо','Да'],a:1},
+      {w:'See you later',o:['До свидания','До встречи','Спокойной ночи','Привет'],a:1},
+      {w:'How are you?',o:['Кто ты?','Как тебя зовут?','Как дела?','Где ты?'],a:2},
+      {w:"I'm fine",o:['Я устал','Я хорошо','Я голоден','Я плохо'],a:1},
+      {w:'Thank you',o:['Пожалуйста','Извините','Спасибо','Нет'],a:2},
+      {w:"You're welcome",o:['Спасибо','Не за что','Привет','Удачи'],a:1},
       {w:'Please',o:['Спасибо','Нет','Да','Пожалуйста'],a:3},
       {w:'Sorry',o:['Простите','Спасибо','Привет','Пока'],a:0},
-      {w:"You're welcome",o:['Спасибо','Не за что','Привет','Удачи'],a:1},
-      {w:'Good night',o:['Доброе утро','Спокойной ночи','Добрый день','Пока'],a:1},
+      {w:'Excuse me',o:['Извините','Спасибо','Привет','Пока'],a:0},
     ],
     numbers:[
       {w:'One',o:['Два','Один','Три','Четыре'],a:1},
       {w:'Two',o:['Один','Три','Два','Пять'],a:2},
+      {w:'Three',o:['Два','Три','Четыре','Пять'],a:1},
+      {w:'Four',o:['Три','Пять','Четыре','Шесть'],a:2},
       {w:'Five',o:['Четыре','Шесть','Семь','Пять'],a:3},
+      {w:'Six',o:['Шесть','Семь','Восемь','Пять'],a:0},
+      {w:'Seven',o:['Шесть','Семь','Восемь','Девять'],a:1},
+      {w:'Eight',o:['Семь','Восемь','Девять','Десять'],a:1},
+      {w:'Nine',o:['Восемь','Девять','Десять','Семь'],a:1},
       {w:'Ten',o:['Восемь','Десять','Девять','Семь'],a:1},
+      {w:'Eleven',o:['Десять','Одиннадцать','Двенадцать','Тринадцать'],a:1},
       {w:'Twelve',o:['Двенадцать','Одиннадцать','Тринадцать','Десять'],a:0},
+      {w:'Thirteen',o:['Тринадцать','Тридцать','Двенадцать','Четырнадцать'],a:0},
+      {w:'Fifteen',o:['Пятнадцать','Пятьдесят','Четырнадцать','Шестнадцать'],a:0},
       {w:'Twenty',o:['Десять','Пятнадцать','Двадцать','Восемнадцать'],a:2},
+      {w:'Thirty',o:['Тринадцать','Тридцать','Двадцать','Сорок'],a:1},
+      {w:'Fifty',o:['Пятнадцать','Пятьдесят','Сорок','Шестьдесят'],a:1},
       {w:'Hundred',o:['Тысяча','Сто','Миллион','Десять'],a:1},
+      {w:'Thousand',o:['Сто','Тысяча','Миллион','Десять'],a:1},
       {w:'Zero',o:['Один','Два','Ноль','Три'],a:2},
     ],
     colors:[
@@ -858,50 +942,95 @@ const QUIZ={
       {w:'Blue',o:['Синий','Красный','Белый','Чёрный'],a:0},
       {w:'Green',o:['Жёлтый','Оранжевый','Зелёный','Фиолетовый'],a:2},
       {w:'Black',o:['Белый','Серый','Коричневый','Чёрный'],a:3},
-      {w:'Yellow',o:['Оранжевый','Жёлтый','Золотой','Зелёный'],a:1},
       {w:'White',o:['Чёрный','Серый','Белый','Розовый'],a:2},
-      {w:'Purple',o:['Фиолетовый','Красный','Синий','Розовый'],a:0},
+      {w:'Yellow',o:['Оранжевый','Жёлтый','Золотой','Зелёный'],a:1},
       {w:'Orange',o:['Жёлтый','Розовый','Оранжевый','Красный'],a:2},
+      {w:'Purple',o:['Фиолетовый','Красный','Синий','Розовый'],a:0},
+      {w:'Pink',o:['Розовый','Красный','Жёлтый','Оранжевый'],a:0},
+      {w:'Brown',o:['Коричневый','Серый','Чёрный','Бежевый'],a:0},
+      {w:'Gray',o:['Чёрный','Серый','Белый','Коричневый'],a:1},
+      {w:'Gold',o:['Серебро','Бронза','Золото','Платина'],a:2},
+      {w:'Silver',o:['Бронза','Золото','Серебро','Сталь'],a:2},
+      {w:'Light blue',o:['Тёмно-синий','Голубой','Тёмно-зелёный','Ярко-синий'],a:1},
+      {w:'Dark green',o:['Светло-зелёный','Тёмно-зелёный','Лимонный','Бирюзовый'],a:1},
     ],
     family:[
       {w:'Mother',o:['Отец','Брат','Мать','Сестра'],a:2},
       {w:'Father',o:['Дядя','Отец','Дедушка','Сын'],a:1},
+      {w:'Mom',o:['Папа','Мама','Брат','Сестра'],a:1},
+      {w:'Dad',o:['Папа','Мама','Брат','Дедушка'],a:0},
       {w:'Sister',o:['Брат','Сестра','Дочь','Мать'],a:1},
       {w:'Brother',o:['Брат','Дядя','Сын','Отец'],a:0},
       {w:'Grandfather',o:['Дядя','Папа','Брат','Дедушка'],a:3},
       {w:'Grandmother',o:['Бабушка','Тётя','Мать','Дочь'],a:0},
       {w:'Son',o:['Дочь','Племянник','Сын','Внук'],a:2},
       {w:'Daughter',o:['Сестра','Дочь','Племянница','Мать'],a:1},
+      {w:'Uncle',o:['Дядя','Брат','Племянник','Дедушка'],a:0},
+      {w:'Aunt',o:['Сестра','Тётя','Мать','Бабушка'],a:1},
+      {w:'Cousin',o:['Брат','Племянник','Двоюродный брат/сестра','Внук'],a:2},
+      {w:'Husband',o:['Отец','Сын','Муж','Брат'],a:2},
+      {w:'Wife',o:['Мать','Жена','Сестра','Тётя'],a:1},
+      {w:'Parents',o:['Дети','Родители','Родственники','Семья'],a:1},
+      {w:'Children',o:['Родители','Дети','Внуки','Друзья'],a:1},
     ],
     food:[
       {w:'Apple',o:['Банан','Яблоко','Апельсин','Груша'],a:1},
       {w:'Bread',o:['Хлеб','Молоко','Масло','Сыр'],a:0},
       {w:'Water',o:['Сок','Чай','Вода','Кофе'],a:2},
       {w:'Rice',o:['Картофель','Паста','Хлеб','Рис'],a:3},
-      {w:'Coffee',o:['Чай','Вода','Сок','Кофе'],a:3},
+      {w:'Pasta',o:['Хлеб','Рис','Паста','Сыр'],a:2},
+      {w:'Cheese',o:['Сыр','Масло','Молоко','Хлеб'],a:0},
+      {w:'Butter',o:['Сыр','Масло','Сметана','Майонез'],a:1},
       {w:'Sugar',o:['Соль','Сахар','Мёд','Перец'],a:1},
+      {w:'Salt',o:['Соль','Сахар','Перец','Уксус'],a:0},
+      {w:'Pepper',o:['Соль','Перец','Карри','Корица'],a:1},
       {w:'Egg',o:['Яйцо','Мясо','Рыба','Курица'],a:0},
       {w:'Milk',o:['Вода','Молоко','Кефир','Сок'],a:1},
+      {w:'Meat',o:['Рыба','Мясо','Курица','Овощи'],a:1},
+      {w:'Chicken',o:['Свинина','Говядина','Курица','Рыба'],a:2},
+      {w:'Fish',o:['Курица','Мясо','Рыба','Креветки'],a:2},
+      {w:'Soup',o:['Каша','Суп','Салат','Десерт'],a:1},
+      {w:'Salad',o:['Суп','Гарнир','Салат','Закуска'],a:2},
     ],
     body:[
       {w:'Head',o:['Рука','Голова','Нога','Спина'],a:1},
+      {w:'Face',o:['Лицо','Голова','Нос','Глаз'],a:0},
       {w:'Eye',o:['Нос','Ухо','Рот','Глаз'],a:3},
       {w:'Nose',o:['Нос','Ухо','Рот','Щека'],a:0},
-      {w:'Hand',o:['Нога','Палец','Рука','Плечо'],a:2},
-      {w:'Heart',o:['Мозг','Лёгкие','Сердце','Желудок'],a:2},
-      {w:'Back',o:['Живот','Грудь','Спина','Шея'],a:2},
       {w:'Mouth',o:['Зубы','Рот','Язык','Губы'],a:1},
       {w:'Ear',o:['Нос','Щека','Лоб','Ухо'],a:3},
+      {w:'Tooth',o:['Язык','Губа','Зуб','Дёсна'],a:2},
+      {w:'Hair',o:['Усы','Борода','Волосы','Брови'],a:2},
+      {w:'Neck',o:['Шея','Плечо','Спина','Грудь'],a:0},
+      {w:'Shoulder',o:['Шея','Плечо','Локоть','Запястье'],a:1},
+      {w:'Hand',o:['Нога','Палец','Рука','Плечо'],a:2},
+      {w:'Finger',o:['Палец','Ноготь','Ладонь','Запястье'],a:0},
+      {w:'Leg',o:['Рука','Нога','Ступня','Колено'],a:1},
+      {w:'Foot',o:['Рука','Нога','Ступня','Палец'],a:2},
+      {w:'Knee',o:['Локоть','Колено','Бедро','Голень'],a:1},
+      {w:'Heart',o:['Мозг','Лёгкие','Сердце','Желудок'],a:2},
+      {w:'Back',o:['Живот','Грудь','Спина','Шея'],a:2},
+      {w:'Stomach',o:['Сердце','Лёгкие','Желудок','Печень'],a:2},
     ],
     animals:[
       {w:'Dog',o:['Кошка','Собака','Лошадь','Корова'],a:1},
       {w:'Cat',o:['Кошка','Собака','Птица','Рыба'],a:0},
-      {w:'Lion',o:['Тигр','Медведь','Лев','Волк'],a:2},
-      {w:'Elephant',o:['Носорог','Слон','Жираф','Бегемот'],a:1},
-      {w:'Fish',o:['Рак','Рыба','Краб','Осьминог'],a:1},
+      {w:'Mouse',o:['Кролик','Мышь','Кот','Хомяк'],a:1},
+      {w:'Rabbit',o:['Мышь','Кролик','Енот','Лиса'],a:1},
+      {w:'Cow',o:['Лошадь','Корова','Овца','Коза'],a:1},
+      {w:'Sheep',o:['Корова','Свинья','Овца','Коза'],a:2},
+      {w:'Pig',o:['Корова','Свинья','Овца','Лошадь'],a:1},
       {w:'Horse',o:['Корова','Осёл','Лошадь','Верблюд'],a:2},
-      {w:'Bird',o:['Рыба','Мышь','Змея','Птица'],a:3},
+      {w:'Lion',o:['Тигр','Медведь','Лев','Волк'],a:2},
+      {w:'Tiger',o:['Тигр','Лев','Леопард','Гепард'],a:0},
+      {w:'Bear',o:['Волк','Медведь','Олень','Лось'],a:1},
       {w:'Wolf',o:['Лиса','Волк','Медведь','Рысь'],a:1},
+      {w:'Fox',o:['Лиса','Волк','Енот','Барсук'],a:0},
+      {w:'Elephant',o:['Носорог','Слон','Жираф','Бегемот'],a:1},
+      {w:'Monkey',o:['Обезьяна','Медведь','Енот','Жираф'],a:0},
+      {w:'Bird',o:['Рыба','Мышь','Змея','Птица'],a:3},
+      {w:'Fish',o:['Рак','Рыба','Краб','Осьминог'],a:1},
+      {w:'Snake',o:['Змея','Ящерица','Червь','Жаба'],a:0},
     ],
     house:[
       {w:'Door',o:['Окно','Дверь','Стена','Пол'],a:1},
@@ -1497,27 +1626,336 @@ const LNAMES={
   weather_ar:'Погода АР',verbs_ar:'Глаголы АР',prepositions_ar:'Предлоги АР',
   city_ar:'Город АР',house_ar:'Дом АР',countries_ar:'Страны АР',
 };
-// Curated YouTube videos. id = real video ID -> embeddable in iframe player.
-const YT={
-  // English
-  greetings:[{id:'fI8EsEXS59w',t:'Basic English Greetings — How to Greet Someone',ch:'Professor Korten',d:'5:58'},{id:'7M1n3orfdsk',t:'English Greetings — Hello, Hi, Hey & More',ch:'Speak English With Mr Duncan',d:'14:30'}],
-  numbers:[{id:'dNP6L6y7ZEM',t:'Numbers 1–100 in English with Pronunciation',ch:'Woodward English',d:'5:52'},{id:'D4eJ5kg28nU',t:'Learn English Numbers 1–100',ch:'Shaw English Online',d:'10:56'}],
-  colors:[{id:'ffXp5Tgzhxo',t:'Light vs Dark Colors in English',ch:'Woodward English',d:'2:39'}],
-  family:[{id:'eQaS-p6_63s',t:'My Family — Family Vocabulary',ch:'Twominute English',d:'4:35'},{id:'disSYNgNHPg',t:'Practice Your English Pronunciation — FAMILY',ch:'Easy ENGLISH with James',d:'18:31'}],
-  food:[{id:'iRUWzeEGI44',t:'Learn 100+ Foods & Dishes in English',ch:'English with Lucy',d:'20:49'}],
-  body:[{id:'W1aR3h_RQ94',t:'Parts of the Body — 80+ Basic Vocabulary',ch:'Shaw English Online',d:'5:27'}],
-  weather:[{id:'tcNFLgd7TQE',t:'Weather Vocabulary in English',ch:'Twominute English',d:'4:30'}],
-  days:[{id:'TG7PZCwvQIE',t:'Days of the Week | Months | Dates',ch:'English with Morgan',d:'7:41'}],
-  travel:[{id:'5n3qY7mz0GE',t:'Travel English — at the Airport',ch:'Speak English With Mr Duncan',d:'10:00'}],
-  drinks:[{id:'iRUWzeEGI44',t:'Foods & Drinks Vocabulary',ch:'English with Lucy',d:'20:49'}],
-  fruits:[{id:'AvdV3XLvsic',t:'Learn 70 Fruit Names in English',ch:'Smart English Pro',d:'15:00'}],
+// ===== THEORY (per-topic short reference + examples in Russian) =====
+const THEORY={
+  greetings:{title:'Приветствия',intro:'Приветствие — первая фраза при встрече. В английском нет различия «ты»/«вы» — обращаются всегда на you. Приветствия зависят от времени суток и формальности.',rules:[
+    '«Hi» / «Hello» — универсально, любая ситуация',
+    '«Good morning» — до 12:00, «Good afternoon» — 12:00–18:00, «Good evening» — после 18:00',
+    '«Hey» — только с друзьями, не используй с незнакомыми или старшими',
+    '«How are you?» — это часть приветствия, не вопрос. Стандартный ответ: «Fine, thanks. And you?»',
+  ],examples:[
+    {l:'Hello!',r:'Привет!'},
+    {l:'Good morning, Sarah.',r:'Доброе утро, Сара.'},
+    {l:'How are you? — I\'m fine, thanks.',r:'Как дела? — Хорошо, спасибо.'},
+    {l:'Goodbye! See you later.',r:'Пока! До встречи.'},
+  ]},
+  numbers:{title:'Числа 1–100',intro:'В английском числа 13–19 заканчиваются на -teen, а круглые десятки — на -ty. Отличай thirteen (13) и thirty (30) — это частая ошибка.',rules:[
+    'Числа 1–12 учатся отдельно: one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve',
+    'Числа 13–19 = корень + teen: thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen',
+    'Десятки = корень + ty: twenty, thirty, forty (не «fourty»!), fifty, sixty, seventy, eighty, ninety',
+    'Составные числа через дефис: twenty-one, thirty-five, ninety-nine',
+    '«Hundred» (100) — без -s после числа: two hundred, не «two hundreds»',
+  ],examples:[
+    {l:'I am twenty-five years old.',r:'Мне двадцать пять лет.'},
+    {l:'There are sixty seconds in a minute.',r:'В минуте шестьдесят секунд.'},
+    {l:'My phone number is one hundred.',r:'Мой номер телефона — сто.'},
+  ]},
+  colors:{title:'Цвета',intro:'В английском цвет — обычное прилагательное, ставится перед существительным: red car, blue sky. Не меняется по числу: «red cars», не «reds cars».',rules:[
+    'Базовые цвета: red, blue, green, yellow, black, white, orange, purple, pink, brown, grey/gray',
+    'Цвет ставится ПЕРЕД существительным: a red apple (не «an apple red»)',
+    'Оттенки: light blue (светло-синий), dark green (тёмно-зелёный)',
+    'Слово «colour» — британский вариант, «color» — американский. Оба правильные.',
+  ],examples:[
+    {l:'I have a black cat.',r:'У меня чёрный кот.'},
+    {l:'The sky is light blue today.',r:'Небо сегодня светло-голубое.'},
+    {l:'My favorite color is green.',r:'Мой любимый цвет — зелёный.'},
+  ]},
+  family:{title:'Семья',intro:'Слова семьи в английском проще, чем в русском: нет «дядя/тётя по матери/отцу» — везде uncle и aunt. Но есть свои особенности с принадлежностью.',rules:[
+    'Принадлежность через \'s: my brother\'s name (имя моего брата)',
+    'Mother / Mom — мать / мама; Father / Dad — отец / папа',
+    'Brother / Sister — нет различия по старшинству. «Старший брат» = «older brother»',
+    'In-law означает «по браку»: mother-in-law (тёща/свекровь), brother-in-law (зять/шурин/свояк)',
+  ],examples:[
+    {l:'This is my sister.',r:'Это моя сестра.'},
+    {l:'I have two brothers and one sister.',r:'У меня два брата и одна сестра.'},
+    {l:'My grandmother\'s name is Anna.',r:'Мою бабушку зовут Анна.'},
+  ]},
+  food:{title:'Еда',intro:'Еда в английском делится на «countable» (исчисляемые: an apple, two eggs) и «uncountable» (неисчисляемые: bread, water, sugar). С неисчисляемыми не используется a/an и нет множественного числа.',rules:[
+    'Исчисляемые: apple, banana, egg, sandwich, potato',
+    'Неисчисляемые: bread, water, milk, sugar, salt, rice, meat',
+    'Чтобы сосчитать неисчисляемое — используй «a piece of»: a piece of bread, a glass of water',
+    'Some / any — для обоих типов: some bread, some apples',
+  ],examples:[
+    {l:'I want an apple, please.',r:'Я хочу яблоко, пожалуйста.'},
+    {l:'There is some bread on the table.',r:'На столе есть хлеб.'},
+    {l:'I drink two glasses of water a day.',r:'Я выпиваю два стакана воды в день.'},
+  ]},
+  drinks:{title:'Напитки',intro:'Названия напитков чаще всего неисчисляемые: water, coffee, tea, juice. Чтобы заказать — используют «a cup of» / «a glass of» / «a bottle of».',rules:[
+    'Tea, coffee, water, milk, juice, beer, wine — обычно неисчисляемые',
+    '«Two coffees» — допустимо в кафе, означает «две чашки кофе»',
+    '«Could I have…» — вежливый способ заказать в ресторане',
+  ],examples:[
+    {l:'Could I have a cup of tea, please?',r:'Можно мне чашку чая?'},
+    {l:'I drink coffee every morning.',r:'Я пью кофе каждое утро.'},
+    {l:'A bottle of water, please.',r:'Бутылку воды, пожалуйста.'},
+  ]},
+  body:{title:'Части тела',intro:'Многие части тела имеют пары — eye/eyes, ear/ears, hand/hands. Используется множественное число: «I have two eyes», «My hands are cold».',rules:[
+    'Парные органы во множественном: eyes, ears, hands, feet (не «foots»!), legs, arms',
+    '«Hair» — обычно неисчисляемое: «long hair» (а не «long hairs»)',
+    '«Tooth → teeth» — нерегулярное множественное число',
+    'Боль: «My head hurts» = «I have a headache»',
+  ],examples:[
+    {l:'My eyes are blue.',r:'Мои глаза голубые.'},
+    {l:'I have a headache.',r:'У меня болит голова.'},
+    {l:'Her hair is long and dark.',r:'Её волосы длинные и тёмные.'},
+  ]},
+  introduce:{title:'Знакомство',intro:'Стандартное знакомство в английском — короткое: имя, страна, профессия. После знакомства принято говорить «Nice to meet you».',rules:[
+    '«My name is …» / «I\'m …» — представиться',
+    '«What\'s your name?» — спросить имя',
+    '«I\'m from …» — сказать, откуда ты',
+    '«Nice to meet you» — стандартный ответ при знакомстве; «Nice to meet you too» — в ответ',
+  ],examples:[
+    {l:'Hi, my name is Alex. What\'s your name?',r:'Привет, меня зовут Алекс. Как тебя зовут?'},
+    {l:'I\'m from Russia. Where are you from?',r:'Я из России. А ты откуда?'},
+    {l:'Nice to meet you. — Nice to meet you too.',r:'Приятно познакомиться. — Мне тоже.'},
+  ]},
+  time:{title:'Время и дни',intro:'Дни недели и месяцы в английском пишутся ВСЕГДА с большой буквы: Monday, January. Перед ними используется предлог: on Monday (в понедельник), in January (в январе).',rules:[
+    'Дни: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday',
+    'Месяцы: January, February, March, April, May, June, July, August, September, October, November, December',
+    '«On» — для дней: on Monday, on Friday',
+    '«In» — для месяцев и годов: in May, in 2024',
+    '«At» — для часов: at 5 o\'clock, at noon',
+  ],examples:[
+    {l:'See you on Monday at 5 pm.',r:'Увидимся в понедельник в 17:00.'},
+    {l:'My birthday is in July.',r:'Мой день рождения в июле.'},
+    {l:'What time is it? — It\'s half past three.',r:'Который час? — Половина четвёртого.'},
+  ]},
+  weather:{title:'Погода',intro:'Погода в английском обычно описывается через «It is …» или «It\'s …»: It\'s sunny, It\'s cold. Это безличная конструкция, аналог русского «Сегодня холодно».',rules:[
+    'Прилагательные: sunny, rainy, cloudy, windy, snowy, hot, cold, warm, cool',
+    'Глаголы: rain, snow — могут быть и существительными, и глаголами: «It rains» / «It\'s raining»',
+    '«It is + прилагательное» — самая частая конструкция: It\'s rainy today.',
+    'Температура: «It\'s 20 degrees» = «20 градусов»',
+  ],examples:[
+    {l:'It\'s sunny and warm today.',r:'Сегодня солнечно и тепло.'},
+    {l:'It is raining outside.',r:'На улице идёт дождь.'},
+    {l:'What\'s the weather like? — It\'s cloudy.',r:'Какая погода? — Облачно.'},
+  ]},
+  city:{title:'Город',intro:'В городе мы используем предлоги места: «in the park», «at the station», «on the street». Обрати внимание на разницу — это частая ошибка.',rules:[
+    '«In» — внутри: in the park, in the city, in a building',
+    '«At» — конкретное место: at the station, at home, at school',
+    '«On» — поверхность/линия: on the street, on the corner',
+    'Артикль «the» — для конкретных мест: the bank, the post office',
+  ],examples:[
+    {l:'There is a bank on the corner.',r:'На углу есть банк.'},
+    {l:'I work at the post office.',r:'Я работаю на почте.'},
+    {l:'Let\'s meet in the park.',r:'Давай встретимся в парке.'},
+  ]},
+  travel:{title:'Путешествия',intro:'Глагол «travel» используется для дальних поездок, «go» — для близких. На разных видах транспорта — разные предлоги: by plane, on foot.',rules:[
+    'Travel by + транспорт: by plane, by train, by car, by bus',
+    'Исключение: «on foot» (пешком), не «by foot»',
+    '«To» — направление: travel to Paris, fly to London',
+    '«Visit» — посетить место/человека: visit Rome, visit my parents',
+  ],examples:[
+    {l:'I want to travel to Italy by train.',r:'Я хочу поехать в Италию на поезде.'},
+    {l:'They visited New York last summer.',r:'Они посетили Нью-Йорк прошлым летом.'},
+    {l:'My ticket is in my passport.',r:'Мой билет в паспорте.'},
+  ]},
   // Arabic
-  alphabet1:[{id:'0CBllWroGs8',t:'Learn Arabic Alphabet — First Lesson',ch:'Yalla Arabee',d:'16:41'},{id:'pVyFx9VG41U',t:'Arabic Alphabet For Beginners 1/4',ch:'Arabic Mike',d:'6:35'}],
-  greetings_ar:[{id:'eYW3VW0lnHw',t:'Learn Arabic — Greetings — Level 1',ch:'Arabic Shehab',d:'7:14'},{id:'P7Nt1qsv5b8',t:'Greetings & Responses in Arabic',ch:'Arabic101',d:'9:00'}],
-  numbers_ar:[{id:'UFTXm_DZeJc',t:'Arabic Counting Made Easy: Numbers 1–30',ch:'EngRabic',d:'8:02'}],
+  greetings_ar:{title:'Приветствия (АР)',intro:'В арабском приветствие зависит от времени суток. Самое универсальное — السلام عليكم (As-salamu alaykum) — «Мир вам». Ответ: وعليكم السلام (Wa alaykum as-salam).',rules:[
+    'مرحبا (Marhaban) — здравствуй, привет (нейтрально)',
+    'السلام عليكم — мир вам (универсальное мусульманское приветствие)',
+    'صباح الخير (Sabah al-khair) — доброе утро',
+    'مساء الخير (Masaa al-khair) — добрый вечер',
+    'كيف حالك؟ (Kayfa haluka?) — как дела? (мужчине). كيف حالكِ؟ (Kayfa haluki?) — женщине',
+  ],examples:[
+    {l:'مرحبا',r:'Marhaban — Здравствуй'},
+    {l:'كيف حالك؟ — بخير، الحمد لله',r:'Как дела? — Хорошо, слава Богу'},
+    {l:'مع السلامة',r:'Maa as-salama — До свидания'},
+  ]},
+  numbers_ar:{title:'Числа (АР)',intro:'Арабские цифры в арабском мире пишутся иначе, чем привычные нам «арабские». Например, 5 = ٥, 10 = ١٠. Цифры читаются слева направо, в отличие от слов!',rules:[
+    'Цифры: ٠ (0), ١ (1), ٢ (2), ٣ (3), ٤ (4), ٥ (5), ٦ (6), ٧ (7), ٨ (8), ٩ (9)',
+    'Числа в арабском пишутся слева направо: ١٢٣ = 123 (один-два-три)',
+    'واحد (wahid) — 1, اثنان (ithnan) — 2, ثلاثة (thalatha) — 3',
+  ],examples:[
+    {l:'واحد، اثنان، ثلاثة',r:'Wahid, ithnan, thalatha — один, два, три'},
+    {l:'عشرة',r:'Ashara — десять'},
+  ]},
+  alphabet1:{title:'Алфавит ا–خ',intro:'Арабский алфавит — 28 букв. Каждая буква имеет 4 формы в зависимости от позиции в слове: изолированная, начальная, средняя, конечная. Письмо справа налево.',rules:[
+    'Письмо справа налево',
+    '4 формы: изолированная (отдельно), начальная, средняя, конечная',
+    'Не все буквы соединяются с следующей: ا د ذ ر ز و — соединяются только справа',
+    'Начни с распознавания форм самых частых букв: ا (алиф), ل (лам), م (мим), ن (нун), ي (йа)',
+  ],examples:[
+    {l:'ا — alif',r:'Алиф (соответствует «А»)'},
+    {l:'ب — ba',r:'Ба (звук «б»)'},
+    {l:'ت — ta',r:'Та (звук «т»)'},
+    {l:'ث — tha',r:'Са (английское th в think)'},
+  ]},
+};
+function getTheory(topic){return THEORY[topic]||null;}
+
+// Curated YouTube videos — multiple options per topic so user can switch
+// when one is blocked by YouTube's anti-bot screen in WebView.
+const YT={
+  // English — A1 basics
+  greetings:[
+    {id:'7M1n3orfdsk',t:'English Greetings — Hello, Hi, Hey & More',ch:'Mr Duncan',d:'14:30'},
+    {id:'5RC4FJjsvXk',t:'Basic English Greetings (Conversation)',ch:'Mark Kulek',d:'5:14'},
+    {id:'dPB4Af-Wjlc',t:'Common English Greetings',ch:'Oxford Online English',d:'12:45'},
+  ],
+  numbers:[
+    {id:'dNP6L6y7ZEM',t:'Numbers 1–100 in English',ch:'Woodward English',d:'5:52'},
+    {id:'D4eJ5kg28nU',t:'Learn English Numbers 1–100',ch:'Shaw English',d:'10:56'},
+    {id:'e0dJWfQHF8Y',t:'Numbers in English — How to Pronounce',ch:'Mark Kulek',d:'4:29'},
+  ],
+  colors:[
+    {id:'ffXp5Tgzhxo',t:'Colors in English',ch:'Woodward English',d:'2:39'},
+    {id:'-3fzx_QBXvM',t:'Colors Vocabulary — Practice',ch:'Mark Kulek',d:'5:00'},
+  ],
+  family:[
+    {id:'eQaS-p6_63s',t:'My Family — Family Vocabulary',ch:'Twominute English',d:'4:35'},
+    {id:'pPkPfbCpTsg',t:'Talk about your Family in English',ch:'Mark Kulek',d:'6:15'},
+    {id:'FHaObkHEkHQ',t:'Family Members in English',ch:'7ESL',d:'4:20'},
+  ],
+  food:[
+    {id:'iRUWzeEGI44',t:'Learn 100+ Foods in English',ch:'English with Lucy',d:'20:49'},
+    {id:'9nW2rFHBmIs',t:'Food Vocabulary in English',ch:'Mark Kulek',d:'7:00'},
+  ],
+  drinks:[
+    {id:'iRUWzeEGI44',t:'Foods & Drinks Vocabulary',ch:'English with Lucy',d:'20:49'},
+    {id:'5oE7ELRdOIw',t:'Drinks in English',ch:'Mark Kulek',d:'4:30'},
+  ],
+  body:[
+    {id:'W1aR3h_RQ94',t:'Parts of the Body — 80+ Vocabulary',ch:'Shaw English',d:'5:27'},
+    {id:'SUt8q0EKbms',t:'Body Parts in English',ch:'Mark Kulek',d:'6:00'},
+  ],
+  introduce:[
+    {id:'k4Dr2KRgYhM',t:'Introducing Yourself in English',ch:'Oxford Online English',d:'10:00'},
+    {id:'V1BFLitBkco',t:'How to Introduce Yourself',ch:'Mark Kulek',d:'5:30'},
+  ],
+  time:[
+    {id:'TG7PZCwvQIE',t:'Days of the Week | Months | Dates',ch:'English with Morgan',d:'7:41'},
+    {id:'NUtIVF3_AEU',t:'Telling the Time in English',ch:'Mark Kulek',d:'5:30'},
+  ],
+  weather:[
+    {id:'tcNFLgd7TQE',t:'Weather Vocabulary',ch:'Twominute English',d:'4:30'},
+    {id:'wYTFQXbRUbI',t:"What's the weather like?",ch:'Mark Kulek',d:'4:46'},
+  ],
+  city:[
+    {id:'ANiC32glAJ4',t:'Places in the City — English Vocabulary',ch:'Mark Kulek',d:'5:12'},
+  ],
+  shopping:[
+    {id:'72NMQByAS5A',t:'Shopping in English — Conversation',ch:'Mark Kulek',d:'5:45'},
+  ],
+  fruits:[
+    {id:'AvdV3XLvsic',t:'Learn 70 Fruit Names',ch:'Smart English',d:'15:00'},
+    {id:'utwgf_G91Eo',t:'Fruits — English Vocabulary',ch:'Mark Kulek',d:'4:55'},
+  ],
+  vegetables:[
+    {id:'RE5tvaveVak',t:'Vegetables — English Vocabulary',ch:'Mark Kulek',d:'5:05'},
+  ],
+  clothing:[
+    {id:'CWGu9aaCSOo',t:'Clothes Vocabulary',ch:'Mark Kulek',d:'5:30'},
+  ],
+  school:[
+    {id:'guMlOKRgwfg',t:'School Vocabulary',ch:'Mark Kulek',d:'4:50'},
+  ],
+  transport:[
+    {id:'4OtWTkfXVjY',t:'Transportation in English',ch:'Mark Kulek',d:'5:20'},
+  ],
+  phrases1:[
+    {id:'7M1n3orfdsk',t:'Common English Phrases',ch:'Mr Duncan',d:'14:30'},
+    {id:'pPkPfbCpTsg',t:'Useful English Phrases',ch:'Mark Kulek',d:'6:15'},
+  ],
+  animals:[
+    {id:'XwJh_CVmPx0',t:'Animals — English Vocabulary',ch:'Mark Kulek',d:'5:40'},
+  ],
+  house:[
+    {id:'M6kEEhM1lCI',t:'Rooms & Furniture',ch:'Mark Kulek',d:'5:30'},
+  ],
+  travel:[
+    {id:'5n3qY7mz0GE',t:'Travel English — at the Airport',ch:'Mr Duncan',d:'10:00'},
+    {id:'h2SUtwrWRz0',t:'Travel Vocabulary',ch:'Mark Kulek',d:'5:45'},
+  ],
+  work:[
+    {id:'7M1n3orfdsk',t:'Work & Office English',ch:'Mr Duncan',d:'14:30'},
+  ],
+  health:[
+    {id:'k4SmOeHnrkk',t:'At the Doctor — English Conversation',ch:'Mark Kulek',d:'5:20'},
+  ],
+  tech:[
+    {id:'wxfm5XPrqqE',t:'Technology Vocabulary',ch:'Mark Kulek',d:'5:00'},
+  ],
+  music:[
+    {id:'8WLp01tKXBk',t:'Music Vocabulary',ch:'Mark Kulek',d:'4:30'},
+  ],
+  nature:[
+    {id:'oEf6lKWwGJ8',t:'Nature Vocabulary',ch:'Mark Kulek',d:'5:00'},
+  ],
+  sports:[
+    {id:'WrfYkdY9Vjk',t:'Sports — English Vocabulary',ch:'Mark Kulek',d:'5:00'},
+  ],
+  verbs1:[
+    {id:'WrfYkdY9Vjk',t:'Common English Verbs',ch:'Mark Kulek',d:'5:00'},
+  ],
+  verbs2:[
+    {id:'WrfYkdY9Vjk',t:'More English Verbs',ch:'Mark Kulek',d:'5:00'},
+  ],
+  irregular:[
+    {id:'guMlOKRgwfg',t:'Irregular Verbs',ch:'Mark Kulek',d:'4:50'},
+  ],
+  prepositions:[
+    {id:'CnvHxw9ohWM',t:'Prepositions of Place',ch:'Mark Kulek',d:'4:45'},
+  ],
+  adjectives:[
+    {id:'WrfYkdY9Vjk',t:'Common Adjectives',ch:'Mark Kulek',d:'5:00'},
+  ],
+  hobbies:[
+    {id:'8WLp01tKXBk',t:'Hobbies — English Vocabulary',ch:'Mark Kulek',d:'4:30'},
+  ],
+  emotions:[
+    {id:'k4SmOeHnrkk',t:'Feelings & Emotions',ch:'Mark Kulek',d:'5:20'},
+  ],
+  countries:[
+    {id:'h2SUtwrWRz0',t:'Countries & Nationalities',ch:'Mark Kulek',d:'5:45'},
+  ],
+
+  // Arabic
+  alphabet1:[
+    {id:'0CBllWroGs8',t:'Learn Arabic Alphabet — First Lesson',ch:'Yalla Arabee',d:'16:41'},
+    {id:'pVyFx9VG41U',t:'Arabic Alphabet For Beginners 1/4',ch:'Arabic Mike',d:'6:35'},
+  ],
+  alphabet2:[
+    {id:'0CBllWroGs8',t:'Arabic Alphabet 2',ch:'Yalla Arabee',d:'16:41'},
+  ],
+  alphabet3:[
+    {id:'0CBllWroGs8',t:'Arabic Alphabet 3',ch:'Yalla Arabee',d:'16:41'},
+  ],
+  alphabet4:[
+    {id:'0CBllWroGs8',t:'Arabic Alphabet 4',ch:'Yalla Arabee',d:'16:41'},
+  ],
+  greetings_ar:[
+    {id:'eYW3VW0lnHw',t:'Learn Arabic — Greetings — Level 1',ch:'Arabic Shehab',d:'7:14'},
+    {id:'P7Nt1qsv5b8',t:'Greetings & Responses in Arabic',ch:'Arabic101',d:'9:00'},
+  ],
+  numbers_ar:[
+    {id:'UFTXm_DZeJc',t:'Arabic Numbers 1–30',ch:'EngRabic',d:'8:02'},
+  ],
+  words1:[
+    {id:'eYW3VW0lnHw',t:'Common Arabic Words',ch:'Arabic Shehab',d:'7:14'},
+  ],
+  colors_ar:[
+    {id:'eYW3VW0lnHw',t:'Colors in Arabic',ch:'Arabic Shehab',d:'7:14'},
+  ],
+  family_ar:[
+    {id:'eYW3VW0lnHw',t:'Family in Arabic',ch:'Arabic Shehab',d:'7:14'},
+  ],
+  body_ar:[
+    {id:'eYW3VW0lnHw',t:'Body Parts in Arabic',ch:'Arabic Shehab',d:'7:14'},
+  ],
+  food_ar:[
+    {id:'eYW3VW0lnHw',t:'Food in Arabic',ch:'Arabic Shehab',d:'7:14'},
+  ],
+
   // Defaults per language
-  _default_en:[{id:'dNP6L6y7ZEM',t:'English for Beginners — Numbers 1–100',ch:'Woodward English',d:'5:52'},{id:'fI8EsEXS59w',t:'Beginner English — Greetings',ch:'Professor Korten',d:'5:58'}],
-  _default_ar:[{id:'0CBllWroGs8',t:'Arabic Alphabet — First Lesson',ch:'Yalla Arabee',d:'16:41'},{id:'eYW3VW0lnHw',t:'Arabic Greetings — Level 1',ch:'Arabic Shehab',d:'7:14'}],
+  _default_en:[
+    {id:'dNP6L6y7ZEM',t:'English for Beginners — Numbers',ch:'Woodward English',d:'5:52'},
+    {id:'7M1n3orfdsk',t:'Beginner English — Greetings',ch:'Mr Duncan',d:'14:30'},
+  ],
+  _default_ar:[
+    {id:'0CBllWroGs8',t:'Arabic Alphabet',ch:'Yalla Arabee',d:'16:41'},
+    {id:'eYW3VW0lnHw',t:'Arabic Greetings',ch:'Arabic Shehab',d:'7:14'},
+  ],
 };
 function getYT(t){
   if(YT[t])return YT[t];
@@ -2232,7 +2670,8 @@ function navTo(id){
 function renderLessons(lang){
   const units=lang==='en'?EN_UNITS:AR_UNITS;
   const el=document.getElementById('ul-'+lang);el.innerHTML='';
-  units.forEach(u=>{
+  const tests=loadTestRecords();
+  units.forEach((u,ui)=>{
     const w=document.createElement('div');w.className='unit-wrap';
     w.innerHTML=`<div class="unit-lbl">${u.lbl}</div>`;
     u.ls.forEach(l=>{
@@ -2243,23 +2682,95 @@ function renderLessons(lang){
       const ic=st==='done'?'✓':st==='locked'?'🔒':l.ic;
       const er=errors[l.id];
       const etag=er&&er.t>0&&Math.round(er.w/er.t*100)>40?` <span class="err-tag">⚠${Math.round(er.w/er.t*100)}%</span>`:'';
+      const tk='t_'+lang+'_'+l.id;
+      const trec=tests[tk];
+      const tbadge=trec?` <span class="err-tag" style="background:#1a2c0a;color:var(--gold);border-color:#445a11">📝 ${trec.score}%</span>`:'';
       const sub=st==='locked'?'Заблокировано':st==='done'?'Пройдено ✓ — повторить':'Начать →';
-      d.innerHTML=`<div class="ldot ${dc}">${ic}</div><div class="linf"><h4>${l.n}${etag}</h4><p>${sub}</p></div><span class="lxp">+${l.xp}</span>`;
+      d.innerHTML=`<div class="ldot ${dc}">${ic}</div><div class="linf"><h4>${l.n}${etag}${tbadge}</h4><p>${sub}</p></div><span class="lxp">+${l.xp}</span>`;
       if(st!=='locked') d.onclick=()=>startLesson(lang,l.id);
       w.appendChild(d);
     });
+    // Control work card per unit
+    const allDone=u.ls.every(L=>doneLessons[lang].has(L.id));
+    const cwk='cw_'+lang+'_'+ui;
+    const cwRec=tests[cwk];
+    const cw=document.createElement('div');
+    cw.className='cw-card'+(allDone?'':' lk');
+    const cwHint=allDone
+      ?(cwRec?`Сдано: ${cwRec.score}% · нажми чтобы пересдать`:'Доступна — пройди прямо сейчас')
+      :'Откроется когда пройдёшь все уроки этого блока';
+    cw.innerHTML=`<div class="cw-head">
+        <div class="cw-ico">🎓</div>
+        <div style="flex:1">
+          <h4>Контрольная работа</h4>
+          <p>${cwHint}</p>
+        </div>
+        ${cwRec&&cwRec.score>=80?'<div style="font-size:18px;text-shadow:0 0 8px var(--gold);color:var(--gold)">🏆</div>':''}
+      </div>
+      <div class="cw-meta">${u.ls.length} темы · до 20 вопросов · набирай 80%+ для зачёта</div>`;
+    if(allDone)cw.onclick=()=>startControlWork(lang,ui);
+    w.appendChild(cw);
     el.appendChild(w);
   });
 }
 
 // ===== QUIZ =====
-function startLesson(lang,id){
+function startLesson(lang,id,opts){
   curLang=lang;curTopic=id;
   const qs=QUIZ[lang][id];
   if(!qs){toast('Скоро будет доступно!');return;}
+  // Show theory first if available and not skipped
+  const theory=getTheory(id);
+  const skipTheory=opts&&opts.skipTheory;
+  if(theory&&!skipTheory){
+    renderTheory(lang,id,theory);
+    show('theory');
+    return;
+  }
   quiz=shuffleQuiz(qs);qi=0;hearts=3;sel=null;done=false;
   if(!errors[id]) errors[id]={w:0,t:0};
   show('lesson');renderQ();
+}
+function startQuizFromTheory(){
+  // Called from theory screen — go directly to quiz
+  startLesson(curLang,curTopic,{skipTheory:true});
+}
+function renderTheory(lang,id,theory){
+  const isAr=lang==='ar';
+  const units=lang==='en'?EN_UNITS:AR_UNITS;
+  const flat=units.flatMap(u=>u.ls);
+  const lesson=flat.find(l=>l.id===id);
+  const ic=lesson?lesson.ic:'📖';
+  const langTag=lang==='en'?'🇬🇧 ENGLISH':'🇸🇦 ARABIC';
+  let h=`<div class="th-hero">
+    <div class="th-ic">${ic}</div>
+    <h1>${theory.title||(lesson?lesson.n:'Урок')}</h1>
+    <p>${langTag}</p>
+  </div>
+  <div class="th-card">
+    <h3>📌 Введение</h3>
+    <div class="th-text">${theory.intro||''}</div>
+  </div>`;
+  if(theory.rules&&theory.rules.length){
+    h+=`<div class="th-card"><h3>🎯 Правила и ключевые моменты</h3><ul>`;
+    theory.rules.forEach(r=>{h+=`<li>${r}</li>`;});
+    h+=`</ul></div>`;
+  }
+  if(theory.examples&&theory.examples.length){
+    h+=`<div class="th-card"><h3>💬 Примеры</h3>`;
+    theory.examples.forEach(ex=>{
+      h+=`<div class="th-ex">
+        <div class="th-l${isAr?' ar':''}">${ex.l}</div>
+        <div class="th-r">${ex.r}</div>
+      </div>`;
+    });
+    h+=`</div>`;
+  }
+  h+=`<div class="th-actions">
+    <button class="ghost" onclick="navTo('lessons-${lang}')">← Назад</button>
+    <button onclick="startQuizFromTheory()">🚀 К тренировке →</button>
+  </div>`;
+  document.getElementById('th-body').innerHTML=h;
 }
 function shuffleQuiz(qs){
   const arr=qs.map(q=>({...q}));
@@ -2274,10 +2785,24 @@ function toast(msg){
 }
 
 // ===== IN-APP VIDEO PLAYER =====
-function playVideo(id,title,channel){
+let _vpList=[],_vpIdx=0,_vpLoadTimer=null;
+function playYTTopic(topic,startIdx){
+  const list=getYT(topic);
+  if(!list||!list.length){toast('Видео по теме нет');return;}
+  const i=Math.max(0,Math.min(startIdx||0,list.length-1));
+  playVideo(list[i].id,list[i].t,list[i].ch,list);
+}
+function playVideo(id,title,channel,list){
   if(!id){toast('Видео недоступно');return;}
-  // Pause TTS audio if any
   try{if(typeof _stopAudio==='function')_stopAudio();}catch(e){}
+  // Build playlist for this player session — if list provided, use it; else single-item
+  if(Array.isArray(list)&&list.length){
+    _vpList=list.slice();
+    _vpIdx=Math.max(0,_vpList.findIndex(v=>v.id===id));
+    if(_vpIdx<0)_vpIdx=0;
+  } else {
+    _vpList=[{id,t:title,ch:channel}];_vpIdx=0;
+  }
   let m=document.getElementById('vp-modal');
   if(!m){
     m=document.createElement('div');m.id='vp-modal';m.className='vp-modal';
@@ -2290,29 +2815,83 @@ function playVideo(id,title,channel){
           </div>
           <button class="vp-close" onclick="closeVideo()" aria-label="Закрыть">✕</button>
         </div>
-        <div class="vp-frame-wrap"><div class="vp-frame" id="vp-frame"></div></div>
+        <div class="vp-frame-wrap">
+          <div class="vp-frame" id="vp-frame"></div>
+          <div class="vp-load" id="vp-load"><div class="vp-spin"></div><div>Загружаем плеер…</div></div>
+          <div class="vp-fallback" id="vp-fb" style="display:none">
+            <div style="font-size:30px;margin-bottom:8px">🤖</div>
+            <div style="font-weight:600;color:var(--g);text-shadow:0 0 8px var(--g);margin-bottom:6px">YouTube блокирует это видео</div>
+            <div style="font-size:11px;color:var(--t2);margin-bottom:14px;max-width:320px;line-height:1.5">YouTube требует войти в аккаунт для просмотра в WebView. Можешь:</div>
+            <button class="vp-act on" style="margin-bottom:8px;width:240px" onclick="openExternal()">▶ Смотреть в YouTube</button>
+            <button class="vp-act" style="width:240px" onclick="vpNext()">⏭ Попробовать другое видео</button>
+          </div>
+        </div>
+        <div class="vp-list" id="vp-list"></div>
         <div class="vp-actions">
-          <button class="vp-act" id="vp-yt" onclick="openExternal()" title="Открыть на YouTube">↗ YouTube</button>
+          <button class="vp-act" id="vp-yt" onclick="openExternal()" title="Открыть на YouTube">↗ Открыть в YouTube</button>
         </div>
       </div>`;
     document.body.appendChild(m);
   }
-  m.dataset.vid=id;
-  document.getElementById('vp-t').textContent=title||'Видеоурок';
-  document.getElementById('vp-c').textContent=channel||'';
-  // Build iframe (privacy-enhanced domain works inside Capacitor WebView)
-  const src=`https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
-  document.getElementById('vp-frame').innerHTML=`<iframe src="${src}" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+  _vpLoad();
   m.classList.add('show');
-  // back button intercept
   history.pushState({vp:1},'');
 }
+function _vpLoad(){
+  const cur=_vpList[_vpIdx];if(!cur)return;
+  const m=document.getElementById('vp-modal');m.dataset.vid=cur.id;
+  document.getElementById('vp-t').textContent=cur.t||'Видеоурок';
+  document.getElementById('vp-c').textContent=cur.ch||'';
+  document.getElementById('vp-fb').style.display='none';
+  document.getElementById('vp-load').style.display='flex';
+  // Build iframe with enablejsapi so we can detect playback events
+  const src=`https://www.youtube-nocookie.com/embed/${encodeURIComponent(cur.id)}?autoplay=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(location.origin||'https://localhost')}`;
+  document.getElementById('vp-frame').innerHTML=`<iframe id="vp-iframe" src="${src}" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+  // Render carousel of alternates
+  const lst=document.getElementById('vp-list');lst.innerHTML='';
+  if(_vpList.length>1){
+    _vpList.forEach((v,i)=>{
+      const b=document.createElement('button');b.className='vp-chip'+(i===_vpIdx?' on':'');
+      b.textContent=(v.ch||'Видео')+' · '+(v.d||'');
+      b.onclick=()=>{_vpIdx=i;_vpLoad();};
+      lst.appendChild(b);
+    });
+  }
+  // Listen for YouTube postMessage signals → hide loading; absent for 7s → show fallback
+  if(_vpLoadTimer)clearTimeout(_vpLoadTimer);
+  let gotSignal=false;
+  const onMsg=(ev)=>{
+    if(typeof ev.data!=='string'&&typeof ev.data!=='object')return;
+    const s=typeof ev.data==='string'?ev.data:JSON.stringify(ev.data||{});
+    if(/youtube|onReady|onStateChange|infoDelivery|videoId/i.test(s)){
+      gotSignal=true;
+      const ld=document.getElementById('vp-load');if(ld)ld.style.display='none';
+      window.removeEventListener('message',onMsg);
+    }
+  };
+  window.addEventListener('message',onMsg);
+  // Fallback after 7s if no signal — show "blocked" overlay
+  _vpLoadTimer=setTimeout(()=>{
+    window.removeEventListener('message',onMsg);
+    if(gotSignal)return;
+    const m2=document.getElementById('vp-modal');
+    if(!m2||!m2.classList.contains('show'))return;
+    document.getElementById('vp-load').style.display='none';
+    document.getElementById('vp-fb').style.display='flex';
+  },7000);
+}
+function vpNext(){
+  if(_vpList.length<2){openExternal();return;}
+  _vpIdx=(_vpIdx+1)%_vpList.length;
+  _vpLoad();
+}
 function closeVideo(){
+  if(_vpLoadTimer){clearTimeout(_vpLoadTimer);_vpLoadTimer=null;}
   const m=document.getElementById('vp-modal');if(!m)return;
   m.classList.remove('show');
   const f=document.getElementById('vp-frame');if(f)f.innerHTML='';
-  m.dataset.vid='';
-  // pop the history state if it's ours
+  const fb=document.getElementById('vp-fb');if(fb)fb.style.display='none';
+  m.dataset.vid='';_vpList=[];_vpIdx=0;
   try{if(history.state&&history.state.vp)history.back();}catch(e){}
 }
 function openExternal(){
@@ -2449,6 +3028,15 @@ function showComplete(){
     :nxt
     ?`<button class="hbtn green" style="margin-bottom:8px" onclick="startLesson('${curLang}','${nxt.id}')">${nxt.ic} Следующий: ${nxt.n} →</button>`
     :`<div style="text-align:center;font-size:11px;color:var(--g);margin-bottom:10px;text-shadow:0 0 6px var(--g)">${langTag} Все уроки этого языка пройдены! 🏆</div>`;
+  // Test button — only for real lessons (not review), if QUIZ data exists
+  const canTest=!isReview&&QUIZ[curLang]&&QUIZ[curLang][curTopic];
+  const testBtn=canTest
+    ?`<button class="hbtn" style="margin-bottom:8px;border-color:var(--gold);color:var(--gold);text-shadow:0 0 6px var(--gold)" onclick="startTest('${curLang}','${curTopic}')">📝 Пройти тест по уроку</button>`
+    :'';
+  // Control work prompt — if this completion finished a unit
+  const cwBtn=!isReview&&unitComplete(curLang,curTopic)
+    ?`<button class="hbtn green" style="margin-bottom:8px" onclick="startControlWork('${curLang}','${unitOfTopic(curLang,curTopic)}')">🎓 Контрольная по юниту →</button>`
+    :'';
   qbody.innerHTML=`
     <div class="cbody">
       <div class="cico">${perfect?'🏆':'🎉'}</div>
@@ -2460,12 +3048,152 @@ function showComplete(){
         <div class="cst"><div class="csn">${xp}</div><div class="csl">XP</div></div>
       </div>
     </div>
+    ${cwBtn}
     ${nextBtn}
+    ${testBtn}
     <button class="hbtn" style="margin-bottom:8px" onclick="navTo('home')">🏠 На главную</button>
     <button class="hbtn ghost" onclick="navTo('profile')">📊 Мои рекомендации</button>
   `;
   spawnConfetti(qbody);
   if(navigator.vibrate)navigator.vibrate([30,40,30]);
+}
+
+// ===== TEST MODE (timed typed-translation per lesson) =====
+// Test stores: {topic, items:[], idx, score, t0, mode:'lesson'|'control'}
+let _test=null,_testTimer=null;
+const TEST_KEY='ls_tests_v1';
+function loadTestRecords(){try{const r=localStorage.getItem(TEST_KEY);if(r)return JSON.parse(r);}catch(e){}return {};}
+function saveTestRecord(key,score){
+  const all=loadTestRecords();all[key]={score,when:Date.now()};
+  try{localStorage.setItem(TEST_KEY,JSON.stringify(all));}catch(e){}
+}
+function unitOfTopic(lang,topic){
+  const units=lang==='en'?EN_UNITS:AR_UNITS;
+  for(let i=0;i<units.length;i++){
+    if(units[i].ls.some(l=>l.id===topic))return i;
+  }
+  return -1;
+}
+function unitComplete(lang,topic){
+  const u=unitOfTopic(lang,topic);if(u<0)return false;
+  const units=lang==='en'?EN_UNITS:AR_UNITS;
+  return units[u].ls.every(l=>doneLessons[lang].has(l.id));
+}
+function startTest(lang,topic){
+  const qs=QUIZ[lang][topic];if(!qs)return;
+  curLang=lang;curTopic=topic;
+  // Use the same word list but flip to typing-only test
+  const items=qs.slice();
+  for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]];}
+  _test={mode:'lesson',lang,topic,items,idx:0,score:0,wrong:0,t0:Date.now(),key:'t_'+lang+'_'+topic};
+  show('test');startTestTimer();renderTest();
+}
+function startControlWork(lang,unitIdx){
+  const units=lang==='en'?EN_UNITS:AR_UNITS;
+  if(!units[unitIdx])return;
+  // Aggregate words from all topics in this unit
+  const items=[];
+  units[unitIdx].ls.forEach(l=>{
+    const qs=QUIZ[lang]&&QUIZ[lang][l.id];
+    if(qs)qs.forEach(w=>items.push(w));
+  });
+  if(!items.length){toast('Контрольная пока недоступна');return;}
+  // Shuffle, cap at 20
+  for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]];}
+  const cap=Math.min(20,items.length);
+  curLang=lang;
+  _test={mode:'control',lang,unit:unitIdx,items:items.slice(0,cap),idx:0,score:0,wrong:0,t0:Date.now(),key:'cw_'+lang+'_'+unitIdx};
+  show('test');startTestTimer();renderTest();
+}
+function startTestTimer(){
+  if(_testTimer)clearInterval(_testTimer);
+  _testTimer=setInterval(()=>{
+    if(!_test)return clearInterval(_testTimer);
+    const sec=Math.floor((Date.now()-_test.t0)/1000);
+    const m=Math.floor(sec/60),s=sec%60;
+    const el=document.getElementById('tt-timer');
+    if(el)el.textContent='⏱ '+(m?m+':'+(s<10?'0':'')+s:s);
+  },500);
+}
+function renderTest(){
+  if(!_test)return;
+  if(_test.idx>=_test.items.length){return showTestResult();}
+  const q=_test.items[_test.idx];
+  const isAr=q.ar||_test.lang==='ar';
+  const enBig=!isAr&&_test.lang==='en';
+  document.getElementById('tpf').style.width=Math.round(_test.idx/_test.items.length*100)+'%';
+  // 50/50 reverse — sometimes ask source→target, sometimes target→source
+  const reverse=(_test.idx%2===1);
+  // Source word and expected answer
+  const src=reverse?q.o[q.a]:q.w; // if reverse: show RU translation, expect EN/AR
+  const expected=reverse?q.w:q.o[q.a];
+  const lblTop=reverse?'Переведи на '+(_test.lang==='en'?'английский':'арабский'):'Переведи на русский';
+  const tbody=document.getElementById('tbody');
+  tbody.innerHTML=`
+    <div class="qlbl">${q.h||lblTop}</div>
+    <div class="wcard">
+      <button class="speak-btn" onclick="doSpeak('${(reverse?expected:src).replace(/'/g,"\\'")}','${isAr?'ar':'en'}')" title="Прослушать">🔊</button>
+      <div class="wmain${reverse?'':isAr?' ar':enBig?' en-big':''}">${src}</div>
+    </div>
+    <input type="text" class="tt-input" id="tti" placeholder="Введи ответ…" autocomplete="off" autocapitalize="off" spellcheck="false" />
+    <div class="tt-hint">${_test.idx+1} / ${_test.items.length} · ${_test.mode==='control'?'🎓 Контрольная — без жизней':'📝 Тест на скорость'}</div>
+    <button class="chk" id="ttck" onclick="checkTest()">Проверить</button>
+  `;
+  const inp=document.getElementById('tti');
+  inp.dataset.expected=expected;
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();checkTest();}});
+  setTimeout(()=>inp.focus(),100);
+}
+function _normTest(s){
+  return String(s||'').toLowerCase().trim().replace(/[\s\.,!?;:""''«»\-]+/g,' ').replace(/\s+/g,' ');
+}
+function checkTest(){
+  if(!_test)return;
+  const inp=document.getElementById('tti');if(!inp)return;
+  const expected=inp.dataset.expected||'';
+  const ans=_normTest(inp.value);
+  const exp=_normTest(expected);
+  const ok=ans===exp;
+  if(ok){
+    _test.score++;inp.classList.add('ok');
+    if(navigator.vibrate)navigator.vibrate(20);
+  } else {
+    _test.wrong++;inp.classList.add('bad');
+    if(navigator.vibrate)navigator.vibrate([60,40,60]);
+    toast('Правильно: '+expected);
+  }
+  setTimeout(()=>{_test.idx++;renderTest();},700);
+}
+function showTestResult(){
+  if(_testTimer){clearInterval(_testTimer);_testTimer=null;}
+  const tot=_test.items.length;
+  const pct=Math.round(_test.score/tot*100);
+  const elapsed=Math.floor((Date.now()-_test.t0)/1000);
+  const m=Math.floor(elapsed/60),s=elapsed%60;
+  const cert=pct>=80;
+  const xpGain=Math.max(5,Math.round(pct/5));
+  xp+=xpGain;updateHero();
+  saveTestRecord(_test.key,pct);
+  const isCw=_test.mode==='control';
+  const tbody=document.getElementById('tbody');
+  document.getElementById('tpf').style.width='100%';
+  tbody.innerHTML=`
+    <div class="cbody">
+      <div class="cico">${cert?'🏆':pct>=50?'🎓':'📊'}</div>
+      <div class="ctitle">${isCw?'Контрольная':'Тест'} ${cert?'— отлично!':pct>=50?'завершён':'— нужна практика'}</div>
+      <div class="csub">${pct}% · ${m?m+':'+(s<10?'0':'')+s:s+'с'} · +${xpGain} XP</div>
+      <div class="cstats">
+        <div class="cst"><div class="csn">${_test.score}/${tot}</div><div class="csl">Правильно</div></div>
+        <div class="cst"><div class="csn">${pct}%</div><div class="csl">Оценка</div></div>
+        <div class="cst"><div class="csn">${cert?'✓':'—'}</div><div class="csl">${cert?'Зачёт':'80%+'}</div></div>
+      </div>
+    </div>
+    ${cert?'<div style="text-align:center;font-size:11px;color:var(--gold);text-shadow:0 0 8px var(--gold);margin:8px 0">🎖 Тест зачтён</div>':''}
+    <button class="hbtn green" style="margin-bottom:8px" onclick="${isCw?`navTo('lessons-${_test.lang}')`:`startTest('${_test.lang}','${_test.topic}')`}">${isCw?'📚 К урокам':'🔁 Пройти ещё раз'}</button>
+    <button class="hbtn" onclick="navTo('home')">🏠 На главную</button>
+  `;
+  spawnConfetti(tbody);
+  _test=null;
 }
 
 // ===== TIERLIST =====
@@ -2612,9 +3340,9 @@ function renderProfile(){
   const tnm=LNAMES[ytTopic]||ytTopic;
   let yh=`<div class="recsec"><div class="rec-lbl">▶ Видеоуроки — встроенный плеер</div>`;
   yh+=`<div class="yt-hot">🔴 По теме: ${tnm}${worst.length>0&&worst[0].pct>40?` (${worst[0].pct}% ошибок)`:''}</div>`;
-  vids.forEach(v=>{
+  vids.forEach((v,vi)=>{
     const thumb=`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`;
-    yh+=`<div class="yt-card" onclick="playVideo('${v.id}','${(v.t||'').replace(/'/g,"\\'")}','${(v.ch||'').replace(/'/g,"\\'")}')">
+    yh+=`<div class="yt-card" onclick="playYTTopic('${ytTopic}',${vi})">
       <div class="yt-thumb" style="background-image:url(${thumb});background-size:cover;background-position:center"><div class="yt-play">▶</div><div class="yt-badge">▶ ${v.d||''}</div></div>
       <div class="yt-info"><div class="yt-title">${v.t}</div><div class="yt-meta">${v.ch}</div></div>
     </div>`;
