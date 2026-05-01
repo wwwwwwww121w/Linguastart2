@@ -13,9 +13,7 @@ id = "73b10beafe9d4033b31034dec47bcb14"
 binding = "AI"
 
 # Set secrets via:
-#   wrangler secret put RESEND_API_KEY
 #   wrangler secret put TELEGRAM_BOT_TOKEN
 #   wrangler secret put TELEGRAM_WEBHOOK_SECRET   # required: random string; pass as secret_token to setWebhook
 #   wrangler secret put AUTH_SHARED_SECRET
-#   wrangler secret put FROM_EMAIL                # optional (default onboarding@resend.dev)
 #   wrangler secret put ALLOWED_ORIGIN            # optional (default *) — restrict to prod origin
