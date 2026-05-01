@@ -3745,7 +3745,7 @@ async function prToggle(i){
 }
 function _pronScore(target,said){
   if(!said)return 0;
-  const norm=(s)=>s.toLowerCase().replace(/[.,!?;:()"']/g,'').replace(/\s+/g,' ').trim();
+  const norm=(s)=>s.toLowerCase().replace(/ё/g,'е').replace(/[.,!?;:()"']/g,'').replace(/\s+/g,' ').trim();
   const a=norm(target),b=norm(said);
   if(!a||!b)return 0;
   // Levenshtein-based similarity
@@ -4131,7 +4131,7 @@ function renderTest(){
   setTimeout(()=>inp.focus(),100);
 }
 function _normTest(s){
-  return String(s||'').toLowerCase().trim().replace(/[\s\.,!?;:""''«»\-]+/g,' ').replace(/\s+/g,' ');
+  return String(s||'').toLowerCase().replace(/ё/g,'е').trim().replace(/[\s\.,!?;:""''«»\-]+/g,' ').replace(/\s+/g,' ');
 }
 function checkTest(){
   if(!_test)return;
