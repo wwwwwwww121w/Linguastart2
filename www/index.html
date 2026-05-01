@@ -92,6 +92,8 @@ html,body{height:100%;overflow:hidden;background:#0a120a;color:#dcecdc;font-fami
 .onb-opt .o-mk{width:18px;height:18px;border:1.5px solid var(--b3);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all .15s}
 .onb-opt.sel .o-mk{border-color:var(--g);background:var(--g);color:#000;text-shadow:none}
 .onb-nav{display:flex;gap:9px;margin-top:auto;padding-top:14px}
+.onb-nav.is-welcome{justify-content:center}
+.onb-nav.is-welcome .onb-next{flex:0 0 auto;min-width:220px;padding:14px 40px;font-size:15px;font-weight:600;letter-spacing:.2px}
 .onb-back{padding:13px 18px;background:transparent;color:var(--t2);border:1px solid var(--b2);border-radius:var(--r2);font-size:13px;cursor:pointer}
 .onb-next{flex:1;padding:13px;background:var(--gxx);border:1px solid var(--gm);color:var(--g);font-weight:500;border-radius:var(--r2);font-size:14px;cursor:pointer;text-shadow:0 0 6px var(--g)}
 .onb-next:disabled{opacity:.4;cursor:not-allowed}
@@ -184,6 +186,29 @@ html,body{height:100%;overflow:hidden;background:#0a120a;color:#dcecdc;font-fami
 .lg-cnt{font-size:10px;color:var(--t2)}
 .lg-bar{height:5px;background:var(--b2);border-radius:3px;overflow:hidden;margin-top:4px}
 .lg-fl{height:100%;border-radius:3px;box-shadow:0 0 8px currentColor;transition:width .3s}
+.lg-rank{display:flex;align-items:center;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--t2)}
+.lg-rank b{color:var(--t0);font-weight:600}
+.lg-rank .lg-trend{font-size:10px;padding:2px 6px;border-radius:6px;letter-spacing:.3px}
+.lg-rank .lg-trend.up{color:#4ade80;background:rgba(74,222,128,.10)}
+.lg-rank .lg-trend.dn{color:#e57373;background:rgba(229,115,115,.10)}
+.lg-rank .lg-trend.eq{color:var(--t2);background:rgba(140,140,140,.08)}
+.lg-ladder{display:flex;justify-content:space-between;gap:4px;margin-top:9px;padding-top:9px;border-top:1px solid var(--b2)}
+.lg-rung{flex:1;text-align:center;font-size:14px;opacity:.32;filter:grayscale(.7);transition:all .2s;position:relative}
+.lg-rung.on{opacity:1;filter:none}
+.lg-rung.now::after{content:'';position:absolute;left:50%;bottom:-4px;width:5px;height:5px;border-radius:50%;background:var(--g);box-shadow:0 0 6px var(--g);transform:translateX(-50%)}
+.tl-divider{padding:6px 18px;font-size:10px;color:var(--t2);letter-spacing:.5px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.tl-divider::before,.tl-divider::after{content:'';flex:1;height:1px;background:var(--b2)}
+.tl-divider.up{color:#4ade80}.tl-divider.up::before,.tl-divider.up::after{background:rgba(74,222,128,.25)}
+.tl-divider.dn{color:#e57373}.tl-divider.dn::before,.tl-divider.dn::after{background:rgba(229,115,115,.25)}
+.lg-history{padding:14px 18px;border-bottom:1px solid var(--b1)}
+.lg-history h4{font-size:11px;color:var(--t2);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+.lg-hist-row{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:12px;color:var(--t1);border-bottom:1px dashed var(--b1)}
+.lg-hist-row:last-child{border-bottom:none}
+.lg-hist-row .h-tag{padding:2px 7px;border-radius:5px;font-size:10px;letter-spacing:.3px}
+.lg-hist-row .h-tag.promo{color:#4ade80;background:rgba(74,222,128,.12)}
+.lg-hist-row .h-tag.demo{color:#e57373;background:rgba(229,115,115,.10)}
+.lg-hist-row .h-tag.stay{color:var(--t2);background:rgba(140,140,140,.08)}
+.lg-hist-row .h-w{flex:1;color:var(--t2);font-size:10px}
 
 /* ===== MISSIONS CARD (home) ===== */
 .ms-card{margin:6px 18px 14px;padding:13px 14px;background:var(--bg2);border:1px solid var(--b2);border-radius:var(--r)}
@@ -2330,12 +2355,29 @@ const LEAGUES=[
   {id:'ruby',   n:'Рубин',    ic:'❤️', c:'#e74c3c', need:500},
   {id:'diamond',n:'Алмаз',    ic:'💠', c:'#9b59b6', need:800}
 ];
-// Dummy cohort for league view (30 bots, plus you)
+// Live cohort for league: 30 bots with persistent identity & dynamic weekly XP.
+// Each bot has a "target" end-of-week XP (deterministic from seed). Their *current*
+// XP scales with how far we are into the week, plus a small per-bot pacing variance,
+// so the leaderboard moves throughout the week — not a static snapshot.
+function _weekDayProgress(){
+  const start=new Date(_weekStart()).getTime();
+  const elapsed=(Date.now()-start)/86400000; // in days
+  return Math.max(0.05,Math.min(1,elapsed/7));
+}
 function _mkCohort(seed){
   const names=['Макс','Аня','Лёша','Катя','Саня','Вера','Ден','Оля','Тима','Наташа','Лев','Ира','Юра','Даша','Толя','Поля','Миша','Соня','Никита','Вика','Рома','Марина','Костя','Лера','Илья','Юля','Гоша','Надя','Антон','Галя'];
   const avs=['🧑','👩','👨','🧔','👦','👧','🧓','👴','👵','🦸'];
   const rng=(n)=>Math.floor((Math.sin(seed*9301+n*49297)*233280)%1000);
-  return names.map((n,i)=>({n:n,av:avs[Math.abs(rng(i))%avs.length],xp:Math.max(0,Math.abs(rng(i))*2+i*5)}));
+  // Target end-of-week XP: scale with current league tier (higher leagues = more competitive)
+  const tierMul=1+(league&&league.tier?league.tier:0)*0.4;
+  const dp=_weekDayProgress();
+  return names.map((n,i)=>{
+    const target=Math.max(60,Math.abs(rng(i))%420+80)*tierMul; // 60..600 baseline
+    // Bots vary in pacing — some "front-load" the week, some "back-load"
+    const pacing=0.6+0.4*((Math.sin(seed+i*13)+1)/2); // 0.6..1.0
+    const cur=Math.round(target*Math.pow(dp,pacing));
+    return {n,av:avs[Math.abs(rng(i+3))%avs.length],xp:cur,target:Math.round(target)};
+  });
 }
 
 // ===== MISSIONS =====
@@ -2438,25 +2480,48 @@ const TOTAL_AR=AR_UNITS.reduce((s,u)=>s+u.ls.length,0);
 
 // ===== LEAGUE STATE =====
 const LG_KEY='ls_league_v1';
+const LEAGUE_PROMO=5;     // top 5 promote
+const LEAGUE_DEMO=5;      // bottom 5 demote
+const LEAGUE_BONUS_XP=50; // bonus XP awarded on promotion
 function _weekStart(){const d=new Date();const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);d.setHours(0,0,0,0);return d.toISOString().slice(0,10);}
-function _loadLeague(){const r=safeParse(localStorage.getItem(LG_KEY));if(r)return r;
-  return {tier:0,weekXp:0,weekStart:_weekStart(),cohortSeed:Math.floor(Math.random()*10000),last:null};
+function _loadLeague(){const r=safeParse(localStorage.getItem(LG_KEY));if(r){
+    if(!Array.isArray(r.history))r.history=[];
+    return r;
+  }
+  return {tier:0,weekXp:0,weekStart:_weekStart(),cohortSeed:Math.floor(Math.random()*10000),last:null,history:[]};
 }
 let league=_loadLeague();
 function saveLeague(){try{localStorage.setItem(LG_KEY,JSON.stringify(league));}catch(e){}}
+// Compute final-week rank by simulating bots at dayProgress=1 vs your weekXp.
+function _computeFinalRank(seed,myXp){
+  const names=['Макс','Аня','Лёша','Катя','Саня','Вера','Ден','Оля','Тима','Наташа','Лев','Ира','Юра','Даша','Толя','Поля','Миша','Соня','Никита','Вика','Рома','Марина','Костя','Лера','Илья','Юля','Гоша','Надя','Антон','Галя'];
+  const rng=(n)=>Math.floor((Math.sin(seed*9301+n*49297)*233280)%1000);
+  const tierMul=1+(league&&league.tier?league.tier:0)*0.4;
+  const xps=names.map((_,i)=>Math.round(Math.max(60,Math.abs(rng(i))%420+80)*tierMul));
+  let rank=1;for(const x of xps)if(x>myXp)rank++;
+  return {rank,size:xps.length+1};
+}
 function _checkWeekReset(){
   const now=_weekStart();
   if(league.weekStart===now)return null;
-  // End-of-week promotion/demotion
-  const threshold=LEAGUES[Math.min(league.tier+1,LEAGUES.length-1)]?.need||9999;
-  let result=null;
-  if(league.tier<LEAGUES.length-1 && league.weekXp>=threshold){
-    league.tier+=1;result={type:'promo',tier:league.tier};
-  } else if(league.tier>0 && league.weekXp<(LEAGUES[league.tier].need)/3){
-    league.tier-=1;result={type:'demo',tier:league.tier};
+  // End-of-week rank-based promotion/demotion (Duolingo-style)
+  const fr=_computeFinalRank(league.cohortSeed,league.weekXp||0);
+  let result=null,bonus=0;
+  if(league.tier<LEAGUES.length-1 && fr.rank<=LEAGUE_PROMO){
+    league.tier+=1;result={type:'promo',tier:league.tier,rank:fr.rank};
+    bonus=LEAGUE_BONUS_XP;
+    // Award bonus XP if user-XP variable is in scope
+    try{if(typeof xp==='number'){xp+=bonus;}}catch(e){}
+  } else if(league.tier>0 && fr.rank>=fr.size-LEAGUE_DEMO){
+    league.tier-=1;result={type:'demo',tier:league.tier,rank:fr.rank};
   } else {
-    result={type:'stay',tier:league.tier};
+    result={type:'stay',tier:league.tier,rank:fr.rank};
   }
+  result.bonusXp=bonus;
+  // Push to history (keep last 6 weeks)
+  league.history=league.history||[];
+  league.history.unshift({weekStart:league.weekStart,tier:result.tier,rank:fr.rank,weekXp:league.weekXp||0,type:result.type,bonusXp:bonus});
+  if(league.history.length>6)league.history=league.history.slice(0,6);
   league.weekStart=now;league.weekXp=0;league.cohortSeed=Math.floor(Math.random()*10000);league.last=result;saveLeague();
   return result;
 }
@@ -2573,6 +2638,7 @@ function renderOnb(){
   prog.innerHTML='';for(let i=0;i<total;i++){const seg=document.createElement('div');seg.className='seg'+(i<=onbStep?' on':'');prog.appendChild(seg);}
   const body=document.getElementById('onb-body');
   const back=document.getElementById('onb-back');back.style.visibility=onbStep===0?'hidden':'visible';
+  const nav=document.querySelector('.onb-nav');if(nav)nav.classList.toggle('is-welcome',onbStep===0);
   const next=document.getElementById('onb-next');
   let h='';
   if(onbStep===0){
@@ -3303,21 +3369,39 @@ function renderMissionCard(){
 }
 
 // ===== LEAGUE CARD =====
+// Compute current rank inside the live cohort (used by both home card & league screen)
+function _liveRank(){
+  const me={n:(typeof user!=='undefined'&&user&&user.name)||'Ты',av:'⭐',xp:league.weekXp||0,me:1};
+  const cohort=_mkCohort(league.cohortSeed).slice(0,30).concat([me]).sort((a,b)=>b.xp-a.xp);
+  const myIdx=cohort.findIndex(c=>c.me);
+  return {rank:myIdx+1,size:cohort.length,cohort,zone:myIdx<LEAGUE_PROMO?'up':(myIdx>=cohort.length-LEAGUE_DEMO?'dn':'eq')};
+}
+
 function renderLeagueCard(){
   const host=document.getElementById('lg-host');if(!host)return;
   _checkWeekReset();
-  const L=LEAGUES[league.tier];const next=LEAGUES[league.tier+1];
-  const thr=next?next.need:L.need;
-  const pct=Math.min(100,Math.round((league.weekXp/(thr||1))*100));
+  const L=LEAGUES[league.tier];
+  const next=LEAGUES[league.tier+1];
+  const r=_liveRank();
+  const inPromoZone=r.rank<=LEAGUE_PROMO;
+  const inDemoZone=r.rank>=r.size-LEAGUE_DEMO+1 && league.tier>0;
+  // Progress: bar fills from rank=size (0%) → rank=1 (100%)
+  const pct=Math.round(((r.size-r.rank)/(r.size-1||1))*100);
   const daysLeft=((()=>{const d=new Date();const day=(d.getDay()+6)%7;return 7-day;})());
-  const promoNote=league.last&&league.last.type==='promo'?`<p>🎉 Повышение: ${LEAGUES[league.last.tier].ic} ${LEAGUES[league.last.tier].n}!</p>`:'';
-  host.innerHTML=`<div class="lg-card ${pct>=100?'is-p':''}" onclick="navTo('league')">
+  const trendCls=inPromoZone?'up':(inDemoZone?'dn':'eq');
+  const trendTxt=inPromoZone?(next?'↑ Повышение':'↑ Топ'):inDemoZone?'↓ Понижение':'= Удержание';
+  const promoNote=league.last&&league.last.type==='promo'?`<p>🎉 На прошлой неделе: повышение в ${LEAGUES[league.last.tier].ic} ${escapeHtml(LEAGUES[league.last.tier].n)}!</p>`:'';
+  // Tier ladder (small dots)
+  const ladder=LEAGUES.map((t,i)=>`<div class="lg-rung ${i<=league.tier?'on':''} ${i===league.tier?'now':''}" title="${escapeHtml(t.n)}">${t.ic}</div>`).join('');
+  host.innerHTML=`<div class="lg-card ${inPromoZone?'is-p':''}" onclick="navTo('league')">
     <div class="lg-top">
       <div class="lg-ic" style="color:${L.c}">${L.ic}</div>
-      <div class="lg-info"><h4>Лига ${L.n}</h4><p>${next?'До ':''}${next?next.ic+' '+next.n+' — '+Math.max(0,thr-league.weekXp)+' XP':'Вершина лиг'}</p>${promoNote}</div>
+      <div class="lg-info"><h4>Лига ${escapeHtml(L.n)}</h4><p>${escapeHtml(user&&user.name||'Вы')} · ${league.weekXp||0} XP за неделю</p>${promoNote}</div>
       <div class="lg-cnt">${daysLeft} дн.</div>
     </div>
     <div class="lg-bar"><div class="lg-fl" style="width:${pct}%;background:${L.c};color:${L.c}"></div></div>
+    <div class="lg-rank"><span>Позиция: <b>#${r.rank}</b> из ${r.size}</span><span class="lg-trend ${trendCls}">${escapeHtml(trendTxt)}</span></div>
+    <div class="lg-ladder">${ladder}</div>
   </div>`;
 }
 
@@ -3325,32 +3409,62 @@ function renderLeagueCard(){
 function renderLeague(){
   _checkWeekReset();
   const L=LEAGUES[league.tier];
-  // Check if s-league exists, else reuse tierlist body via renderTL-like pattern
-  const body=document.getElementById('lg-body');
-  if(!body)return;
-  const me={n:(user&&user.name)||'Вы',av:'⭐',xp:league.weekXp||0,me:1};
-  const cohort=_mkCohort(league.cohortSeed).slice(0,30).concat([me]).sort((a,b)=>b.xp-a.xp);
-  const myIdx=cohort.findIndex(c=>c.me);
-  const prom=3,rel=27;
-  const rows=cohort.map((c,i)=>{
-    const zone=i<prom?'promo':(i>=cohort.length-2?'demo':'');
+  const body=document.getElementById('lg-body');if(!body)return;
+  const r=_liveRank();
+  const cohort=r.cohort;
+  const myIdx=r.rank-1;
+  const promoIdx=LEAGUE_PROMO;          // first promo-zone size (top)
+  const demoFrom=cohort.length-LEAGUE_DEMO; // index where demo zone starts
+  const nextL=LEAGUES[league.tier+1];
+  const prevL=LEAGUES[league.tier-1];
+  // Rank trend vs last week
+  const lastRow=league.history&&league.history[0];
+  let trendHtml='';
+  if(lastRow){
+    const diff=lastRow.rank-r.rank;
+    const cls=diff>0?'up':(diff<0?'dn':'eq');
+    const arr=diff>0?'▲':(diff<0?'▼':'•');
+    trendHtml=`<span class="lg-trend ${cls}" style="font-size:10px;padding:2px 7px;border-radius:5px">${arr} ${Math.abs(diff)} за неделю</span>`;
+  }
+  // History list
+  let histHtml='';
+  if(league.history&&league.history.length){
+    const rows=league.history.map(h=>{
+      const tag=h.type==='promo'?'<span class="h-tag promo">↑ Повышение</span>':h.type==='demo'?'<span class="h-tag demo">↓ Понижение</span>':'<span class="h-tag stay">= Удержание</span>';
+      const t=LEAGUES[h.tier];
+      const bonusStr=h.bonusXp?` <b style="color:#4ade80">+${h.bonusXp} XP</b>`:'';
+      return `<div class="lg-hist-row"><span style="font-size:14px">${t.ic}</span>${tag}<span class="h-w">${escapeHtml(h.weekStart||'')} · #${h.rank} · ${h.weekXp} XP${bonusStr}</span></div>`;
+    }).join('');
+    histHtml=`<div class="lg-history"><h4>📜 История лиг (последние ${league.history.length})</h4>${rows}</div>`;
+  }
+  // Build rows with zone dividers in between
+  let rowsHtml='';
+  rowsHtml+=`<div class="tl-divider up">↑ ПОВЫШЕНИЕ → ${escapeHtml(nextL?nextL.n:'Финал')} (топ ${LEAGUE_PROMO})</div>`;
+  cohort.forEach((c,i)=>{
+    const zone=i<promoIdx?'promo':(i>=demoFrom?'demo':'');
     const zcss=zone==='promo'?'border-color:#3ea34e;box-shadow:0 0 10px rgba(74,222,128,.25)':zone==='demo'?'border-color:#a35a5a':'';
-    const me=c.me?'background:var(--gxx);border-color:var(--gm);':'';
-    return `<div class="tl-row" style="${zcss};${me}">
+    const meCss=c.me?'background:var(--gxx);border-color:var(--gm);':'';
+    const subTxt=c.me?(zone==='promo'?'⭐ Ты в зоне повышения':zone==='demo'?'⚠ Зона понижения — нужны XP':'⭐ Удерживай позицию'):'';
+    rowsHtml+=`<div class="tl-row" style="${zcss};${meCss}">
       <div class="tl-pos">${i+1}</div>
       <div class="tl-av">${c.av}</div>
-      <div class="tl-info"><h4>${c.me?'⭐ Вы':escapeHtml(c.n||'')}</h4><p>${zone==='promo'?'↑ в '+escapeHtml(LEAGUES[league.tier+1]?.n||'финал'):zone==='demo'?'↓ в '+escapeHtml(LEAGUES[league.tier-1]?.n||'Бронзу'):''}</p></div>
+      <div class="tl-info"><h4>${c.me?'⭐ Ты':escapeHtml(c.n||'')}</h4><p>${escapeHtml(subTxt||(zone==='promo'?'↑ повышение':zone==='demo'?'↓ понижение':''))}</p></div>
       <div class="tl-xp">${c.xp} XP</div>
     </div>`;
-  }).join('');
+    // After top-promo block
+    if(i===promoIdx-1)rowsHtml+=`<div class="tl-divider">— зона удержания —</div>`;
+    // Before demo block
+    if(i===demoFrom-1 && league.tier>0)rowsHtml+=`<div class="tl-divider dn">↓ ПОНИЖЕНИЕ → ${escapeHtml(prevL?prevL.n:'Бронза')} (последние ${LEAGUE_DEMO})</div>`;
+  });
   body.innerHTML=`
     <div style="padding:18px;text-align:center;border-bottom:1px solid var(--b1)">
       <div style="font-size:50px;filter:drop-shadow(0 0 14px ${L.c});color:${L.c}">${L.ic}</div>
-      <h2 style="font-size:20px;color:${L.c};text-shadow:0 0 8px ${L.c}">Лига ${L.n}</h2>
-      <p style="font-size:12px;color:var(--t2);margin-top:4px">XP за неделю: <b style="color:var(--g)">${league.weekXp}</b>  · Ты #${myIdx+1} из ${cohort.length}</p>
-      <p style="font-size:10px;color:var(--t2);margin-top:6px">Топ-3 → повышение ↑ · Последние 2 → понижение ↓</p>
+      <h2 style="font-size:20px;color:${L.c};text-shadow:0 0 8px ${L.c}">Лига ${escapeHtml(L.n)}</h2>
+      <p style="font-size:12px;color:var(--t2);margin-top:4px">XP за неделю: <b style="color:var(--g)">${league.weekXp||0}</b> · Ты #${r.rank} из ${r.size} ${trendHtml}</p>
+      <p style="font-size:10px;color:var(--t2);margin-top:6px">Топ ${LEAGUE_PROMO} → повышение ↑ · Последние ${LEAGUE_DEMO} → понижение ↓ · Бонус +${LEAGUE_BONUS_XP} XP за повышение</p>
     </div>
-    ${rows}
+    ${histHtml}
+    ${rowsHtml}
   `;
 }
 
@@ -3921,10 +4035,10 @@ function showComplete(){
       </div>
     </div>
     ${cwBtn}
-    ${nextBtn}
+    <button class="hbtn ghost" style="margin-bottom:8px" onclick="navTo('profile')">📊 Мои рекомендации</button>
     ${testBtn}
     <button class="hbtn" style="margin-bottom:8px" onclick="navTo('home')">🏠 На главную</button>
-    <button class="hbtn ghost" onclick="navTo('profile')">📊 Мои рекомендации</button>
+    ${nextBtn}
   `;
   spawnConfetti(qbody);
   if(navigator.vibrate)navigator.vibrate([30,40,30]);
