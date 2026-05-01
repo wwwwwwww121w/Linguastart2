@@ -5,23 +5,21 @@
 //   POST /auth/email/verify    { email, code }            -> { token } on success
 //   POST /telegram/webhook     (Telegram updates)         -> requires X-Telegram-Bot-Api-Secret-Token
 //   GET  /auth/tg/poll?sid=... -> 204 if pending, 200 + user JSON when bot received /start
-//   POST /ai/chat              -> proxies to Fireworks chat completion (server-side key)
-//   POST /ai/transcribe        -> proxies to Fireworks Whisper (server-side key)
+//   POST /ai/chat              -> Cloudflare Workers AI (Llama 3.3 70B)
+//   POST /ai/transcribe        -> Cloudflare Workers AI (Whisper large v3 turbo)
 //
 // Env bindings (`wrangler secret put`):
 //   RESEND_API_KEY               re_...
 //   TELEGRAM_BOT_TOKEN           123456789:AAH...
 //   TELEGRAM_WEBHOOK_SECRET      any random string (REQUIRED — set webhook with this secret_token)
 //   AUTH_SHARED_SECRET           any random string used to sign tokens
-//   FIREWORKS_API_KEY            fw_... (REQUIRED for /ai endpoints)
 //   FROM_EMAIL                   optional; default 'LinguaStart <onboarding@resend.dev>'
 //   ALLOWED_ORIGIN               'https://localhost' for Capacitor; '*' for dev
-// KV binding: SESSIONS
+// KV binding:  SESSIONS (rate-limit + OTP + Telegram pending logins)
+// AI binding:  AI       (Cloudflare Workers AI for /ai/chat + /ai/transcribe)
 
 const TG_API = (token) => `https://api.telegram.org/bot${token}`;
 const RESEND_URL = 'https://api.resend.com/emails';
-const FW_CHAT = 'https://api.fireworks.ai/inference/v1/chat/completions';
-const FW_TRANSCRIBE = 'https://audio-turbo.us-virginia-1.direct.fireworks.ai/v1/audio/transcriptions';
 
 // ---- helpers ----
 const cors = (env, origin) => {
@@ -204,48 +202,54 @@ export default {
         return json(env, { ...data, token }, 200, origin);
       }
 
-      // ---- AI proxy (keeps Fireworks key server-side) ----
+      // ---- AI proxy (Cloudflare Workers AI — same Cloudflare account, no extra subscription) ----
       if (path === '/ai/chat' && req.method === 'POST') {
-        if (!env.FIREWORKS_API_KEY) return text(env, 'ai disabled', 503, origin);
+        if (!env.AI) return text(env, 'ai disabled', 503, origin);
         const rl = await rateLimit(env, ip, 'ai_chat', 30, 60); // 30/min/IP
         if (!rl.ok) return text(env, 'rate limited', 429, origin);
         const body = await req.json().catch(() => null);
         if (!body || !Array.isArray(body.messages)) return text(env, 'invalid', 400, origin);
-        // Cap fields to prevent abuse
-        const safe = {
-          model: 'accounts/fireworks/models/llama-v3p3-70b-instruct',
-          temperature: Math.min(1.5, Math.max(0, Number(body.temperature) || 0.7)),
-          max_tokens: Math.min(1024, Math.max(16, parseInt(body.max_tokens, 10) || 320)),
-          messages: body.messages.slice(-20).map((m) => ({
-            role: ['system', 'user', 'assistant'].includes(m.role) ? m.role : 'user',
-            content: String(m.content || '').slice(0, 4000),
-          })),
-        };
-        const r = await fetch(FW_CHAT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.FIREWORKS_API_KEY}` },
-          body: JSON.stringify(safe),
-        });
-        const t = await r.text();
-        return new Response(t, { status: r.status, headers: { 'Content-Type': 'application/json', ...cors(env, origin) } });
+        const messages = body.messages.slice(-20).map((m) => ({
+          role: ['system', 'user', 'assistant'].includes(m.role) ? m.role : 'user',
+          content: String(m.content || '').slice(0, 4000),
+        }));
+        try {
+          const out = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
+            messages,
+            temperature: Math.min(1.5, Math.max(0, Number(body.temperature) || 0.7)),
+            max_tokens: Math.min(1024, Math.max(16, parseInt(body.max_tokens, 10) || 320)),
+          });
+          // Workers AI returns { response: "..." } — wrap in OpenAI-style shape so the client doesn't change.
+          const reply = (out && (out.response || out.result?.response)) || '';
+          return json(env, {
+            choices: [{ index: 0, message: { role: 'assistant', content: reply }, finish_reason: 'stop' }],
+            model: '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
+          }, 200, origin);
+        } catch (e) {
+          return text(env, 'ai error', 502, origin);
+        }
       }
 
       if (path === '/ai/transcribe' && req.method === 'POST') {
-        if (!env.FIREWORKS_API_KEY) return text(env, 'ai disabled', 503, origin);
+        if (!env.AI) return text(env, 'ai disabled', 503, origin);
         const rl = await rateLimit(env, ip, 'ai_tx', 20, 60); // 20/min/IP
         if (!rl.ok) return text(env, 'rate limited', 429, origin);
-        // Pass the form-data through (file + model + language)
         const ct = req.headers.get('Content-Type') || '';
         if (!ct.startsWith('multipart/form-data')) return text(env, 'expected multipart', 400, origin);
-        const r = await fetch(FW_TRANSCRIBE, {
-          method: 'POST',
-          headers: { Authorization: `Bearer ${env.FIREWORKS_API_KEY}` },
-          body: req.body,
-          // @ts-ignore — Cloudflare Workers stream passthrough requires duplex
-          duplex: 'half',
-        });
-        const t = await r.text();
-        return new Response(t, { status: r.status, headers: { 'Content-Type': 'application/json', ...cors(env, origin) } });
+        try {
+          const form = await req.formData();
+          const file = form.get('file');
+          if (!file || typeof file === 'string') return text(env, 'no file', 400, origin);
+          const buf = await file.arrayBuffer();
+          // 4 MB cap (Whisper input limit is small; this is also a DoS guard)
+          if (buf.byteLength > 4 * 1024 * 1024) return text(env, 'file too large', 413, origin);
+          const out = await env.AI.run('@cf/openai/whisper-large-v3-turbo', {
+            audio: [...new Uint8Array(buf)],
+          });
+          return json(env, { text: (out && out.text) || '' }, 200, origin);
+        } catch (e) {
+          return text(env, 'ai error', 502, origin);
+        }
       }
 
       if (path === '/' || path === '/health') return text(env, 'LinguaStart auth OK', 200, origin);
