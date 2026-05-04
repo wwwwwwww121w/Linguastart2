@@ -10,7 +10,7 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden;background:#F8FAFC;color:#1F2937;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Rounded','Nunito','Segoe UI Rounded','Segoe UI',sans-serif;font-weight:500}
+html,body{height:100%;overflow:hidden;background:var(--bg1);color:var(--t0);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Rounded','Nunito','Segoe UI Rounded','Segoe UI',sans-serif;font-weight:500;transition:background .2s,color .2s}
 :root{
   /* Light playful palette — Duolingo-ish mint/lavender cartoon */
   --g:#58CC02;--gd:#4CA601;--g2:#89E219;--gm:#58CC0240;--gx:rgba(88,204,2,.18);--gxx:rgba(88,204,2,.08);
@@ -31,8 +31,28 @@ html,body{height:100%;overflow:hidden;background:#F8FAFC;color:#1F2937;font-fami
   --shadow-card-p:0 2px 0 rgba(0,0,0,.06),0 4px 16px rgba(206,130,255,.10);
   --shadow-btn:0 4px 0 var(--gd);
   --shadow-btn-p:0 4px 0 #A855F7;
+  --surface:#FFFFFF;
+  color-scheme:light;
 }
-.app{width:100%;height:100%;max-width:420px;margin:0 auto;display:flex;flex-direction:column;background:#F8FAFC;overflow:hidden;position:relative}
+[data-theme="dark"]{
+  /* Dark cartoon palette — same playful hues, inverted surfaces */
+  --g:#58CC02;--gd:#3F8A01;--g2:#89E219;--gm:#58CC0240;--gx:rgba(88,204,2,.22);--gxx:rgba(88,204,2,.12);
+  --p:#CE82FF;--p2:#B388E6;--pm:#CE82FF40;--px:rgba(206,130,255,.22);--pxx:rgba(206,130,255,.12);
+  --acc:#1CB0F6;
+  --yellow:#FFC800;--orange:#FF9600;--coral:#FF6B6B;
+  --bg0:#0B1220;--bg1:#121A2B;--bg2:#1A2336;--bg3:#26324B;--bg4:#384668;
+  --b1:#26324B;--b2:#384668;--b3:#55648A;
+  --t0:#F1F5F9;--t1:#CBD5E1;--t2:#94A3B8;--t3:#64748B;
+  --err:#FF6B6B;--errb:#3A1F24;--ok:#58CC02;
+  --gold:#FFC800;--silver:#CBD5E1;--bronze:#CD7F32;
+  --shadow-card:0 2px 0 rgba(0,0,0,.35),0 4px 16px rgba(0,0,0,.35);
+  --shadow-card-p:0 2px 0 rgba(0,0,0,.35),0 4px 16px rgba(206,130,255,.20);
+  --shadow-btn:0 4px 0 var(--gd);
+  --shadow-btn-p:0 4px 0 #7A3FBF;
+  --surface:#121A2B;
+  color-scheme:dark;
+}
+.app{width:100%;height:100%;max-width:420px;margin:0 auto;display:flex;flex-direction:column;background:var(--bg1);overflow:hidden;position:relative}
 .screen{display:none;flex-direction:column;flex:1;overflow:hidden;animation:fi .18s ease}
 .screen.active{display:flex}
 @keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
@@ -47,13 +67,13 @@ html,body{height:100%;overflow:hidden;background:#F8FAFC;color:#1F2937;font-fami
 .g-text{color:var(--g)!important}
 
 /* NAV */
-.nav{display:flex;border-top:1px solid var(--b1);background:#FFFFFF;flex-shrink:0;box-shadow:0 -2px 12px rgba(0,0,0,.04)}
+.nav{display:flex;border-top:1px solid var(--b1);background:var(--surface);flex-shrink:0;box-shadow:0 -2px 12px rgba(0,0,0,.04)}
 .nb{flex:1;padding:11px 4px 9px;text-align:center;cursor:pointer;font-size:10px;color:var(--t2);border:none;background:none;letter-spacing:.3px;transition:color .15s;font-weight:700}
 .nb.on{color:var(--g);text-shadow:none}
 .ni{font-size:19px;display:block;margin-bottom:2px;line-height:1}
 
 /* HEADER */
-.hdr{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--b1);background:#FFFFFF;flex-shrink:0}
+.hdr{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--b1);background:var(--surface);flex-shrink:0}
 .back{width:36px;height:36px;border-radius:50%;background:var(--bg2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--t1);font-weight:700}
 .back:active{background:var(--bg3);transform:scale(.95)}
 .hdr h2{font-size:17px;font-weight:800;color:var(--t0);letter-spacing:-.3px}
@@ -67,17 +87,17 @@ html,body{height:100%;overflow:hidden;background:#F8FAFC;color:#1F2937;font-fami
 .auth-sub{font-size:12px;color:var(--t2);text-align:center;margin-bottom:28px}
 .auth-tabs{display:flex;background:var(--bg2);border-radius:14px;padding:4px;margin-bottom:20px;border:none}
 .atab{flex:1;padding:10px;text-align:center;font-size:12px;color:var(--t2);border-radius:10px;cursor:pointer;transition:all .15s;font-weight:700}
-.atab.on{background:#FFFFFF;color:var(--g);border:none;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.atab.on{background:var(--surface);color:var(--g);border:none;box-shadow:0 2px 6px rgba(0,0,0,.08)}
 .field{margin-bottom:12px}
 .field label{font-size:11px;color:var(--t2);display:block;margin-bottom:6px;letter-spacing:.5px}
 .field input{width:100%;padding:14px 16px;background:var(--bg2);border:2px solid var(--b1);border-radius:14px;color:var(--t0);font-size:14px;outline:none;transition:border-color .15s;font-weight:500}
-.field input:focus{border-color:var(--g);box-shadow:0 0 0 3px var(--gxx);background:#FFFFFF}
+.field input:focus{border-color:var(--g);box-shadow:0 0 0 3px var(--gxx);background:var(--surface)}
 .field input::placeholder{color:var(--t3)}
 .auth-btn{width:100%;padding:14px;border-radius:16px;border:none;background:var(--g);color:#FFFFFF;font-size:15px;cursor:pointer;font-weight:800;letter-spacing:.5px;text-transform:uppercase;transition:transform .08s ease;box-shadow:0 4px 0 var(--gd);margin-top:4px}
 .auth-btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--gd)}
 .or-div{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--t3);font-size:11px}
 .or-div::before,.or-div::after{content:'';flex:1;height:1px;background:var(--b2)}
-.g-btn{width:100%;padding:13px 20px;border-radius:14px;border:2px solid var(--b1);background:#FFFFFF;color:var(--t0);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:700;transition:transform .08s}
+.g-btn{width:100%;padding:13px 20px;border-radius:14px;border:2px solid var(--b1);background:var(--surface);color:var(--t0);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:700;transition:transform .08s}
 .g-btn:active{transform:translateY(1px);border-color:var(--b2)}
 .g-logo{width:18px;height:18px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#333;flex-shrink:0}
 .auth-err{font-size:11px;color:var(--err);text-align:center;margin-top:8px;min-height:16px}
@@ -95,7 +115,7 @@ html,body{height:100%;overflow:hidden;background:#F8FAFC;color:#1F2937;font-fami
 .onb-h span{color:var(--g);text-shadow:none}
 .onb-sub{font-size:12px;color:var(--t2);text-align:center;margin-bottom:22px;line-height:1.45}
 .onb-opts{display:flex;flex-direction:column;gap:9px;margin-bottom:18px}
-.onb-opt{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#FFFFFF;border:2px solid var(--b1);border-radius:16px;cursor:pointer;transition:all .15s;text-align:left;font-weight:600;box-shadow:0 2px 0 rgba(0,0,0,.04)}
+.onb-opt{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--surface);border:2px solid var(--b1);border-radius:16px;cursor:pointer;transition:all .15s;text-align:left;font-weight:600;box-shadow:0 2px 0 rgba(0,0,0,.04)}
 .onb-opt:hover{border-color:var(--b2)}
 .onb-opt.sel{border-color:var(--g);background:var(--gxx);box-shadow:0 2px 0 var(--gd)}
 .onb-opt .o-em{font-size:24px;flex-shrink:0;width:36px;text-align:center}
@@ -188,7 +208,7 @@ html,body{height:100%;overflow:hidden;background:#F8FAFC;color:#1F2937;font-fami
 .srs-card .srs-arr{color:var(--g);font-size:18px;text-shadow:none}
 
 /* ===== LEAGUE CARD ===== */
-.lg-card{margin:6px 18px 14px;padding:16px;background:#FFFFFF;border:2px solid var(--b1);border-radius:22px;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;box-shadow:0 2px 0 rgba(0,0,0,.04)}
+.lg-card{margin:6px 18px 14px;padding:16px;background:var(--surface);border:2px solid var(--b1);border-radius:22px;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;box-shadow:0 2px 0 rgba(0,0,0,.04)}
 .lg-card.is-p{border-color:var(--g);box-shadow:0 3px 0 var(--gd)}
 .lg-card:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(0,0,0,.04)}
 .lg-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
@@ -224,7 +244,7 @@ html,body{height:100%;overflow:hidden;background:#F8FAFC;color:#1F2937;font-fami
 .lg-hist-row .h-w{flex:1;color:var(--t2);font-size:10px}
 
 /* ===== MISSIONS CARD (home) ===== */
-.ms-card{margin:6px 18px 14px;padding:14px 16px;background:#FFFFFF;border:2px solid var(--b1);border-radius:22px;box-shadow:0 2px 0 rgba(0,0,0,.04)}
+.ms-card{margin:6px 18px 14px;padding:14px 16px;background:var(--surface);border:2px solid var(--b1);border-radius:22px;box-shadow:0 2px 0 rgba(0,0,0,.04)}
 .ms-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .ms-h h4{font-size:14px;color:var(--t0);font-weight:800}
 .ms-h .ms-sub{font-size:10px;color:var(--t2)}
@@ -241,7 +261,7 @@ html,body{height:100%;overflow:hidden;background:#F8FAFC;color:#1F2937;font-fami
 
 /* ===== SHORTS / STORIES / VOICE / PRON HOME TILES ===== */
 .h-tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px 6px}
-.h-tile{background:#FFFFFF;border:2px solid var(--b1);border-radius:22px;padding:18px 14px;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;position:relative;overflow:hidden;min-height:104px;box-shadow:0 3px 0 rgba(0,0,0,.04)}
+.h-tile{background:var(--surface);border:2px solid var(--b1);border-radius:22px;padding:18px 14px;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;position:relative;overflow:hidden;min-height:104px;box-shadow:0 3px 0 rgba(0,0,0,.04)}
 .h-tile:active,.h-tile:hover{border-color:var(--g);box-shadow:0 3px 0 var(--gd);transform:translateY(-1px)}
 .h-tile .ht-ic{font-size:30px;margin-bottom:8px;filter:none}
 .h-tile h3{font-size:13px;color:var(--t0);font-weight:800}
@@ -315,7 +335,7 @@ html,body{height:100%;overflow:hidden;background:#F8FAFC;color:#1F2937;font-fami
 .pr-diff span.bad{color:#e55;text-decoration:underline;text-decoration-color:#e55}
 
 /* ===== HOME ===== */
-.hero{padding:22px 18px 18px;border-bottom:1px solid var(--b1);background:#FFFFFF}
+.hero{padding:22px 18px 18px;border-bottom:1px solid var(--b1);background:var(--surface)}
 .hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .hero-name{font-size:20px;font-weight:800;letter-spacing:-.3px;color:var(--t0)}
 .hero-name span{color:var(--g)}
@@ -325,7 +345,7 @@ html,body{height:100%;overflow:hidden;background:#F8FAFC;color:#1F2937;font-fami
 .pill b{color:var(--g);font-weight:800}
 .sec-lbl{font-size:11px;color:var(--t2);letter-spacing:1.3px;text-transform:uppercase;font-weight:800;padding:16px 18px 8px}
 .lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px 4px}
-.lc{background:#FFFFFF;border:2px solid var(--b1);border-radius:20px;padding:18px 14px;cursor:pointer;transition:transform .12s ease,box-shadow .12s;box-shadow:0 3px 0 rgba(0,0,0,.04)}
+.lc{background:var(--surface);border:2px solid var(--b1);border-radius:20px;padding:18px 14px;cursor:pointer;transition:transform .12s ease,box-shadow .12s;box-shadow:0 3px 0 rgba(0,0,0,.04)}
 .lc:active,.lc:hover{border-color:var(--g);box-shadow:0 3px 0 var(--gd);transform:translateY(-1px)}
 .lc-flag{font-size:30px;margin-bottom:10px}
 .lc h3{font-size:14px;font-weight:800;color:var(--t0)}
@@ -343,7 +363,7 @@ html,body{height:100%;overflow:hidden;background:#F8FAFC;color:#1F2937;font-fami
 /* ===== LESSONS ===== */
 .unit-wrap{padding:0 18px;margin-bottom:18px}
 .unit-lbl{font-size:11px;color:var(--t2);letter-spacing:1.2px;text-transform:uppercase;padding:16px 0 10px;font-weight:800}
-.li{display:flex;align-items:center;gap:12px;padding:14px 14px;background:#FFFFFF;border:2px solid var(--b1);border-radius:18px;margin-bottom:8px;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;box-shadow:0 2px 0 rgba(0,0,0,.04)}
+.li{display:flex;align-items:center;gap:12px;padding:14px 14px;background:var(--surface);border:2px solid var(--b1);border-radius:18px;margin-bottom:8px;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;box-shadow:0 2px 0 rgba(0,0,0,.04)}
 .li:active,.li:hover{border-color:var(--g);box-shadow:0 2px 0 var(--gd);transform:translateY(-1px)}
 .li.lk{opacity:.4;cursor:default}
 .li.lk:hover{border-color:var(--b1);box-shadow:0 2px 0 rgba(0,0,0,.04);transform:none}
@@ -356,13 +376,13 @@ html,body{height:100%;overflow:hidden;background:#F8FAFC;color:#1F2937;font-fami
 .err-tag{font-size:9px;color:var(--err);margin-left:5px}
 
 /* ===== QUIZ ===== */
-.qtop{display:flex;align-items:center;gap:10px;padding:12px 18px;flex-shrink:0;background:#FFFFFF;border-bottom:1px solid var(--b1)}
+.qtop{display:flex;align-items:center;gap:10px;padding:12px 18px;flex-shrink:0;background:var(--surface);border-bottom:1px solid var(--b1)}
 .qpw{flex:1;height:10px;background:var(--bg3);border-radius:6px;overflow:hidden}
 .qpf{height:100%;border-radius:6px;background:var(--g);transition:width .4s}
 .qh{font-size:13px;color:var(--err);font-weight:500;min-width:36px;text-align:right}
 .qbody{flex:1;display:flex;flex-direction:column;padding:18px;overflow-y:auto}
 .qlbl{font-size:10px;color:var(--t2);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;font-weight:500}
-.wcard{background:#FFFFFF;border:2px solid var(--b1);border-radius:22px;padding:36px 22px;text-align:center;margin-bottom:18px;position:relative;box-shadow:0 3px 0 rgba(0,0,0,.04)}
+.wcard{background:var(--surface);border:2px solid var(--b1);border-radius:22px;padding:36px 22px;text-align:center;margin-bottom:18px;position:relative;box-shadow:0 3px 0 rgba(0,0,0,.04)}
 .wmain{font-size:42px;font-weight:900;color:var(--t0);letter-spacing:-1px;line-height:1.15}
 .wmain.ar{font-size:46px;letter-spacing:0;direction:rtl;color:var(--g);text-shadow:none}
 .wmain.en-big{color:var(--g);text-shadow:none}
@@ -370,7 +390,7 @@ html,body{height:100%;overflow:hidden;background:#F8FAFC;color:#1F2937;font-fami
 .speak-btn{position:absolute;top:12px;right:14px;width:42px;height:42px;border-radius:50%;background:var(--acc);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:transform .1s ease;color:#FFFFFF;box-shadow:0 3px 0 #1697D0}
 .speak-btn:active,.speak-btn.speaking{transform:translateY(1px);box-shadow:0 2px 0 #1697D0}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:16px}
-.opt{padding:16px 10px;border-radius:16px;border:2px solid var(--b1);background:#FFFFFF;cursor:pointer;font-size:14px;color:var(--t0);text-align:center;transition:transform .1s ease,border-color .12s;line-height:1.3;font-weight:700;box-shadow:0 2px 0 rgba(0,0,0,.04)}
+.opt{padding:16px 10px;border-radius:16px;border:2px solid var(--b1);background:var(--surface);cursor:pointer;font-size:14px;color:var(--t0);text-align:center;transition:transform .1s ease,border-color .12s;line-height:1.3;font-weight:700;box-shadow:0 2px 0 rgba(0,0,0,.04)}
 .opt:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(0,0,0,.04)}
 .opt.sel{border-color:var(--g);background:var(--gxx);color:var(--gd);box-shadow:0 2px 0 var(--gd)}
 .opt.ok{border-color:var(--g);background:var(--gxx);color:var(--gd);box-shadow:0 2px 0 var(--gd)}
@@ -387,7 +407,7 @@ html,body{height:100%;overflow:hidden;background:#F8FAFC;color:#1F2937;font-fami
 .cst{background:var(--bg2);border:1px solid var(--b2);border-radius:var(--r2);padding:13px 18px;text-align:center}
 .csn{font-size:22px;font-weight:300;color:var(--g);text-shadow:none}
 .csl{font-size:10px;color:var(--t2);margin-top:2px}
-.hbtn{margin:0 18px 8px;padding:14px;border-radius:16px;border:2px solid var(--b1);background:#FFFFFF;color:var(--t0);font-size:13px;cursor:pointer;width:calc(100% - 36px);transition:transform .1s;font-weight:700;box-shadow:0 3px 0 rgba(0,0,0,.04)}
+.hbtn{margin:0 18px 8px;padding:14px;border-radius:16px;border:2px solid var(--b1);background:var(--surface);color:var(--t0);font-size:13px;cursor:pointer;width:calc(100% - 36px);transition:transform .1s;font-weight:700;box-shadow:0 3px 0 rgba(0,0,0,.04)}
 .hbtn:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(0,0,0,.04)}
 .hbtn.green{border:none;background:var(--g);color:#FFFFFF;font-weight:800;letter-spacing:.4px;text-transform:uppercase;box-shadow:0 4px 0 var(--gd);border-radius:16px}
 .hbtn.green:active{transform:translateY(2px);box-shadow:0 2px 0 var(--gd)}
@@ -1039,6 +1059,32 @@ function safeParseArray(s){try{const v=JSON.parse(s);return Array.isArray(v)?v:n
 // Lesson content (theory, examples, vocabulary translations) stays in its
 // existing form because the app teaches RU speakers EN/AR. Only the chrome
 // (nav, headers, buttons, profile labels, toasts) is translated here.
+// ====== THEME (light / dark / auto) ======
+const THEME_KEY='ls_theme_v1';
+function getTheme(){try{const v=localStorage.getItem(THEME_KEY);return (v==='light'||v==='dark'||v==='auto')?v:'auto';}catch(e){return 'auto';}}
+function resolveTheme(t){
+  if(t==='light'||t==='dark')return t;
+  try{return window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}catch(e){return 'light';}
+}
+function applyTheme(){
+  const mode=getTheme(),eff=resolveTheme(mode);
+  document.documentElement.setAttribute('data-theme',eff);
+  const meta=document.querySelector('meta[name="theme-color"]');
+  if(meta)meta.setAttribute('content',eff==='dark'?'#0B1220':'#FFFFFF');
+}
+function setTheme(t){
+  try{localStorage.setItem(THEME_KEY,t);}catch(e){}
+  applyTheme();
+  if(document.getElementById('s-profile')&&document.getElementById('s-profile').classList.contains('active'))renderProfile&&renderProfile();
+  if(typeof toast==='function')toast('✓');
+}
+applyTheme();
+try{
+  const mq=window.matchMedia('(prefers-color-scheme: dark)');
+  const h=()=>{if(getTheme()==='auto')applyTheme();};
+  mq.addEventListener?mq.addEventListener('change',h):mq.addListener(h);
+}catch(e){}
+
 const UI_LANG_KEY='ls_uilang_v1';
 const UI_LANGS=[
   {id:'ru', flag:'🇷🇺', native:'Русский'},
@@ -1061,7 +1107,7 @@ const I18N={
     'btn.back':'← Назад','btn.start_practice':'🚀 К тренировке →','btn.skip':'Пропустить','btn.continue':'Продолжить →','btn.next':'Дальше →','btn.cancel':'Отмена','btn.save':'Сохранить','btn.try_again':'Попробовать снова','btn.close':'Закрыть',
     'login.google':'Продолжить с Google','login.telegram':'Войти через Telegram','login.skip':'Продолжить без регистрации','login.or':'или','login.welcome':'Добро пожаловать в','login.subtitle':'Учи языки, не отвлекаясь',
     'theory.intro':'📌 Введение','theory.rules':'🎯 Правила и ключевые моменты','theory.examples':'💬 Примеры',
-    'profile.progress':'Прогресс','profile.settings':'Настройки','profile.lang':'Язык интерфейса','profile.notifications':'🔔 Ежедневное напоминание','profile.notif_sub':'Серия не прервётся, если ты учишь каждый день','profile.reminder_time':'Время напоминания','profile.goal':'🎯 Цель','profile.change':'Изменить','profile.error_analysis':'Анализ ошибок','profile.link':'🔐 Войти / привязать аккаунт','profile.logout':'Выйти','profile.xp':'XP','profile.streak':'🔥 Серия','profile.lessons':'Уроков','profile.anon_sub':'Анонимный аккаунт — привяжите для синхронизации',
+    'profile.progress':'Прогресс','profile.settings':'Настройки','profile.lang':'Язык интерфейса','profile.theme':'Тема оформления','profile.theme.auto':'Авто','profile.theme.light':'Светлая','profile.theme.dark':'Тёмная','profile.notifications':'🔔 Ежедневное напоминание','profile.notif_sub':'Серия не прервётся, если ты учишь каждый день','profile.reminder_time':'Время напоминания','profile.goal':'🎯 Цель','profile.change':'Изменить','profile.error_analysis':'Анализ ошибок','profile.link':'🔐 Войти / привязать аккаунт','profile.logout':'Выйти','profile.xp':'XP','profile.streak':'🔥 Серия','profile.lessons':'Уроков','profile.anon_sub':'Анонимный аккаунт — привяжите для синхронизации',
     'common.lang.en':'Английский','common.lang.ar':'Арабский','common.lang.both':'Оба',
     'toast.coming_soon':'Скоро будет доступно!','toast.network':'Сеть не доступна','toast.google_not':'Google вход не настроен','toast.tg_not':'Telegram вход пока не настроен',
   },
@@ -1078,7 +1124,7 @@ const I18N={
     'btn.back':'← Back','btn.start_practice':'🚀 Start practice →','btn.skip':'Skip','btn.continue':'Continue →','btn.next':'Next →','btn.cancel':'Cancel','btn.save':'Save','btn.try_again':'Try again','btn.close':'Close',
     'login.google':'Continue with Google','login.telegram':'Sign in with Telegram','login.skip':'Continue without account','login.or':'or','login.welcome':'Welcome to','login.subtitle':'Learn languages, distraction-free',
     'theory.intro':'📌 Introduction','theory.rules':'🎯 Rules and key points','theory.examples':'💬 Examples',
-    'profile.progress':'Progress','profile.settings':'Settings','profile.lang':'Interface language','profile.notifications':'🔔 Daily reminder','profile.notif_sub':"Your streak won't break if you learn every day",'profile.reminder_time':'Reminder time','profile.goal':'🎯 Goal','profile.change':'Change','profile.error_analysis':'Error analysis','profile.link':'🔐 Sign in / link account','profile.logout':'Sign out','profile.xp':'XP','profile.streak':'🔥 Streak','profile.lessons':'Lessons','profile.anon_sub':'Anonymous account — link one to sync progress',
+    'profile.progress':'Progress','profile.settings':'Settings','profile.lang':'Interface language','profile.theme':'Theme','profile.theme.auto':'Auto','profile.theme.light':'Light','profile.theme.dark':'Dark','profile.notifications':'🔔 Daily reminder','profile.notif_sub':"Your streak won't break if you learn every day",'profile.reminder_time':'Reminder time','profile.goal':'🎯 Goal','profile.change':'Change','profile.error_analysis':'Error analysis','profile.link':'🔐 Sign in / link account','profile.logout':'Sign out','profile.xp':'XP','profile.streak':'🔥 Streak','profile.lessons':'Lessons','profile.anon_sub':'Anonymous account — link one to sync progress',
     'common.lang.en':'English','common.lang.ar':'Arabic','common.lang.both':'Both',
     'toast.coming_soon':'Coming soon!','toast.network':'Network unavailable','toast.google_not':'Google sign-in not configured','toast.tg_not':'Telegram sign-in not configured yet',
   },
@@ -1095,7 +1141,7 @@ const I18N={
     'btn.back':'← Retour','btn.start_practice':'🚀 Commencer →','btn.skip':'Passer','btn.continue':'Continuer →','btn.next':'Suivant →','btn.cancel':'Annuler','btn.save':'Enregistrer','btn.try_again':'Réessayer','btn.close':'Fermer',
     'login.google':'Continuer avec Google','login.telegram':'Se connecter via Telegram','login.skip':'Continuer sans compte','login.or':'ou','login.welcome':'Bienvenue sur','login.subtitle':'Apprends les langues, sans distraction',
     'theory.intro':'📌 Introduction','theory.rules':'🎯 Règles et points clés','theory.examples':'💬 Exemples',
-    'profile.progress':'Progrès','profile.settings':'Paramètres','profile.lang':"Langue de l'interface",'profile.notifications':'🔔 Rappel quotidien','profile.notif_sub':"Ta série ne se brisera pas si tu étudies chaque jour",'profile.reminder_time':'Heure du rappel','profile.goal':'🎯 Objectif','profile.change':'Modifier','profile.error_analysis':'Analyse des erreurs','profile.link':'🔐 Se connecter / lier un compte','profile.logout':'Se déconnecter','profile.xp':'XP','profile.streak':'🔥 Série','profile.lessons':'Leçons','profile.anon_sub':'Compte anonyme — lie-le pour synchroniser',
+    'profile.progress':'Progrès','profile.settings':'Paramètres','profile.lang':"Langue de l'interface",'profile.theme':'Thème','profile.theme.auto':'Auto','profile.theme.light':'Clair','profile.theme.dark':'Sombre','profile.notifications':'🔔 Rappel quotidien','profile.notif_sub':"Ta série ne se brisera pas si tu étudies chaque jour",'profile.reminder_time':'Heure du rappel','profile.goal':'🎯 Objectif','profile.change':'Modifier','profile.error_analysis':'Analyse des erreurs','profile.link':'🔐 Se connecter / lier un compte','profile.logout':'Se déconnecter','profile.xp':'XP','profile.streak':'🔥 Série','profile.lessons':'Leçons','profile.anon_sub':'Compte anonyme — lie-le pour synchroniser',
     'common.lang.en':'Anglais','common.lang.ar':'Arabe','common.lang.both':'Les deux',
     'toast.coming_soon':'Bientôt disponible !','toast.network':'Réseau indisponible','toast.google_not':'Connexion Google non configurée','toast.tg_not':'Connexion Telegram non configurée',
   },
@@ -1112,7 +1158,7 @@ const I18N={
     'btn.back':'← Zurück','btn.start_practice':'🚀 Übung starten →','btn.skip':'Überspringen','btn.continue':'Weiter →','btn.next':'Weiter →','btn.cancel':'Abbrechen','btn.save':'Speichern','btn.try_again':'Erneut versuchen','btn.close':'Schließen',
     'login.google':'Mit Google fortfahren','login.telegram':'Mit Telegram anmelden','login.skip':'Ohne Konto fortfahren','login.or':'oder','login.welcome':'Willkommen bei','login.subtitle':'Sprachen lernen ohne Ablenkung',
     'theory.intro':'📌 Einführung','theory.rules':'🎯 Regeln und Schlüsselpunkte','theory.examples':'💬 Beispiele',
-    'profile.progress':'Fortschritt','profile.settings':'Einstellungen','profile.lang':'Oberflächensprache','profile.notifications':'🔔 Tägliche Erinnerung','profile.notif_sub':'Deine Serie reißt nicht ab, wenn du täglich lernst','profile.reminder_time':'Erinnerungszeit','profile.goal':'🎯 Ziel','profile.change':'Ändern','profile.error_analysis':'Fehleranalyse','profile.link':'🔐 Anmelden / Konto verknüpfen','profile.logout':'Abmelden','profile.xp':'XP','profile.streak':'🔥 Serie','profile.lessons':'Lektionen','profile.anon_sub':'Anonymes Konto — verknüpfe es, um zu synchronisieren',
+    'profile.progress':'Fortschritt','profile.settings':'Einstellungen','profile.lang':'Oberflächensprache','profile.theme':'Design','profile.theme.auto':'Auto','profile.theme.light':'Hell','profile.theme.dark':'Dunkel','profile.notifications':'🔔 Tägliche Erinnerung','profile.notif_sub':'Deine Serie reißt nicht ab, wenn du täglich lernst','profile.reminder_time':'Erinnerungszeit','profile.goal':'🎯 Ziel','profile.change':'Ändern','profile.error_analysis':'Fehleranalyse','profile.link':'🔐 Anmelden / Konto verknüpfen','profile.logout':'Abmelden','profile.xp':'XP','profile.streak':'🔥 Serie','profile.lessons':'Lektionen','profile.anon_sub':'Anonymes Konto — verknüpfe es, um zu synchronisieren',
     'common.lang.en':'Englisch','common.lang.ar':'Arabisch','common.lang.both':'Beide',
     'toast.coming_soon':'Demnächst verfügbar!','toast.network':'Keine Netzwerkverbindung','toast.google_not':'Google-Anmeldung nicht konfiguriert','toast.tg_not':'Telegram-Anmeldung nicht konfiguriert',
   },
@@ -1129,7 +1175,7 @@ const I18N={
     'btn.back':'→ رجوع','btn.start_practice':'🚀 ابدأ التدريب ←','btn.skip':'تخطّي','btn.continue':'متابعة ←','btn.next':'التالي ←','btn.cancel':'إلغاء','btn.save':'حفظ','btn.try_again':'حاول مرة أخرى','btn.close':'إغلاق',
     'login.google':'المتابعة بحساب Google','login.telegram':'الدخول عبر Telegram','login.skip':'المتابعة بدون حساب','login.or':'أو','login.welcome':'أهلاً بك في','login.subtitle':'تعلّم اللغات بدون مشتتات',
     'theory.intro':'📌 مقدمة','theory.rules':'🎯 القواعد والنقاط الأساسية','theory.examples':'💬 أمثلة',
-    'profile.progress':'التقدّم','profile.settings':'الإعدادات','profile.lang':'لغة الواجهة','profile.notifications':'🔔 تذكير يومي','profile.notif_sub':'سلسلتك لن تنكسر إذا تعلّمت كل يوم','profile.reminder_time':'وقت التذكير','profile.goal':'🎯 الهدف','profile.change':'تغيير','profile.error_analysis':'تحليل الأخطاء','profile.link':'🔐 الدخول / ربط حساب','profile.logout':'الخروج','profile.xp':'XP','profile.streak':'🔥 السلسلة','profile.lessons':'الدروس','profile.anon_sub':'حساب مجهول — اربطه للمزامنة',
+    'profile.progress':'التقدّم','profile.settings':'الإعدادات','profile.lang':'لغة الواجهة','profile.theme':'المظهر','profile.theme.auto':'تلقائي','profile.theme.light':'فاتح','profile.theme.dark':'داكن','profile.notifications':'🔔 تذكير يومي','profile.notif_sub':'سلسلتك لن تنكسر إذا تعلّمت كل يوم','profile.reminder_time':'وقت التذكير','profile.goal':'🎯 الهدف','profile.change':'تغيير','profile.error_analysis':'تحليل الأخطاء','profile.link':'🔐 الدخول / ربط حساب','profile.logout':'الخروج','profile.xp':'XP','profile.streak':'🔥 السلسلة','profile.lessons':'الدروس','profile.anon_sub':'حساب مجهول — اربطه للمزامنة',
     'common.lang.en':'الإنجليزية','common.lang.ar':'العربية','common.lang.both':'كلاهما',
     'toast.coming_soon':'قريباً!','toast.network':'الشبكة غير متاحة','toast.google_not':'دخول Google غير معدّ','toast.tg_not':'دخول Telegram غير معدّ بعد',
   },
@@ -4281,6 +4327,19 @@ function renderProfile(){
     return `<button onclick="setUiLang('${L.id}')" style="flex:1;min-width:70px;padding:10px 6px;border-radius:10px;cursor:pointer;font-size:12px;background:${active?'var(--gxx)':'var(--bg2)'};border:1px solid ${active?'var(--g)':'var(--b2)'};color:${active?'var(--g)':'var(--t1)'};display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:18px">${L.flag}</span><span>${L.native}</span></button>`;
   }).join('');
   pb.innerHTML+=`<div class="recsec"><div class="rec-lbl">${t('profile.lang')}</div><div class="rec-card" style="padding:10px"><div style="display:flex;gap:6px;flex-wrap:wrap">${langButtons}</div></div></div>`;
+
+  // theme picker (auto / light / dark)
+  const curTheme=getTheme();
+  const themes=[
+    {id:'auto', icon:'🌓', label:t('profile.theme.auto')},
+    {id:'light', icon:'☀️', label:t('profile.theme.light')},
+    {id:'dark', icon:'🌙', label:t('profile.theme.dark')},
+  ];
+  const themeBtns=themes.map(T=>{
+    const active=T.id===curTheme;
+    return `<button onclick="setTheme('${T.id}')" style="flex:1;padding:10px 6px;border-radius:10px;cursor:pointer;font-size:12px;background:${active?'var(--gxx)':'var(--bg2)'};border:1px solid ${active?'var(--g)':'var(--b2)'};color:${active?'var(--g)':'var(--t1)'};display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:700"><span style="font-size:18px">${T.icon}</span><span>${escapeHtml(T.label)}</span></button>`;
+  }).join('');
+  pb.innerHTML+=`<div class="recsec"><div class="rec-lbl">${t('profile.theme')}</div><div class="rec-card" style="padding:10px"><div style="display:flex;gap:6px">${themeBtns}</div></div></div>`;
 
   // progress
   const enLessons=get_enLessons(),arLessons=get_arLessons();
