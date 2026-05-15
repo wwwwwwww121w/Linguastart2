@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash">
+
+    <!-- Логотип -->
+    <ImageView
+        android:id="@+id/splash_logo"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_centerInParent="true"
+        android:animation="@anim/splash_animation" />
+
+    <!-- Название -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LinguaStart"
+        android:textColor="#58CC02"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_below="@id/splash_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp" />
+
+    <!-- Круговой прогресс-бар -->
+    <ProgressBar
+        android:id="@+id/circular_progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/splash_logo"
+        android:layout_marginTop="110dp"
+        android:indeterminateDrawable="@drawable/circular_progress" />
+
+    <!-- Текст -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Загрузка..."
+        android:textColor="#64748B"
+        android:textSize="15sp"
+        android:layout_below="@id/circular_progress"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+</RelativeLayout>

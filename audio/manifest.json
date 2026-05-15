@@ -1,0 +1,1872 @@
+{
+  "voices": {
+    "en_us": "Английский (США) — женский",
+    "en_uk": "Английский (UK) — женский",
+    "en_au": "Английский (AU) — женский",
+    "ar_std": "Арабский (стандарт)"
+  },
+  "lang_voices": {
+    "en": [
+      "en_us",
+      "en_uk",
+      "en_au"
+    ],
+    "ar": [
+      "ar_std"
+    ]
+  },
+  "words": {
+    "en": {
+      "Airport": {
+        "en_us": "5a01f6d92678686a",
+        "en_uk": "a49f42b329d122b6",
+        "en_au": "66348bdfc55c6e3b"
+      },
+      "Album": {
+        "en_us": "d5934fade1eec828",
+        "en_uk": "b6ed36c7740ce04c",
+        "en_au": "e782e10eefce1148"
+      },
+      "Ambulance": {
+        "en_us": "c5157fe940d7ba7f",
+        "en_uk": "5f504b28e4db90aa",
+        "en_au": "cf0950ae2600be5f"
+      },
+      "Angry": {
+        "en_us": "6308be3cc86c4096",
+        "en_uk": "1fdf735dd2080009",
+        "en_au": "9cddfec1d15b664f"
+      },
+      "Apple": {
+        "en_us": "f05b84119ad8aa6b",
+        "en_uk": "c7b948814d6e3e18",
+        "en_au": "4b103d8eabd6f3cd"
+      },
+      "Back": {
+        "en_us": "79b6b5dffb1a8346",
+        "en_uk": "495534159c973c12",
+        "en_au": "a04879160a967808"
+      },
+      "Banana": {
+        "en_us": "c031dc53395abe82",
+        "en_uk": "38344cb5214de43d",
+        "en_au": "c9bc1f935c2a5fec"
+      },
+      "Band": {
+        "en_us": "39560505f07fa4b7",
+        "en_uk": "7ce9a12248ef17ab",
+        "en_au": "98a37c299922a8f4"
+      },
+      "Bank": {
+        "en_us": "8a6de0eafe274e57",
+        "en_uk": "a0818d886ed220e5",
+        "en_au": "8bb8b99b4ac75fe4"
+      },
+      "Basketball": {
+        "en_us": "925d37f6f81d9abd",
+        "en_uk": "ca453f78ea5a7e62",
+        "en_au": "730bf276bd5e130f"
+      },
+      "Battery": {
+        "en_us": "1a14de08be230a04",
+        "en_uk": "5c61b7aa8e3a5621",
+        "en_au": "e7923957f0c10e48"
+      },
+      "Be → Was": {
+        "en_us": "8b8afceb3c228bc1",
+        "en_uk": "43692b74def5f14e",
+        "en_au": "551ab34ab18e6ef3"
+      },
+      "Beautiful": {
+        "en_us": "13a0821078d1e8f0",
+        "en_uk": "0a1ff2d0150efb57",
+        "en_au": "ed8b619e6dd8f498"
+      },
+      "Bed": {
+        "en_us": "e2823dc3e79d6b0b",
+        "en_uk": "fb021be3d9cac4ed",
+        "en_au": "d16ef49b23d7a77c"
+      },
+      "Beer": {
+        "en_us": "fc3cf4325c009829",
+        "en_uk": "4941cc4dccaab29d",
+        "en_au": "939615fa1f9d58cc"
+      },
+      "Behind": {
+        "en_us": "665100cc22223fcb",
+        "en_uk": "e49927b5b59b252d",
+        "en_au": "250d538c609ec480"
+      },
+      "Between": {
+        "en_us": "9f0f30ae571d3fab",
+        "en_uk": "2b543e0f6e67c3a7",
+        "en_au": "e5fa6340d714124b"
+      },
+      "Big": {
+        "en_us": "ade347fede4e4ac7",
+        "en_uk": "9480f1bc273b93c7",
+        "en_au": "96a4fc724dcea668"
+      },
+      "Bike": {
+        "en_us": "51c1de639a0a26d0",
+        "en_uk": "9a40ce1f54dcd8b8",
+        "en_au": "4dde7f9f89680fea"
+      },
+      "Bird": {
+        "en_us": "57d7b082d48e8361",
+        "en_uk": "9ebbfe23d6e8ee7e",
+        "en_au": "cd12704c5466348a"
+      },
+      "Black": {
+        "en_us": "878dc210f24d8f98",
+        "en_uk": "07204e64690c412a",
+        "en_au": "5090f70a6eb826ae"
+      },
+      "Blue": {
+        "en_us": "1cc796b13507a6ea",
+        "en_uk": "33d1dfe911318012",
+        "en_au": "a46be1b879df5af3"
+      },
+      "Book": {
+        "en_us": "b139167bb0e345ee",
+        "en_uk": "85265c480c239def",
+        "en_au": "80992433ea1d50af"
+      },
+      "Bored": {
+        "en_us": "bbffd42f72537800",
+        "en_uk": "e259a28586084991",
+        "en_au": "77690093d8b77130"
+      },
+      "Boxing": {
+        "en_us": "051e667089fe0b01",
+        "en_uk": "2e81e10e7c34d6a3",
+        "en_au": "cfdcbc0d4c53f5d3"
+      },
+      "Brazil": {
+        "en_us": "0264404c5dafc606",
+        "en_uk": "13603d1a487957a9",
+        "en_au": "e47dcf3dec5f51a9"
+      },
+      "Bread": {
+        "en_us": "6ffdb9e17fdd9336",
+        "en_uk": "19312be70c98b8c0",
+        "en_au": "4e6794427a2d2f0d"
+      },
+      "Brother": {
+        "en_us": "d2d67aa356bcdd68",
+        "en_uk": "74cb8205f4804bff",
+        "en_au": "40c12aae298c4d4e"
+      },
+      "Bus": {
+        "en_us": "9541a1fa59b53502",
+        "en_uk": "74f7d470eefceb18",
+        "en_au": "ca515d824c3fe353"
+      },
+      "Buy": {
+        "en_us": "1f2bfe562a9d77a2",
+        "en_uk": "fc623683818c0169",
+        "en_au": "a0140376b536c01e"
+      },
+      "Call the police!": {
+        "en_us": "9b8e8e7cde894b1e",
+        "en_uk": "02858f207227df4b",
+        "en_au": "84962cf47a56de1f"
+      },
+      "Camera": {
+        "en_us": "e596a93b86f1a9b0",
+        "en_uk": "7d5b7f009eb8d536",
+        "en_au": "93eed368348c4ad6"
+      },
+      "Can you help me?": {
+        "en_us": "f857e917c90e0a55",
+        "en_uk": "e29ab2ed887e3682",
+        "en_au": "608f56f090fda78f"
+      },
+      "Car": {
+        "en_us": "b0f7fae881dbd46f",
+        "en_uk": "b597eec2c3ae41b6",
+        "en_au": "6372dce42b347ed1"
+      },
+      "Carrot": {
+        "en_us": "aff2338dae42e0f6",
+        "en_uk": "3e495fb0b01d312a",
+        "en_au": "fad931875607fa18"
+      },
+      "Cash": {
+        "en_us": "b9d6521ae8a7482b",
+        "en_uk": "ff811cc401a5671b",
+        "en_au": "0d4ba774772fbc05"
+      },
+      "Cat": {
+        "en_us": "8153530756c96344",
+        "en_uk": "c3443b788e9c5b18",
+        "en_au": "e42033ada840f406"
+      },
+      "Chair": {
+        "en_us": "d4e272f872ea22de",
+        "en_uk": "38ce6d36a76b75dc",
+        "en_au": "3a6ee89f7ecdc185"
+      },
+      "Cheap": {
+        "en_us": "be3449c8e0f61c13",
+        "en_uk": "b0a602e07f1f22d0",
+        "en_au": "02bf329e9d16d932"
+      },
+      "China": {
+        "en_us": "e955c56040d2837b",
+        "en_uk": "ad5cffe93d6fa48b",
+        "en_au": "98f313c1a3999bfc"
+      },
+      "Cloud": {
+        "en_us": "85fa23f0c135b425",
+        "en_uk": "39a795937bd83193",
+        "en_au": "c5fc5e4c395b0c98"
+      },
+      "Coat": {
+        "en_us": "7398826029751ca5",
+        "en_uk": "b7d882e3b4703e60",
+        "en_au": "29d0a54790ed33a7"
+      },
+      "Cocktail": {
+        "en_us": "6e175c7243ada4ef",
+        "en_uk": "0be9ba2a1510b9a9",
+        "en_au": "4a928fd63a5b32bf"
+      },
+      "Coffee": {
+        "en_us": "80ec8f53179d9f86",
+        "en_uk": "71ddd5b449ca8ae7",
+        "en_au": "b242676566580793"
+      },
+      "Cold": {
+        "en_us": "369a9d50be272159",
+        "en_uk": "84312b37b5d62ff4",
+        "en_au": "23f52d68fa596059"
+      },
+      "Concert": {
+        "en_us": "8c696eb40e4de6f1",
+        "en_uk": "3394a59dc676b2c2",
+        "en_au": "7a3538a8350a41f6"
+      },
+      "Contract": {
+        "en_us": "241531dad62b017c",
+        "en_uk": "99396f84b42d088e",
+        "en_au": "f6bc302aad1af0fe"
+      },
+      "Cooking": {
+        "en_us": "7b8fb3a6d370b054",
+        "en_uk": "1bebac5a9446e0dd",
+        "en_au": "864b0b1aade94c35"
+      },
+      "Cucumber": {
+        "en_us": "f57ac0c1c287d9df",
+        "en_uk": "52aa0e8207a9ae26",
+        "en_au": "2db347dc93cd7222"
+      },
+      "Cycling": {
+        "en_us": "1de1f3c791cd0dcb",
+        "en_uk": "bcf97ed8c4b126b1",
+        "en_au": "06ca8cb090c6d7af"
+      },
+      "Dancing": {
+        "en_us": "1468fd190e959150",
+        "en_uk": "b8e38624bcb3faea",
+        "en_au": "0aad91ffacfe93e9"
+      },
+      "Dark": {
+        "en_us": "0842ef6eb5adde4f",
+        "en_uk": "a603bdf741d330e8",
+        "en_au": "e4ea800c846abc9d"
+      },
+      "Daughter": {
+        "en_us": "545fd615cf3ac1e8",
+        "en_uk": "4e2f265fc770ed19",
+        "en_au": "0ee81246f0cb8a3e"
+      },
+      "Discount": {
+        "en_us": "33f2006ea4c38a30",
+        "en_uk": "0419fd16505adf12",
+        "en_au": "2c7b7fe9a9b95ec7"
+      },
+      "Doctor": {
+        "en_us": "793761eaf79dbbc4",
+        "en_uk": "dc05f9ae5afdbc7f",
+        "en_au": "6eb12ad9dffdb480"
+      },
+      "Dog": {
+        "en_us": "d6cd3c45adadb855",
+        "en_uk": "98643b544d75b829",
+        "en_au": "3cced3bbbd5568e2"
+      },
+      "Door": {
+        "en_us": "9fd090c0d0dbdd14",
+        "en_uk": "a2c4fd999e62b648",
+        "en_au": "c4e1d5fb066a28ea"
+      },
+      "Download": {
+        "en_us": "616d78b0017c4d1b",
+        "en_uk": "7a555d62f44aa248",
+        "en_au": "2673b806fab34852"
+      },
+      "Drawing": {
+        "en_us": "447dbb9b64923dbc",
+        "en_uk": "c17c221e41e2a79a",
+        "en_au": "1ce9e1f0cbf7b167"
+      },
+      "Dress": {
+        "en_us": "ab29ed259a8011bd",
+        "en_uk": "ed3151bb7cf558b5",
+        "en_au": "8be346a77235b417"
+      },
+      "Drink → Drank": {
+        "en_us": "9b10daa62ae5c8b0",
+        "en_uk": "76eca023bd7deaf0",
+        "en_au": "c7602dc3e94e4138"
+      },
+      "Drum": {
+        "en_us": "f1dbc0bacd35f437",
+        "en_uk": "ffc94196ce47bb40",
+        "en_au": "752f10307c584eb9"
+      },
+      "Ear": {
+        "en_us": "a2e262a69d4d632f",
+        "en_uk": "68511fb2a00e4e3c",
+        "en_au": "0ab57509a12da954"
+      },
+      "Eat → Ate": {
+        "en_us": "f6d05a9176089035",
+        "en_uk": "a149b6d37212b56d",
+        "en_au": "da196677bff2222e"
+      },
+      "Egg": {
+        "en_us": "e3e8576d06d557fb",
+        "en_uk": "78139075afaaedb2",
+        "en_au": "ef10776cdb0bd210"
+      },
+      "Elephant": {
+        "en_us": "eed2fdd0f7465e68",
+        "en_uk": "9a993fa73daf0fb1",
+        "en_au": "7d254485032dbf59"
+      },
+      "Engineer": {
+        "en_us": "7be1019159f637d9",
+        "en_uk": "24a4baeaf290e2ad",
+        "en_au": "2e91659de3ec2c40"
+      },
+      "England": {
+        "en_us": "28f7fc33ce91f81a",
+        "en_uk": "a650cca4c5a00f5b",
+        "en_au": "9ed78ec03b7e4daf"
+      },
+      "Evening": {
+        "en_us": "c717a241acdb5822",
+        "en_uk": "77cee6c5e50c4d6d",
+        "en_au": "16b78e170f3f367a"
+      },
+      "Exam": {
+        "en_us": "806b6a7e276eb64c",
+        "en_uk": "636464eb828085c6",
+        "en_au": "67c30a46cefc1bd2"
+      },
+      "Excited": {
+        "en_us": "c2e8ed0b5a544732",
+        "en_uk": "611a2d7e1c3d7165",
+        "en_au": "39c03f6c406da178"
+      },
+      "Expensive": {
+        "en_us": "842e4a1bbbca0248",
+        "en_uk": "e2ef3be0d61a3fad",
+        "en_au": "bc4c6c9a54229021"
+      },
+      "Eye": {
+        "en_us": "b8993e3f71aa5cc0",
+        "en_uk": "9fdb336b7d84cb26",
+        "en_au": "cfe803280b3e159a"
+      },
+      "Fast": {
+        "en_us": "3b3ee241afa58276",
+        "en_uk": "8575e5a64fa87b65",
+        "en_au": "ffcb825ab56b00ee"
+      },
+      "Father": {
+        "en_us": "cc86c32cebef4a34",
+        "en_uk": "30714bc3f6fd8ab4",
+        "en_au": "3b8551df440eae46"
+      },
+      "Fish": {
+        "en_us": "1525ad095d0943e2",
+        "en_uk": "823c9a45b3ce8260",
+        "en_au": "b7b79ffdc68dfd56"
+      },
+      "Five": {
+        "en_us": "877a0dea8d91caa0",
+        "en_uk": "d8b7d7753a296f5b",
+        "en_au": "c5145a09671fa950"
+      },
+      "Floor": {
+        "en_us": "3fd247db5426e371",
+        "en_uk": "1bbc80536586e9bc",
+        "en_au": "eac4f0d8500785b0"
+      },
+      "Flower": {
+        "en_us": "ca5ad8b31d085879",
+        "en_uk": "407a2e41de98d824",
+        "en_au": "cb5b2c09bc97e37e"
+      },
+      "Football": {
+        "en_us": "db5c8e0a42b0b3bb",
+        "en_uk": "a213d3eeab8942cb",
+        "en_au": "8118d06ea68ca279"
+      },
+      "Forest": {
+        "en_us": "28de55b2fa84166d",
+        "en_uk": "361501e392cc44ea",
+        "en_au": "6f38231d5f48023e"
+      },
+      "France": {
+        "en_us": "38241ab5e1ede409",
+        "en_uk": "dd8a0101257c6585",
+        "en_au": "12314cec3c5a5e61"
+      },
+      "Friday": {
+        "en_us": "74292b08720fdede",
+        "en_uk": "456f7784954979a1",
+        "en_au": "3958496940fffee9"
+      },
+      "Gardening": {
+        "en_us": "24b053569faccb69",
+        "en_uk": "b1be44010129396e",
+        "en_au": "1da95318b0ca1217"
+      },
+      "Garlic": {
+        "en_us": "b25d4c684e9cbcc0",
+        "en_uk": "e664954d2b3ffff7",
+        "en_au": "b83c06edf42e9a2c"
+      },
+      "Germany": {
+        "en_us": "6ef74a30fc08e161",
+        "en_uk": "855e9996f8b64caf",
+        "en_au": "32f2a7150a45d1fb"
+      },
+      "Go → Went": {
+        "en_us": "a3fe4fe598b94452",
+        "en_uk": "9bd068c4d14d52c0",
+        "en_au": "0d331f88c5d741fa"
+      },
+      "Good morning": {
+        "en_us": "8bd836a0da8a9f94",
+        "en_uk": "c55d1377b23f68dc",
+        "en_au": "c3b7152f887444e7"
+      },
+      "Good night": {
+        "en_us": "d605bf536e3a3757",
+        "en_uk": "1b4beeb5419f582c",
+        "en_au": "6de73897b8e7f481"
+      },
+      "Goodbye": {
+        "en_us": "7036a87fc44e916e",
+        "en_uk": "56e7ba9b6dd814a5",
+        "en_au": "154dab0b653d674f"
+      },
+      "Grandfather": {
+        "en_us": "7cb2d597dcfa2e83",
+        "en_uk": "ab0f8bdc7257fbd5",
+        "en_au": "c4dba2f46a520643"
+      },
+      "Grandmother": {
+        "en_us": "81617161df76f5a9",
+        "en_uk": "6c7ed098f039e106",
+        "en_au": "b44da654c219da80"
+      },
+      "Grape": {
+        "en_us": "bef83f9ee23c5bc7",
+        "en_uk": "8ef3d09c2f8cdfe5",
+        "en_au": "edb6cf570db5452a"
+      },
+      "Green": {
+        "en_us": "a57b84e7dacd5266",
+        "en_uk": "7136d17dfb33a757",
+        "en_au": "6962f1d55ffa2006"
+      },
+      "Guitar": {
+        "en_us": "519ddf4591ec5bf0",
+        "en_uk": "446f918ac152f4f5",
+        "en_au": "09882812e0705303"
+      },
+      "Hand": {
+        "en_us": "0514dea9b3376a35",
+        "en_uk": "7ab8494d39a7e775",
+        "en_au": "cdecffb662ca9ae1"
+      },
+      "Happy": {
+        "en_us": "d907a86b3c847c74",
+        "en_uk": "f8b2ea64cd7c8007",
+        "en_au": "a5f088daafb9aa8d"
+      },
+      "Hat": {
+        "en_us": "d34b92b8a018ae35",
+        "en_uk": "24d98b7ac239bf3d",
+        "en_au": "4f7d35bcc9235675"
+      },
+      "Hate": {
+        "en_us": "77cff4858e83f92f",
+        "en_uk": "4793d16f70f87dd9",
+        "en_au": "8cc17d266b961ab1"
+      },
+      "Have → Had": {
+        "en_us": "8bd2ab6621b4512d",
+        "en_uk": "ba851d3efb58d003",
+        "en_au": "d8053ad7d1c10733"
+      },
+      "Head": {
+        "en_us": "dfbbffb38bd4b541",
+        "en_uk": "356306e57b272ac7",
+        "en_au": "bb1aa52e093b45d4"
+      },
+      "Healthy": {
+        "en_us": "4abd538be0b8707e",
+        "en_uk": "c8aa96ae9b9a25f7",
+        "en_au": "3462fac55554c94e"
+      },
+      "Heart": {
+        "en_us": "78c8f8f0634d7b6e",
+        "en_uk": "6ef9a0256c111efe",
+        "en_au": "0c54a3eee976f145"
+      },
+      "Helicopter": {
+        "en_us": "4933adb2bafc4384",
+        "en_uk": "cd741af6628b57e2",
+        "en_au": "eb76e6befa8a09c6"
+      },
+      "Hello": {
+        "en_us": "465428400db11247",
+        "en_uk": "23ca534a4bcf874c",
+        "en_au": "5b0069ae08e5e538"
+      },
+      "Homework": {
+        "en_us": "a98490bd00255b69",
+        "en_uk": "06fda9ef94511986",
+        "en_au": "6a9f36aa3fb8a89a"
+      },
+      "Horse": {
+        "en_us": "c020ac5528c43c2b",
+        "en_uk": "e801c64e7d5b035e",
+        "en_au": "2a75ef265c8882d4"
+      },
+      "Hospital": {
+        "en_us": "6ecbc5aade4fc816",
+        "en_uk": "23478346f0acb746",
+        "en_au": "e10c0366dca7fda7"
+      },
+      "Hot": {
+        "en_us": "f86d0e148ad4ab3e",
+        "en_uk": "2a4c4bb78e4d9d0f",
+        "en_au": "4c5cef1ec1026163"
+      },
+      "Hotel": {
+        "en_us": "5038b9e6b12bcc39",
+        "en_uk": "02073ff1f3c6518c",
+        "en_au": "1c0c1ec4a53439ef"
+      },
+      "Hour": {
+        "en_us": "b4b217a5c2318b63",
+        "en_uk": "3af76f645971fbb0",
+        "en_au": "1c2b2565226bae49"
+      },
+      "How are you?": {
+        "en_us": "5595870ed761db71",
+        "en_uk": "5d1caf75dfe7548c",
+        "en_au": "16295bcc6a0a58c3"
+      },
+      "How much?": {
+        "en_us": "d0afa8d7cb0c882f",
+        "en_uk": "7bb18cebc0ee7a5c",
+        "en_au": "b0915088308631f0"
+      },
+      "How old are you?": {
+        "en_us": "751c8d48b6344cb8",
+        "en_uk": "2844a0c359421147",
+        "en_au": "b54f70991fd4000b"
+      },
+      "Hundred": {
+        "en_us": "373d43760d358875",
+        "en_uk": "68766739a6412ce3",
+        "en_au": "48ae8465d81ec8ef"
+      },
+      "I am a student": {
+        "en_us": "80dfc50ad2092851",
+        "en_uk": "d864e1316f5580d1",
+        "en_au": "dcbbe856bbeed4bf"
+      },
+      "I am fine": {
+        "en_us": "12f10b0a27acaa4e",
+        "en_uk": "ed37719c0274af78",
+        "en_au": "ca2f8a348868dc9e"
+      },
+      "I am lost": {
+        "en_us": "d8787732c0f02632",
+        "en_uk": "a497952ce83e4208",
+        "en_au": "b10a80560f6cd123"
+      },
+      "I don't understand": {
+        "en_us": "8925d546823b1c0b",
+        "en_uk": "f032a812471578b3",
+        "en_au": "ee11e421bce6f098"
+      },
+      "I like it": {
+        "en_us": "a8e2e3ac372b76b0",
+        "en_uk": "701b14a9620166ce",
+        "en_au": "0a1dab9973664b5d"
+      },
+      "I live in Russia": {
+        "en_us": "1114998934011ae3",
+        "en_uk": "ebaabd034f251603",
+        "en_au": "b77ede1f25dbee66"
+      },
+      "I want...": {
+        "en_us": "5562551a7b213590",
+        "en_uk": "09218a412207d031",
+        "en_au": "9cb5a669e438a5f8"
+      },
+      "In": {
+        "en_us": "93130c995129e68d",
+        "en_uk": "bfb3ba1a86d9827d",
+        "en_au": "ece4300c9b8ee01c"
+      },
+      "Inside": {
+        "en_us": "3eb1b00a9dc01837",
+        "en_uk": "ed738837685fbd46",
+        "en_au": "e700d7c8ca5af9c8"
+      },
+      "Internet": {
+        "en_us": "bee9c69cf0218fa6",
+        "en_uk": "39c1715331265622",
+        "en_au": "ed844f035049579f"
+      },
+      "Italy": {
+        "en_us": "f662ce278b56f6fe",
+        "en_uk": "f3213a90ba75d5f5",
+        "en_au": "f76dae1a227083cd"
+      },
+      "Jacket": {
+        "en_us": "2b3640fb9bcdac12",
+        "en_uk": "8c639813de6173d4",
+        "en_au": "765461f1f18017d0"
+      },
+      "January": {
+        "en_us": "7bb77d4c945f7ebe",
+        "en_uk": "8ffc617bdb0504ed",
+        "en_au": "f24577d419841f1e"
+      },
+      "Japan": {
+        "en_us": "c1f99b7044bbef31",
+        "en_uk": "e5bad1f15f21dfb3",
+        "en_au": "a2a09604bd2f172a"
+      },
+      "Juice": {
+        "en_us": "e5a2fd70b5ae3c63",
+        "en_uk": "14d8e580c3abce99",
+        "en_au": "3c8bc7df4a20a87d"
+      },
+      "Kitchen": {
+        "en_us": "8775b880ab6e4352",
+        "en_uk": "7e1004dc26384b3f",
+        "en_au": "1a5cf392894769ce"
+      },
+      "Lemon": {
+        "en_us": "5099055377e58844",
+        "en_uk": "1cbd197e38fdbbf7",
+        "en_au": "b1ac79746c67986e"
+      },
+      "Lemonade": {
+        "en_us": "28f2d4aac9c3e8ce",
+        "en_uk": "af0aebb2d84e04f6",
+        "en_au": "27de2d6c319492ce"
+      },
+      "Lesson": {
+        "en_us": "1d5e100936ccb15b",
+        "en_uk": "ea5b0d55a80b8c05",
+        "en_au": "73c50204291b1764"
+      },
+      "Library": {
+        "en_us": "c9af9701a7ead682",
+        "en_uk": "1139a4a1ebd5c011",
+        "en_au": "80627b21add7daca"
+      },
+      "Lion": {
+        "en_us": "6f12a0c81c353f6f",
+        "en_uk": "97a21e31319a989d",
+        "en_au": "be64dd8beb3a8ea2"
+      },
+      "Love": {
+        "en_us": "c3525a38233d6898",
+        "en_uk": "b9acd6ea7e78cfee",
+        "en_au": "55073c9afdeff886"
+      },
+      "Make → Made": {
+        "en_us": "92176b638668f695",
+        "en_uk": "85103ff368fb067d",
+        "en_au": "8dccf8d936d46101"
+      },
+      "Manager": {
+        "en_us": "c81bf2961b29b865",
+        "en_uk": "499c6d5abb688016",
+        "en_au": "58a911fe2608ccd0"
+      },
+      "Map": {
+        "en_us": "e618e3ec92b4f847",
+        "en_uk": "805d03fa2dc77a51",
+        "en_au": "d42211c0b00ee7d8"
+      },
+      "Medicine": {
+        "en_us": "2dc67af10525cf53",
+        "en_uk": "15a8094d5fa0537c",
+        "en_au": "718317fd34fa3946"
+      },
+      "Meeting": {
+        "en_us": "41f4eacac42c90c7",
+        "en_uk": "59c233ac16aa138e",
+        "en_au": "b9633ade5d78608d"
+      },
+      "Message": {
+        "en_us": "7879e7c3ee30eb21",
+        "en_uk": "0dde7f5b06aa7500",
+        "en_au": "f1597d2bde9d4ba5"
+      },
+      "Milk": {
+        "en_us": "d64ac1e3f7dd6cb3",
+        "en_uk": "10d39bca3035d292",
+        "en_au": "acbb61e573095af1"
+      },
+      "Monday": {
+        "en_us": "46eab7f9a72161f6",
+        "en_uk": "e46af98db28f8d9b",
+        "en_au": "2f193607f0c30d82"
+      },
+      "Money": {
+        "en_us": "22e4e6370aa99821",
+        "en_uk": "4ed182a3d2abb69b",
+        "en_au": "4a5101bb589d5e20"
+      },
+      "Moon": {
+        "en_us": "4efd68410c4e3c6a",
+        "en_uk": "5129223e55893a44",
+        "en_au": "cb09ae2a10c98488"
+      },
+      "Morning": {
+        "en_us": "caab0210f99eda69",
+        "en_uk": "2c48f1bab1587762",
+        "en_au": "645cd9c413966bb1"
+      },
+      "Mother": {
+        "en_us": "9b92b7bc20ba0d7f",
+        "en_uk": "788843f3c0ff050f",
+        "en_au": "49477675fe742c06"
+      },
+      "Mountain": {
+        "en_us": "9fddaad9b9d60101",
+        "en_uk": "c02fc58da11ce424",
+        "en_au": "8fb9a2fdfa0c58eb"
+      },
+      "Mouth": {
+        "en_us": "6972a7c63d431102",
+        "en_uk": "5098146d3131f6aa",
+        "en_au": "e96cebaaf2f1d30e"
+      },
+      "Museum": {
+        "en_us": "840d3c91135eb540",
+        "en_uk": "b40cd8520ff0e583",
+        "en_au": "bd62d62776b9f9a1"
+      },
+      "Mushroom": {
+        "en_us": "a3a5dcc9229a3790",
+        "en_uk": "1f93e1f222e44976",
+        "en_au": "9145367340d65ae6"
+      },
+      "Music": {
+        "en_us": "b7b8643eb37c3454",
+        "en_uk": "5cb8e33b98477772",
+        "en_au": "c86d9b8ebcdd522d"
+      },
+      "My name is...": {
+        "en_us": "95a4ea3a21f06c95",
+        "en_uk": "ce5a40c22413fd90",
+        "en_au": "f0f1209b758f3f3c"
+      },
+      "Near": {
+        "en_us": "39098c89e189ab64",
+        "en_uk": "0d60016bc6d2cda1",
+        "en_au": "c18566922842b17b"
+      },
+      "New": {
+        "en_us": "4e3e81501e16dac7",
+        "en_uk": "d5b847e7f2d48e4c",
+        "en_au": "50b9d9c15c98f88d"
+      },
+      "Nice to meet you": {
+        "en_us": "34202547e58c71a1",
+        "en_uk": "38c0f85efcb6c684",
+        "en_au": "6d4b5f99646b9084"
+      },
+      "Nose": {
+        "en_us": "36ed10eab9a69cd4",
+        "en_uk": "9b528ed681ccbfb2",
+        "en_au": "42572330e0bc33d1"
+      },
+      "Office": {
+        "en_us": "d5396848f8e71f1f",
+        "en_uk": "3580e13ef5f7a688",
+        "en_au": "f3f5e1b5541aeb02"
+      },
+      "On": {
+        "en_us": "e8d964b25e96589f",
+        "en_uk": "d3106d94195a3ee6",
+        "en_au": "5e81594d327c85a4"
+      },
+      "One": {
+        "en_us": "d2fd75c3f9903e15",
+        "en_uk": "07acea505fca3720",
+        "en_au": "b113a9e8e0bbe2da"
+      },
+      "Onion": {
+        "en_us": "f93547ac40eac231",
+        "en_uk": "eded4e68649b3260",
+        "en_au": "24df437d2cfd1a05"
+      },
+      "Orange": {
+        "en_us": "927390faa7e61ae8",
+        "en_uk": "d4d25c0e16b0a614",
+        "en_au": "08e79a92b141d82f"
+      },
+      "Over": {
+        "en_us": "f5e18ef788f772ca",
+        "en_uk": "1e7bfc7ae4f012e3",
+        "en_au": "a7f1f4d4b8ced272"
+      },
+      "Pain": {
+        "en_us": "601d19b2554947c9",
+        "en_uk": "3bb9052b93aa01b0",
+        "en_au": "f8f02851ddd4b068"
+      },
+      "Pants": {
+        "en_us": "c82a916f6c2ae64c",
+        "en_uk": "5898078b4be4c997",
+        "en_au": "65aa391cc9ecabde"
+      },
+      "Park": {
+        "en_us": "90179777c97f5b85",
+        "en_uk": "eb1c02276330b366",
+        "en_au": "2e30bef04683c114"
+      },
+      "Passport": {
+        "en_us": "2ac4dd7163227a62",
+        "en_uk": "dc2b934fc42bc892",
+        "en_au": "203ddc0d9ecda6f4"
+      },
+      "Password": {
+        "en_us": "2a6ac97d6cb0eb5d",
+        "en_uk": "730683d0f98301cd",
+        "en_au": "126c118ccf70ac24"
+      },
+      "Pen": {
+        "en_us": "3fda3d1fef5996a5",
+        "en_uk": "00eead12bef72f04",
+        "en_au": "58d21d393319a430"
+      },
+      "Pencil": {
+        "en_us": "3cece1599adb2b6a",
+        "en_uk": "1a95ac7dc064af74",
+        "en_au": "41fbffd48742989d"
+      },
+      "Pepper": {
+        "en_us": "1fa7aab689229643",
+        "en_uk": "bbc7ca8a09b6e7d2",
+        "en_au": "c32ace7a4133336f"
+      },
+      "Phone": {
+        "en_us": "bb4b244dadcc2d4f",
+        "en_uk": "17cf80860a95568e",
+        "en_au": "8f1b5e4f5c56060b"
+      },
+      "Photography": {
+        "en_us": "3fa298d5b5af2566",
+        "en_uk": "4a57df34dedfbeda",
+        "en_au": "ba46bd8f59a00d80"
+      },
+      "Piano": {
+        "en_us": "d0e681f804eb27ca",
+        "en_uk": "a06288bd3d0f6cf9",
+        "en_au": "11fc341805cccd9a"
+      },
+      "Pineapple": {
+        "en_us": "f76115fde02585e5",
+        "en_uk": "04e5c5c93883a4f1",
+        "en_au": "eae84592ed80242e"
+      },
+      "Plane": {
+        "en_us": "b3da93c84b5c8e68",
+        "en_uk": "2df596e34015ccd8",
+        "en_au": "c73d0c121712a178"
+      },
+      "Please": {
+        "en_us": "2fa37559b16151c6",
+        "en_uk": "a6836480b0c1c123",
+        "en_au": "ee55f4e572261525"
+      },
+      "Potato": {
+        "en_us": "caa3060418cf3115",
+        "en_uk": "4b5dae4ed2fdafbb",
+        "en_au": "a6572320e75ba1e4"
+      },
+      "Price": {
+        "en_us": "44d4d0ba44381963",
+        "en_uk": "a0dd60bc7623193d",
+        "en_au": "ba885a6f6fdd6faa"
+      },
+      "Purple": {
+        "en_us": "282d383d49fdb60a",
+        "en_uk": "96dfea88a58cfbed",
+        "en_au": "a4bca352b3e8e512"
+      },
+      "Rain": {
+        "en_us": "d65de87edda917ca",
+        "en_uk": "5130d90227cb36d7",
+        "en_au": "228ea9416ce9ee10"
+      },
+      "Reading": {
+        "en_us": "c87a0879c2f65bce",
+        "en_uk": "6b31000127f4a8d6",
+        "en_au": "03601a73bb5ce811"
+      },
+      "Receipt": {
+        "en_us": "2f85032a68ef14f1",
+        "en_uk": "d05499651d3945d6",
+        "en_au": "3e029245a988c8bd"
+      },
+      "Red": {
+        "en_us": "01a793b61f23d27c",
+        "en_uk": "0da4a6db69094e65",
+        "en_au": "fcb4cf6cebd9e774"
+      },
+      "Restaurant": {
+        "en_us": "0e0196b6952d723c",
+        "en_uk": "744f637abefb7449",
+        "en_au": "1c8020b696d6ed23"
+      },
+      "Rice": {
+        "en_us": "8fb6adf08bd7c329",
+        "en_uk": "628799ce8dff7926",
+        "en_au": "177c38ddfeec8c71"
+      },
+      "River": {
+        "en_us": "a63a51264416b86b",
+        "en_uk": "422f7ead78c0ec6b",
+        "en_au": "b6107aaaa20bfb98"
+      },
+      "Roof": {
+        "en_us": "e8a011fabf2d259b",
+        "en_uk": "e38b4d6435586c41",
+        "en_au": "43ce4dead80c628a"
+      },
+      "Russia": {
+        "en_us": "327347b125f367da",
+        "en_uk": "290468db700448ae",
+        "en_au": "3760ac944b7fe11f"
+      },
+      "Sad": {
+        "en_us": "1a0a091e0fca9108",
+        "en_uk": "76dfa8ae9d932293",
+        "en_au": "2b6efd0e936eb995"
+      },
+      "Salary": {
+        "en_us": "de8b56724a761d38",
+        "en_uk": "a132876e25d26f59",
+        "en_au": "edf59151a4c0dd64"
+      },
+      "Scared": {
+        "en_us": "ffd1705321430df2",
+        "en_uk": "0bf32283ee9e1472",
+        "en_au": "0d577502dda9c4b5"
+      },
+      "School": {
+        "en_us": "5e2682d3f1045f0e",
+        "en_uk": "163252c167ed85af",
+        "en_au": "110f35a76be0b84e"
+      },
+      "Screen": {
+        "en_us": "0daa7c37554c0916",
+        "en_uk": "7e7ac3c491b0478a",
+        "en_au": "136b925147562dc2"
+      },
+      "Sea": {
+        "en_us": "b8e1a741e60f00c8",
+        "en_uk": "95a6fe80762bee39",
+        "en_au": "35a87a15884c7300"
+      },
+      "See → Saw": {
+        "en_us": "bf44ae51a9095160",
+        "en_uk": "b46191db53bd46f6",
+        "en_au": "b2cbe2bd6e6e22fa"
+      },
+      "Ship": {
+        "en_us": "3741cbc8587524a6",
+        "en_uk": "ca1f8fc365f25205",
+        "en_au": "122f52fa8c4ed9cf"
+      },
+      "Shirt": {
+        "en_us": "02345717ab801aea",
+        "en_uk": "4b5d8de169fb37c8",
+        "en_au": "81324fee83f1b010"
+      },
+      "Shoes": {
+        "en_us": "577771dc69837afb",
+        "en_uk": "d99d425bb2c1e9b7",
+        "en_au": "baec4384d3121dd2"
+      },
+      "Sick": {
+        "en_us": "967b024d47659aed",
+        "en_uk": "984207deee1b4458",
+        "en_au": "949c8b1955eb48f1"
+      },
+      "Singer": {
+        "en_us": "fc3f9a5d970e82e1",
+        "en_uk": "ef28c1b00801cf72",
+        "en_au": "9386a53d298ae54c"
+      },
+      "Sister": {
+        "en_us": "53b4c7f62d3d522b",
+        "en_uk": "8aaa89ac56e2f608",
+        "en_au": "66ab37c87d9a4b6b"
+      },
+      "Skating": {
+        "en_us": "05d0510d735f289b",
+        "en_uk": "9b999da7b733265d",
+        "en_au": "f0ae59863f212427"
+      },
+      "Sky": {
+        "en_us": "ef59980f3bfa274e",
+        "en_uk": "c48313489fbe00ed",
+        "en_au": "ef2118217de6dfc9"
+      },
+      "Sleep": {
+        "en_us": "3e93611a959cade4",
+        "en_uk": "210e3d118562237d",
+        "en_au": "002e44b1f0ff3d70"
+      },
+      "Small": {
+        "en_us": "d460a00dc972317c",
+        "en_uk": "449be6b3dc6bedd9",
+        "en_au": "5577b83ba349b7ca"
+      },
+      "Smoothie": {
+        "en_us": "ab3baa45db44d05f",
+        "en_uk": "1f2748fb1aae5dce",
+        "en_au": "8d05ca90f7f829e3"
+      },
+      "Snow": {
+        "en_us": "4dc9f1b92d7e5de6",
+        "en_uk": "3193ba14034b4575",
+        "en_au": "9ed7f0101626faba"
+      },
+      "Socks": {
+        "en_us": "62551a0944f0d5d5",
+        "en_uk": "170fc8b931f56b7b",
+        "en_au": "2c4544a2fe9006e1"
+      },
+      "Son": {
+        "en_us": "ed7ca8128970c535",
+        "en_uk": "d3b8283b4aea2a47",
+        "en_au": "f66118cf625c2aed"
+      },
+      "Song": {
+        "en_us": "0f2c55cf8d67a5bb",
+        "en_uk": "435a558a5d5389b3",
+        "en_au": "4e2b404123764fa3"
+      },
+      "Sorry": {
+        "en_us": "ec7dbd6e3da6c69b",
+        "en_uk": "1f4b07fe09f4408c",
+        "en_au": "2171f9785e230cd3"
+      },
+      "Spain": {
+        "en_us": "c0407ca0d5fb520b",
+        "en_uk": "e6bb6d0f5cc7f2df",
+        "en_au": "297e7f4f035da948"
+      },
+      "Speak → Spoke": {
+        "en_us": "599881209bacc5f3",
+        "en_uk": "162a92087a89b12c",
+        "en_au": "d47137c8c235bad0"
+      },
+      "Stone": {
+        "en_us": "96aa1a989c6d5cb2",
+        "en_uk": "115a6638ff5a31ab",
+        "en_au": "24bef63298bc1b29"
+      },
+      "Storm": {
+        "en_us": "d2b4ef1fbde0c34e",
+        "en_uk": "b6111cf3361b39f7",
+        "en_au": "5e4c462106846bd2"
+      },
+      "Strawberry": {
+        "en_us": "e8972913371539e2",
+        "en_uk": "1bb8f6353766e221",
+        "en_au": "5530d9850f01aab2"
+      },
+      "Street": {
+        "en_us": "f327125e7e1f5276",
+        "en_uk": "4db30d6dca34ca23",
+        "en_au": "48ebf54f4a55252b"
+      },
+      "Strong": {
+        "en_us": "ba03a1ea5d386060",
+        "en_uk": "7367a0b8e074ca26",
+        "en_au": "f8dbd47e48c495de"
+      },
+      "Student": {
+        "en_us": "1a58fd41e68dbc86",
+        "en_uk": "484a115011f20a3d",
+        "en_au": "a52ad074193042b5"
+      },
+      "Subway": {
+        "en_us": "bc3adcec39ece161",
+        "en_uk": "74fe1bfa4fd30000",
+        "en_au": "a4570d67abc49ffe"
+      },
+      "Sugar": {
+        "en_us": "dd632a765222971f",
+        "en_uk": "57628eb58e310b5d",
+        "en_au": "6a66b6649c47c528"
+      },
+      "Suitcase": {
+        "en_us": "b908f642038b39c4",
+        "en_uk": "d671d1d26319b000",
+        "en_au": "f613e8f4901888e9"
+      },
+      "Summer": {
+        "en_us": "7fe0c7eab2a04fdb",
+        "en_uk": "77d551ebbf0a20c3",
+        "en_au": "5723c5e80fa8db3c"
+      },
+      "Sun": {
+        "en_us": "96727031795a9f29",
+        "en_uk": "0cac769be635225e",
+        "en_au": "a837d713e2aeaa52"
+      },
+      "Sunny": {
+        "en_us": "8a82928497110bde",
+        "en_uk": "21f2a222bc39a2b0",
+        "en_au": "6d8feb940d77500b"
+      },
+      "Surprised": {
+        "en_us": "592b45d23b0ab1a6",
+        "en_uk": "bb2706dce9a05f31",
+        "en_au": "62e602dd568d61b6"
+      },
+      "Swimming": {
+        "en_us": "509d86044f428ba6",
+        "en_uk": "3890576cab2fdde8",
+        "en_au": "d6eb69c3f27cf9f2"
+      },
+      "Table": {
+        "en_us": "ac761376965be7d9",
+        "en_uk": "dc45d17395261812",
+        "en_au": "b65deea7273e3c6d"
+      },
+      "Take → Took": {
+        "en_us": "6369a6eb1b8b4c71",
+        "en_uk": "b3e732055fe12b66",
+        "en_au": "903e8b1009a16b2e"
+      },
+      "Taxi": {
+        "en_us": "fe578567383d3baf",
+        "en_uk": "67cd482ec11a2c9b",
+        "en_au": "6b8f668e7c2e153a"
+      },
+      "Tea": {
+        "en_us": "da34071382abbb15",
+        "en_uk": "2e3f729a9f09627f",
+        "en_au": "755bda4bef7fd783"
+      },
+      "Teacher": {
+        "en_us": "f7bb61cb3649da52",
+        "en_uk": "790c52c5c8a1df50",
+        "en_au": "cc3b3d0fd0a96a3b"
+      },
+      "Ten": {
+        "en_us": "fc7c4e215833ca87",
+        "en_uk": "ebedbddb366b4ea8",
+        "en_au": "7777474ac85cb739"
+      },
+      "Tennis": {
+        "en_us": "5624c7bcf1def339",
+        "en_uk": "66d89a6201ba2bb0",
+        "en_au": "3dad155bc32c8ec8"
+      },
+      "Thank you": {
+        "en_us": "8ec20337d2a8c8cc",
+        "en_uk": "468f6f67403cdb3d",
+        "en_au": "0524fc821dc581e8"
+      },
+      "Ticket": {
+        "en_us": "e01276688d58d338",
+        "en_uk": "b0deb11f42ad6211",
+        "en_au": "1f4f69bf852438b0"
+      },
+      "Tired": {
+        "en_us": "b6c83388d2dc9573",
+        "en_uk": "21929132d307a0a5",
+        "en_au": "62341c199d7417b5"
+      },
+      "To buy": {
+        "en_us": "60e87c405f6c33a6",
+        "en_uk": "1a27ec7d28a9abf6",
+        "en_au": "eb76e8eb475492f8"
+      },
+      "To close": {
+        "en_us": "b5c23e6246927042",
+        "en_uk": "424f745e96fc4659",
+        "en_au": "adf2c31cb32cfa0a"
+      },
+      "To eat": {
+        "en_us": "e5872f89941715ff",
+        "en_uk": "e99ab5c4a97097de",
+        "en_au": "c5fde56121059a14"
+      },
+      "To find": {
+        "en_us": "424bb92e1854cd9d",
+        "en_uk": "129fdc70a104c2d4",
+        "en_au": "1a244b9718d27a9f"
+      },
+      "To give": {
+        "en_us": "21746706c65be69b",
+        "en_uk": "b70543f55e80d825",
+        "en_au": "2bae7460aba66218"
+      },
+      "To go": {
+        "en_us": "f9cfdbe427cabc39",
+        "en_uk": "e003df7c46104c1d",
+        "en_au": "47edfec6af0a2293"
+      },
+      "To listen": {
+        "en_us": "f46a8707f020230e",
+        "en_uk": "266e2fdec160e792",
+        "en_au": "a8d1d3c9453f73f5"
+      },
+      "To lose": {
+        "en_us": "020f1c7b17e83297",
+        "en_uk": "6c08512db52db278",
+        "en_au": "50e4ed49817f8641"
+      },
+      "To open": {
+        "en_us": "66525f256ce988d2",
+        "en_uk": "fc7f0a93e3c12b4d",
+        "en_au": "be3cb6aa1fab8008"
+      },
+      "To read": {
+        "en_us": "1924d06f4aceef10",
+        "en_uk": "0c5c07e6329d11a9",
+        "en_au": "ee636d47cd1a63f1"
+      },
+      "To run": {
+        "en_us": "8707c365d9daaeda",
+        "en_uk": "50f69fdd26e754f4",
+        "en_au": "b5b4f7a17906994a"
+      },
+      "To sell": {
+        "en_us": "0454e3f88958fbe3",
+        "en_uk": "992b25e524308de7",
+        "en_au": "2d253a082840bc96"
+      },
+      "To speak": {
+        "en_us": "f4d7234dffa06e23",
+        "en_uk": "8629338c23908cb5",
+        "en_au": "1c9dc07f2e13bc42"
+      },
+      "To swim": {
+        "en_us": "57648bd56254a4b3",
+        "en_uk": "fcc8aced02dc60e1",
+        "en_au": "d3b907ba876f720e"
+      },
+      "To take": {
+        "en_us": "f0021ae58bbefed7",
+        "en_uk": "d6744166443d3db2",
+        "en_au": "b8f7b746e331034c"
+      },
+      "To think": {
+        "en_us": "6e8d760fe2c96bcb",
+        "en_uk": "d64be97dfabea69d",
+        "en_au": "6e0c0a63ba6c4285"
+      },
+      "To work": {
+        "en_us": "ddd709eae829fbd6",
+        "en_uk": "33d22ef634940e6d",
+        "en_au": "c3dcfb2b034f2c3a"
+      },
+      "To write": {
+        "en_us": "335dae83fcb5738e",
+        "en_uk": "7458936ace13e335",
+        "en_au": "16cf8353773e6271"
+      },
+      "Tomato": {
+        "en_us": "5cb4c8b7c40e2c28",
+        "en_uk": "8d5b41d53fe4aeff",
+        "en_au": "39855ba267d5898f"
+      },
+      "Train": {
+        "en_us": "4f79134a44d29180",
+        "en_uk": "099929a032dbfd8d",
+        "en_au": "001a0eacd89e494a"
+      },
+      "Travel": {
+        "en_us": "58c5aee3f27c9260",
+        "en_uk": "c5c8bb4d924c5e95",
+        "en_au": "a7dbc716000ffef4"
+      },
+      "Tree": {
+        "en_us": "3f96e1d5e33d682d",
+        "en_uk": "00b60c943bfecf43",
+        "en_au": "ca0c2e18590c5845"
+      },
+      "Truck": {
+        "en_us": "289f49755117c534",
+        "en_uk": "ed395ad72dc982e0",
+        "en_au": "3221718f9e001561"
+      },
+      "Twelve": {
+        "en_us": "86c25792a42c34ed",
+        "en_uk": "b9f15a42aa9e55af",
+        "en_au": "b7b960d14917ec38"
+      },
+      "Twenty": {
+        "en_us": "315ed2bed1c59252",
+        "en_uk": "828b105b5d94ae18",
+        "en_au": "1f437176f95fbf9b"
+      },
+      "Two": {
+        "en_us": "3e0f0ffde0f1e47a",
+        "en_uk": "43ad0b0273b8af4c",
+        "en_au": "58c89b2e0c9e548d"
+      },
+      "USA": {
+        "en_us": "8dba2174b4926865",
+        "en_uk": "f954ca7dabaa6f75",
+        "en_au": "bf70b2bf64befb1e"
+      },
+      "Under": {
+        "en_us": "66aaaf87b765329f",
+        "en_uk": "4857920013065e7c",
+        "en_au": "734c99668a51b79e"
+      },
+      "Water": {
+        "en_us": "1aca32a2f28fb5ad",
+        "en_uk": "4eaa311851aed03a",
+        "en_au": "1dacd6be1bc169d5"
+      },
+      "Watermelon": {
+        "en_us": "284f6bce0673702d",
+        "en_uk": "fc590231b5f9bc9e",
+        "en_au": "5cc8710ef6c0db86"
+      },
+      "Week": {
+        "en_us": "6fa6ac5053f76e33",
+        "en_uk": "bb240067fbaf4b01",
+        "en_au": "bc20df31f603979c"
+      },
+      "Where are you from?": {
+        "en_us": "45f3097407337f4d",
+        "en_uk": "f553061c5d0a3dd5",
+        "en_au": "a2b155380a3bab5d"
+      },
+      "Where is...?": {
+        "en_us": "7ceb2ba49a5203e0",
+        "en_uk": "39016b3506cce0ea",
+        "en_au": "81374be39765fc6b"
+      },
+      "White": {
+        "en_us": "1a5fe8d0bcbda97d",
+        "en_uk": "027e56431173af89",
+        "en_au": "bcba07d572935ef7"
+      },
+      "Wind": {
+        "en_us": "6dde15b3e3498dc3",
+        "en_uk": "4ebeecdfcc726fc6",
+        "en_au": "7ba4a117e33c36f7"
+      },
+      "Window": {
+        "en_us": "cfc9960dfe46e0db",
+        "en_uk": "682ca3ef8bd9882d",
+        "en_au": "07d2c386cc11caad"
+      },
+      "Wine": {
+        "en_us": "48073d0c26b4cc94",
+        "en_uk": "44b82c33b41a6552",
+        "en_au": "aab130649b72e984"
+      },
+      "With": {
+        "en_us": "7096ef3e0ea810d1",
+        "en_uk": "d715cea3485739ef",
+        "en_au": "84481af7146cb260"
+      },
+      "Without": {
+        "en_us": "9eca9399e27a68c1",
+        "en_uk": "7bac5cee1a5655ef",
+        "en_au": "76badcbd74448f3c"
+      },
+      "Wolf": {
+        "en_us": "7091b754162d7b5c",
+        "en_uk": "db0a42530a0f7fb4",
+        "en_au": "6426c4acbfb4d3e7"
+      },
+      "Write → Wrote": {
+        "en_us": "afce7f634cf85f9c",
+        "en_uk": "8c6594ad4c8fd620",
+        "en_au": "c0ac6cfabcd9ac40"
+      },
+      "Yellow": {
+        "en_us": "898acb1921bcda01",
+        "en_uk": "0d9c475431021ba0",
+        "en_au": "1a70a767c9d9cee1"
+      },
+      "Yoga": {
+        "en_us": "c1b8af7a2046f179",
+        "en_uk": "e2e2e56476ff1c2b",
+        "en_au": "0d3a81a60d5cccc3"
+      },
+      "You're welcome": {
+        "en_us": "9b080d8a9d782e8c",
+        "en_uk": "c3ebb6ba14e81834",
+        "en_au": "aaa3872c46714bb4"
+      },
+      "Zero": {
+        "en_us": "c1e1148a8ea39f92",
+        "en_uk": "d3251418b9e0c6b5",
+        "en_au": "30c647b363613fb7"
+      }
+    },
+    "ar": {
+      "أب": {
+        "ar_std": "59efa68e040bc7f8"
+      },
+      "أبيض": {
+        "ar_std": "0148a0167e5d38b8"
+      },
+      "أحمر": {
+        "ar_std": "713be70930748fbc"
+      },
+      "أخ": {
+        "ar_std": "94ad9aa07936fa52"
+      },
+      "أخت": {
+        "ar_std": "f09892e7f68ae1dc"
+      },
+      "أخضر": {
+        "ar_std": "2aec8371ed8bc98e"
+      },
+      "أرز": {
+        "ar_std": "9b1a13e18a8e4938"
+      },
+      "أريد...": {
+        "ar_std": "9f172a8768e5f878"
+      },
+      "أزرق": {
+        "ar_std": "2ed85c016f381d7a"
+      },
+      "أسبوع": {
+        "ar_std": "149bfb171c575e9d"
+      },
+      "أسد": {
+        "ar_std": "4972c63ee8e65404"
+      },
+      "أسود": {
+        "ar_std": "170720cca515c810"
+      },
+      "أصفر": {
+        "ar_std": "0741611a50bc881a"
+      },
+      "أم": {
+        "ar_std": "bc5be48ada4a5d31"
+      },
+      "أنا بخير": {
+        "ar_std": "26b1839954946e4a"
+      },
+      "أنف": {
+        "ar_std": "fef150dc60a37737"
+      },
+      "أين...؟": {
+        "ar_std": "0cb980a17b9cdaf6"
+      },
+      "إلى اللقاء": {
+        "ar_std": "23d1ed7ba172d05b"
+      },
+      "ا": {
+        "ar_std": "3bf3ccf9891172d0"
+      },
+      "ابن": {
+        "ar_std": "3395347d544a9e47"
+      },
+      "اثنان": {
+        "ar_std": "78bd7ef1a1a98d66"
+      },
+      "الإثنين": {
+        "ar_std": "eaee2cecafa0922e"
+      },
+      "الإمارات": {
+        "ar_std": "e38049e190be150a"
+      },
+      "الجمعة": {
+        "ar_std": "de1b841b7742213a"
+      },
+      "السعودية": {
+        "ar_std": "9fa9cd7249f43f53"
+      },
+      "السلام عليكم": {
+        "ar_std": "862154cb3045f08c"
+      },
+      "العراق": {
+        "ar_std": "4e9051134057eb94"
+      },
+      "ب": {
+        "ar_std": "7235dfc951fdaf45"
+      },
+      "باب": {
+        "ar_std": "38dcf67739a35c37"
+      },
+      "بارد": {
+        "ar_std": "d6948ca76ac0612e"
+      },
+      "بدون": {
+        "ar_std": "189afe388a3b656f"
+      },
+      "بنك": {
+        "ar_std": "d66b59764b21da4e"
+      },
+      "بيت": {
+        "ar_std": "41a01a4b3ccf4eb9"
+      },
+      "بين": {
+        "ar_std": "332e499b38f92ce4"
+      },
+      "ت": {
+        "ar_std": "29235ec224e52fee"
+      },
+      "تحت": {
+        "ar_std": "997a29279f2ba337"
+      },
+      "تفاح": {
+        "ar_std": "ddce55491d073081"
+      },
+      "ث": {
+        "ar_std": "7b0f3b2601525ecd"
+      },
+      "ثلاثة": {
+        "ar_std": "781b2ef33adf9ff2"
+      },
+      "ثلج": {
+        "ar_std": "46645c34c8590fb2"
+      },
+      "ج": {
+        "ar_std": "10f1821ff34411cd"
+      },
+      "جد": {
+        "ar_std": "9ffbd2186f4813ab"
+      },
+      "جمل": {
+        "ar_std": "aa3c6e6f719b310e"
+      },
+      "جميل": {
+        "ar_std": "be89faa2fec6835e"
+      },
+      "ح": {
+        "ar_std": "fb77a232d32259ba"
+      },
+      "حار": {
+        "ar_std": "2bb010d4c9f22bf1"
+      },
+      "حصان": {
+        "ar_std": "384881600866d6a2"
+      },
+      "حليب": {
+        "ar_std": "6a9d0d567719b362"
+      },
+      "خ": {
+        "ar_std": "77517ec40f8543f0"
+      },
+      "خبز": {
+        "ar_std": "8b909085eaee621d"
+      },
+      "خمسة": {
+        "ar_std": "179a0c63582a180a"
+      },
+      "د": {
+        "ar_std": "74123c63686a0961"
+      },
+      "ذ": {
+        "ar_std": "055cca69e4be8aab"
+      },
+      "ر": {
+        "ar_std": "d9adf00e62ddd148"
+      },
+      "رأس": {
+        "ar_std": "1fa1c4480c25451b"
+      },
+      "رجل": {
+        "ar_std": "c5bb6e7738fec350"
+      },
+      "روسيا": {
+        "ar_std": "47b995d8f3ecc437"
+      },
+      "ريح": {
+        "ar_std": "6af191cf0269ca22"
+      },
+      "ز": {
+        "ar_std": "d2a335e17e5d3939"
+      },
+      "س": {
+        "ar_std": "f0a3e0fb6d12b26d"
+      },
+      "سحاب": {
+        "ar_std": "0be3254067370104"
+      },
+      "سرير": {
+        "ar_std": "d8e2bd6cd69ed52e"
+      },
+      "سمك": {
+        "ar_std": "dd26b2df5cc927f1"
+      },
+      "سمكة": {
+        "ar_std": "91b25aba3666bc03"
+      },
+      "سنة": {
+        "ar_std": "b6d11d513d3edbe2"
+      },
+      "سوريا": {
+        "ar_std": "6cdf5a715925100c"
+      },
+      "سوق": {
+        "ar_std": "eea8299aaae48823"
+      },
+      "سيارة": {
+        "ar_std": "3837d2eadcd7da30"
+      },
+      "ش": {
+        "ar_std": "595a456f56cbc4c9"
+      },
+      "شارع": {
+        "ar_std": "3dbebc4fb7ea809c"
+      },
+      "شاي": {
+        "ar_std": "39da84797581ff3e"
+      },
+      "شكراً": {
+        "ar_std": "cc0bf1768944a9f7"
+      },
+      "شمس": {
+        "ar_std": "aaa5e8054c02922a"
+      },
+      "شهر": {
+        "ar_std": "ea1900d4bf822461"
+      },
+      "ص": {
+        "ar_std": "e55eacea4592f8a7"
+      },
+      "صباح": {
+        "ar_std": "5f8bb8061be0da60"
+      },
+      "صغير": {
+        "ar_std": "80e9e3896d41e9d9"
+      },
+      "ض": {
+        "ar_std": "116dbf4508683c70"
+      },
+      "ط": {
+        "ar_std": "fbad57628d109e79"
+      },
+      "طائر": {
+        "ar_std": "92651a48a441b315"
+      },
+      "طعام": {
+        "ar_std": "b0575892fc6b4429"
+      },
+      "ظ": {
+        "ar_std": "a73985b6853e10da"
+      },
+      "ع": {
+        "ar_std": "84d729155913894b"
+      },
+      "عشرة": {
+        "ar_std": "dd67c61f411da9a3"
+      },
+      "على": {
+        "ar_std": "ec3c34003456dfbf"
+      },
+      "عين": {
+        "ar_std": "12a766624778e0ab"
+      },
+      "غ": {
+        "ar_std": "039c4ef0f9911e58"
+      },
+      "غرفة": {
+        "ar_std": "a5ea86fc79830784"
+      },
+      "ف": {
+        "ar_std": "f0541e160aef1c61"
+      },
+      "فم": {
+        "ar_std": "640bcc8fb66ceefa"
+      },
+      "فندق": {
+        "ar_std": "afee855be3227b83"
+      },
+      "فوق": {
+        "ar_std": "ccea4b2ec3a56e3c"
+      },
+      "في": {
+        "ar_std": "6eeea90fb96fb998"
+      },
+      "ق": {
+        "ar_std": "ae94b4a1fb35d01c"
+      },
+      "قطة": {
+        "ar_std": "7ff1a48eb92bc914"
+      },
+      "قلب": {
+        "ar_std": "cce423c6da1f76ef"
+      },
+      "قهوة": {
+        "ar_std": "65809b707e900f05"
+      },
+      "ك": {
+        "ar_std": "f0983b7af25639e7"
+      },
+      "كبير": {
+        "ar_std": "ec4c34860f6f4504"
+      },
+      "كتاب": {
+        "ar_std": "e8224fda9af52cae"
+      },
+      "كرسي": {
+        "ar_std": "26bff483b8862587"
+      },
+      "كلب": {
+        "ar_std": "d4a79d6b686f3c56"
+      },
+      "كم الثمن؟": {
+        "ar_std": "fb8f0b31935e7b3d"
+      },
+      "ل": {
+        "ar_std": "ea91ff9e8ba0333d"
+      },
+      "لا": {
+        "ar_std": "1ea2817c8cb456e4"
+      },
+      "لا أفهم": {
+        "ar_std": "77fcedb79211050a"
+      },
+      "لحم": {
+        "ar_std": "f60190c4979ee63f"
+      },
+      "ليل": {
+        "ar_std": "7ea84306988f5707"
+      },
+      "م": {
+        "ar_std": "5da7e7860bb0de19"
+      },
+      "مئة": {
+        "ar_std": "fd9eded8ce4082dd"
+      },
+      "ما اسمك؟": {
+        "ar_std": "876eb42cc643addf"
+      },
+      "ماء": {
+        "ar_std": "a56f6414daa9c22d"
+      },
+      "مدرسة": {
+        "ar_std": "b223cd3a5f8f9ff5"
+      },
+      "مدينة": {
+        "ar_std": "fc64a887e2c10163"
+      },
+      "مرحبا": {
+        "ar_std": "05182f08751fd181"
+      },
+      "مساء": {
+        "ar_std": "174d20b55f215cf0"
+      },
+      "مستشفى": {
+        "ar_std": "a82de998bbb5dcb6"
+      },
+      "مسجد": {
+        "ar_std": "8172d554173b3790"
+      },
+      "مصر": {
+        "ar_std": "ed6fbcd8bfa10e50"
+      },
+      "مطبخ": {
+        "ar_std": "3a74073ffaa50bcd"
+      },
+      "مطر": {
+        "ar_std": "b8d6905da759a830"
+      },
+      "مطعم": {
+        "ar_std": "c8f8f3813c11aa0e"
+      },
+      "مع": {
+        "ar_std": "8e768fc9cf62a5d2"
+      },
+      "من فضلك": {
+        "ar_std": "74b2b37c366a7aa6"
+      },
+      "موز": {
+        "ar_std": "376df043e5f9b989"
+      },
+      "ن": {
+        "ar_std": "0be835de58878bde"
+      },
+      "نافذة": {
+        "ar_std": "b3022fde937e265b"
+      },
+      "نعم": {
+        "ar_std": "74295942fe20afa3"
+      },
+      "ه": {
+        "ar_std": "7c57f7c19049260a"
+      },
+      "و": {
+        "ar_std": "814c834bc39f6f0d"
+      },
+      "واحد": {
+        "ar_std": "4de54c4edc2365b8"
+      },
+      "ي": {
+        "ar_std": "10833f2e8006639e"
+      },
+      "يأكل": {
+        "ar_std": "16dbb4b538597036"
+      },
+      "يتكلم": {
+        "ar_std": "3d45790dd92b3be3"
+      },
+      "يد": {
+        "ar_std": "064195fa6ec80b3b"
+      },
+      "يذهب": {
+        "ar_std": "95ff4a19a3999f49"
+      },
+      "يشرب": {
+        "ar_std": "21ddac291afa5966"
+      },
+      "يقرأ": {
+        "ar_std": "0d0b1bfe5d4478c5"
+      },
+      "يكتب": {
+        "ar_std": "a858fc665bf438e0"
+      },
+      "ينام": {
+        "ar_std": "3365687c383404c9"
+      },
+      "يوم": {
+        "ar_std": "873d50a34f146588"
+      }
+    }
+  }
+}

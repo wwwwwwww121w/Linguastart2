@@ -1,0 +1,17 @@
+{
+  "name": "linguastart",
+  "version": "1.1.0",
+  "description": "LinguaStart — Учим английский и арабский",
+  "private": true,
+  "scripts": {
+    "prebuild:apk": "cp LinguaStart_v3.html www/index.html",
+    "build:apk": "npx cap sync android && node scripts/inject_secrets.js && cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/local-notifications": "^6.1.3",
+    "@codetrix-studio/capacitor-google-auth": "^3.4.0-rc.4"
+  }
+}

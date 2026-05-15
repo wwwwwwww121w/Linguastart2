@@ -1,0 +1,19 @@
+name = "linguastart-auth"
+main = "worker.js"
+compatibility_date = "2024-09-01"
+account_id = "167149c7cd2a62c9491d81683e59e445"
+workers_dev = true
+
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "73b10beafe9d4033b31034dec47bcb14"
+
+# Cloudflare Workers AI (no API key — runs on your Cloudflare account itself)
+[ai]
+binding = "AI"
+
+# Set secrets via:
+#   wrangler secret put TELEGRAM_BOT_TOKEN
+#   wrangler secret put TELEGRAM_WEBHOOK_SECRET   # required: random string; pass as secret_token to setWebhook
+#   wrangler secret put AUTH_SHARED_SECRET
+#   wrangler secret put ALLOWED_ORIGIN            # optional (default *) — restrict to prod origin

@@ -1,0 +1,28 @@
+{
+  "appId": "com.linguastart.app",
+  "appName": "LinguaStart",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "allowNavigation": [
+      "www.youtube.com",
+      "*.youtube.com",
+      "youtube-nocookie.com",
+      "*.youtube-nocookie.com",
+      "*.googlevideo.com",
+      "i.ytimg.com"
+    ]
+  },
+  "android": {
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": false,
+    "captureInput": true
+  },
+  "plugins": {
+    "GoogleAuth": {
+      "scopes": ["profile", "email"],
+      "serverClientId": "__GOOGLE_CLIENT_ID__",
+      "forceCodeForRefreshToken": false
+    }
+  }
+}
